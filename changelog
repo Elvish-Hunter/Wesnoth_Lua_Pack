@@ -1,0 +1,75 @@
+Version 1.7.0+svn:
+   * Added support for flag_icon, defeat_condition, scroll_to_leader, lost,
+     village_support, recruit and hidden to [show_side_debug]
+   * side.color is now handled by a text box in [show_side_debug]
+   * Various layout corrections in [show_side_debug] and [show_quick_debug]
+
+Version 1.7.0
+   * Removed file ai_helper.lua.
+   * Rewritten [get_numerical_minimum] and [get_numerical_maximum]
+   * Completely reworked layout and code of HTML readme
+   * Enabled Pango markup in [alert], [confirm], [prompt] and [item_dialog]
+   * Added [loot] tag, by Elvish_Hunter
+   * Added [choice_box] tag, by Elvish_Hunter
+   * Bumped Wesnoth version requirement to 1.11.9
+   * Fixed a bug in color selection that made [show_side_debug] not working
+   * Better indentation of the gui-tags.lua file
+
+Version 1.6.0:
+   * Added [earthquake], by Elvish_Hunter.
+   * Rewitten [narrate], to add support of all the additional tags and keys
+     supported by [message]
+   * Added inline StandardSideFilter support to [store_shroud] and [set_shroud].
+   * Added color slider to [show_side_debug].
+   * Bumped Wesnoth version requirement to 1.11.0
+
+Version 1.5.0:
+   * Now [item_dialog] always requires take_string= and leave_string= keys.
+   * Added utils.get_text_input function, by SigurdFireDragon.
+   * Added Lua remakes of Javascript's standard dialogs: [alert], [confirm] and
+     [prompt], by Elvish_Hunter.
+   * Added ai_helper.lua file, by mattsc.
+   * Added [random_number] and [get_recruit_list], by Elvish_Hunter.
+   * Added support for interval= key to all the [fade_*] tags.
+
+Version 1.4.0:
+   * Made it so that [unknown_message] is able to take duration=, side_for=,
+      and sound=.
+   * Added [item_dialog], [reverse_value] and [whisper], by Elvish_Hunter.
+   * Removed [find_path], as it is in core from 1.9.9+svn.
+   * [poison] cannot longer poison non living units.
+   * Added two support functions for handling strings (split and chop), and
+     used them in gui-tags.lua.
+
+Version 1.3.0:
+   * Added [absolute_value], [get_numerical_minimum], [get_numerical_maximum],
+      [get_percentage], [get_ratio_as_percentage] and [unknown_message], all by Espreon.
+   * Added [show_quick_debug] and [show_side_debug], by Elvish_Hunter.
+   * Added translations directory
+   * Added a check for whether the BfW version the WLP is used with suffices.
+   * Make dbms use a lua dialog without text wrap for more readable output.
+   * Added methods to set/remove inspect tags to wml action tags on-the-fly.
+
+Version 1.2.0:
+   * New WLP_VERSION macro to allow checking for the wlp version installed.
+   * Added animate_path tag by Alarantalara
+   * Added [find_path] by Elvish_Hunter.
+
+Version 1.1.0:
+   * Added debug message functions debug_utils.dbms and debug_utils.sdbms.
+      Wired utils.extract_side and utils.extract_unit to debug_utils.dbms since it outputs
+      more extensive information and works for any variable types. Removed the
+      now unused functions utils.raw_extract_cfg and utils.extract_cfg.
+   * Added [fade_to_black], [fade_in], [fade_to_white], [fade_in_from_white],
+      [fade_to_black_hold], [fade_to_white_hold] and [scatter_units],
+      by Elvish_Hunter.
+
+Version 1.0.0:
+   * [modify_unit] was removed, because in 1.9 it is in core.
+   * [narrate], [save_map] and [load_map], by silene, were updated to 1.9 syntax.
+   * [store_shroud] and [set_shroud], by melinath, were updated to 1.9 syntax.
+   * [set_shroud] was also partially rewritten by Elvish_Hunter.
+
+   * [flash_color], [flash_screen], [nearest_hex], [nearest_unit],
+     [get_unit_defense], [slow], [poison], [unslow], [unpoison], by Elvish_Hunter,
+     were added.

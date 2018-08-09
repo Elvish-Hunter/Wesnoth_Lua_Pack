@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Wesnoth Lua Pack</title>
+		<style type="text/css">
+			/* a font for the whole document */
+			body {
+				font-family: DejaVu Sans,sans-serif;
+			}
+			/* format the title */
+			h1 {
+				border-radius:0.5em;
+				border: 0.1em solid black;
+				font-weight:bold;
+				font-size:4em;
+				font-variant:small-caps;
+				text-align:center;
+			}
+			/* menu: div containing it */
+			div#menuholder {
+				position:relative;
+				height:3em;
+				width:75%;
+				background-color:black;
+				color:white;
+				display:block;
+				margin:auto;
+				border-radius:1em;
+				padding:1em;
+			}
+			/* menu: main list and its elements */
+			ul#menu {
+				margin:0;
+				padding:0;
+				position:absolute;
+			}
+			ul#menu > li {
+				display: block;
+				float:left;
+				position:relative;
+				list-style:none;
+			}
+			/* when hovering over a menu link, highlight it */
+			ul#menu > li > a {
+				padding: 1em;
+			}
+			ul#menu a {
+				color:white;
+				text-decoration:none;
+				display:block;
+				padding: 0.5em;
+			}
+			ul#menu a:hover {
+				background-color: lightgrey;
+				border-radius:0.5em;
+				color:black;
+			}
+			/* menu: dropdown menus. Make them visible upon hovering */
+			ul#menu li ul {
+				list-style: none;
+				display:none;
+				position:absolute;
+				}
+			ul#menu li:hover ul {
+				display:block;
+				background-color:black;
+				color: white;
+				padding: 1em;
+				border-radius: 1em;
+				left:0em;
+				top: 3em;
+				margin:0;
+				}
+				
+			/* section headers */
+			h2 {
+				font-size:2em;
+				color:black;
+				background-color:lightgrey;
+				display:block;
+				margin:1em 3em 1em 3em;
+				padding:1em;
+				border-radius:1em;
+			}
+			/* divs containing tag descriptions */
+			div.tags > div {
+				display:block;
+				background-color:white;
+				border-radius:1em;
+				padding: 2em;
+			}
+			div.tags { 
+				padding:0.2em;
+				border-radius:1em;
+				background-color: darkgrey;
+				margin:1em;
+			}
+			/* tag names */
+			h3 {
+				margin: 1em;
+				color:white;
+				}
+			/* key and description lists; automatically insert bullets and colons */
+			dt {
+				font-weight: bold;
+				float:left;
+				margin-right:1em;
+			}
+			dt:before {
+				content: " \2022 "; /* escaped Unicode */
+				margin: 0em 1em 0em 1em; /* top right bottom left */
+				}
+			dt:after {
+				content: ":";
+			}
+			/* back to top buttons and hovering */
+			div.tags a.top {
+				border: 0.2em solid blue;
+				text-align:center;
+				color:white;
+				background-color:blue;
+				border-radius:0.5em;
+				padding:0.8em;
+				text-decoration:none;
+				font-weight:bold;
+				display:block;
+				width:8em;
+				margin: auto 0em 0em auto; /* top right bottom left */
+			}
+			div.tags a.top:hover {
+				background-color:white;
+				color:blue;
+			}
+			/* code blocks */
+			pre {
+				border: 0.2em solid black;
+				background-color: #ffffdd;
+				padding: 1em;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+Some notes about the structure of this HTML file.
+This document is validated HTML5 (but not HTML 4.01!) + CSS3.
+DO NOT USE THE TAGS <b>, <i>, <u>, <s>, as they're obsolete. Instead, use respectively <strong>, <em>, <ins>, <del>.
+Each pair key/value goes into a <dl>: key in <dt>, description in <dd>. DO NOT add colons after the key, because CSS automatically does so.
+Lists of supported values should go inside a <kbd> tag, while variable names (except for those inside a <dt>) should go inside a <var> tag.
+The menus are not (yet?) able to handle submenus, so do not add them.
+		-->
+		<h1>Wesnoth Lua Pack</h1>
+		<div id="menuholder">
+			<ul id="menu">
+				<li><a href="#directActionsWML">DirectActionsWML</a>
+					<ul>
+						<li><a href="#set_shroud">[set_shroud]</a></li>
+						<li><a href="#load_map">[load_map]</a></li>
+						<li><a href="#slow">[slow]</a></li>
+						<li><a href="#poison">[poison]</a></li>
+						<li><a href="#unslow">[unslow]</a></li>
+						<li><a href="#unpoison">[unpoison]</a></li>
+						<li><a href="#scatter_units">[scatter_units]</a></li>
+						<li><a href="#loot">[loot]</a></li>
+					</ul>
+				</li>
+				<li><a href="#internalActionsWML">InternalActionsWML</a>
+					<ul>
+						<li><a href="#store_shroud">[store_shroud]</a></li>
+						<li><a href="#save_map">[save_map]</a></li>
+						<li><a href="#nearest_hex">[nearest_hex]</a></li>
+						<li><a href="#nearest_unit">[nearest_unit]</a></li>
+						<li><a href="#get_unit_defense">[get_unit_defense]</a></li>
+						<li><a href="#absolute_value">[absolute_value]</a></li>
+						<li><a href="#get_numerical_minimum">[get_numerical_minimum]</a></li>
+						<li><a href="#get_ratio_as_percentage">[get_ratio_as_percentage]</a></li>
+						<li><a href="#get_numerical_maximum">[get_numerical_maximum]</a></li>
+						<li><a href="#get_percentage">[get_percentage]</a></li>
+						<li><a href="#get_movement_type">[get_movement_type]</a></li>
+						<li><a href="#reverse_value">[reverse_value]</a></li>
+						<li><a href="#random_number">[random_number]</a></li>
+						<li><a href="#get_recruit_list">[get_recruit_list]</a></li>
+					</ul>
+				</li>
+				<li><a href="#interfaceActionsWML">InterfaceActionsWML</a>
+					<ul>
+						<li><a href="#narrate">[narrate]</a></li>
+						<li><a href="#flash_color">[flash_color]</a></li>
+						<li><a href="#flash_screen">[flash_screen]</a></li>
+						<li><a href="#fade_to_black">[fade_to_black]</a></li>
+						<li><a href="#fade_to_black_hold">[fade_to_black_hold]</a></li>
+						<li><a href="#fade_in">[fade_in]</a></li>
+						<li><a href="#fade_to_white">[fade_to_white]</a></li>
+						<li><a href="#fade_to_white_hold">[fade_to_white_hold]</a></li>
+						<li><a href="#fade_in_from_white">[fade_in_from_white]</a></li>
+						<li><a href="#animate_path">[animate_path]</a></li>
+						<li><a href="#unknown_message">[unknown_message]</a></li>
+						<li><a href="#show_quick_debug">[show_quick_debug]</a></li>
+						<li><a href="#show_side_debug">[show_side_debug]</a></li>
+						<li><a href="#item_dialog">[item_dialog]</a></li>
+						<li><a href="#whisper">[whisper]</a></li>
+						<li><a href="#alert">[alert]</a></li>
+						<li><a href="#confirm">[confirm]</a></li>
+						<li><a href="#prompt">[prompt]</a></li>
+						<li><a href="#earthquake">[earthquake]</a></li>
+						<li><a href="#choice_box">[choice_box]</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<p>Original author: melinath</p>
+		<p>Current maintainers: Elvish_Hunter and Anonymissimus</p>
+		<p>Contributors: Alarantalara, Espreon, SigurdFireDragon, mattsc</p>
+		<p>This Lua Pack, when installed and enabled in the _main.cfg of your campaign/add-on, will grant you access to several new WML tags. To use them, you don't need to know Lua.<br />
+Here there is a wiki-like description of each new WML tag.</p>
+		<h2 id="directActionsWML">DirectActionsWML</h2>
+		<div class="tags">
+			<h3 id="set_shroud">[set_shroud]</h3>
+			<div>
+				<p>Sets a side's shroud data to the one specified in this tag.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardSideFilter">StandardSideFilter</a></dt>
+					<dd><em>do not use a [filter_side] sub-tag.</em> The first matching side will have its shroud set. If no side matches the supplied filter, a WML error will be raised.</dd>
+					<dt>shroud_data</dt>
+					<dd>the shroud data that will be set. It could also be a variable created by <a href="#store_shroud">[store_shroud]</a>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="load_map">[load_map]</h3>
+			<div>
+				<p>Replaces the scenario map with the one stored in a WML variable by <a href="#save_map">[save_map]</a>.</p>
+				<dl>
+					<dt>variable</dt>
+					<dd>the variable containing the map to load.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="slow">[slow]</h3>
+			<div>
+				<p>Slows all the units matching the filter, floating also the <em>"slowed"</em> label.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd>do not use a [filter] sub-tag.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="poison">[poison]</h3>
+			<div>
+				<p>Poisons all the units (except non living units, like Undead) matching the filter, floating also the <em>"poisoned"</em> label.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd>do not use a [filter] sub-tag.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="unslow">[unslow]</h3>
+			<div>
+				<p>Unslows all the units matching the filter.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd>do not use a [filter] sub-tag.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="unpoison">[unpoison]</h3>
+			<div>
+				<p>Unpoisons all the units matching the filter.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd>do not use a [filter] sub-tag.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="scatter_units">[scatter_units]</h3>
+			<div>
+				<p>Randomly places the specified units on the locations matching the filter. Replacement for <em>{SCATTER_UNITS}</em> macro.</p>
+				<dl>
+					<dt>[filter_location]</dt>
+					<dd><a href="http://wiki.wesnoth.org/StandardLocationFilter">StandardLocationFilter</a>, required. Units will be placed in locations matching the filter. <strong>Warning:</strong> if you set up an incorrect filter (like, for example, not removing those hexes that will be impassable for the units that you want to place), respect of scatter_radius (below) may not be guaranteed.</dd>
+					<dt>unit_types</dt>
+					<dd>required. If you specify more than one type (comma-separated list), each placed units will be of one of the specified types, <em>randomly chosen</em>. The <em>SCATTER_UNITS</em> macro, instead, <em>cycles through the supplied list</em>: bear this in mind if you relied on such behaviour.</dd>
+					<dt>units</dt>
+					<dd>required, it is the amount of units to place. They may not be placed all if there are no more locations matching the filter available.</dd>
+					<dt>scatter_radius</dt>
+					<dd>if present, each unit will be placed at the given distance from the other units already placed by this tag.</dd>
+					<dt>[wml]</dt>
+					<dd>if present, the specified WML will be embedded in each unit placed by the tag.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="loot">[loot]</h3>
+			<div>
+				<p>Assigns a certain amount of gold to each side matching the filter, displaying a message and playing a sound. Replacement for mainline <em>{LOOT}</em> macro.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardSideFilter">StandardSideFilter</a></dt>
+					<dd><em>do not use a [filter_side] sub-tag.</em> Every matching side will have its gold increased by the specified amount.</dd>
+					<dt>amount</dt>
+					<dd>required, the amount of gold that each side will gain.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<h2 id="internalActions">InternalActionsWML</h2>
+		<div class="tags">
+			<h3 id="store_shroud">[store_shroud]</h3>
+			<div>
+				<p>Stores a side's shroud data in a WML variable.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd><em>do not use a [filter_side] sub-tag.</em> The first matching side will have its shroud stored. If no side matches the supplied filter, a WML error will be raised.</dd>
+					<dt>variable</dt>
+					<dd>the variable where shroud data will be stored.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="save_map">[save_map]</h3>
+			<div>
+				<p>Stores the scenario map in a WML variable.</p>
+				<dl>
+					<dt>variable</dt>
+					<dd>the variable where the map will be stored.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="nearest_hex">[nearest_hex]</h3>
+			<div>
+				<p>Finds the nearest hex to another given hex, that matches the SLF.</p>
+				<dl>
+					<dt>starting_x, starting_y</dt>
+					<dd>the location that will be used as base for the calculation.</dd>
+					<dt>[filter_location]</dt>
+					<dd><a href="http://wiki.wesnoth.org/StandardLocationFilter">StandardLocationFilter</a>, all the locations matching the filter will be compared to the one specified above.</dd>
+					<dt>variable</dt>
+					<dd>the resulting nearest location will be stored in a WML variable with the given name, default is <var>nearest_hex</var>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="nearest_unit">[nearest_unit]</h3>
+			<div>
+				<p>Finds the nearest unit to a given hex, that matches the SUF.</p>
+				<dl>
+					<dt>starting_x, starting_y</dt>
+					<dd>the location that will be used as base for the calculation.</dd>
+					<dt>[filter]</dt>
+					<dd><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a>, all the units matching the filter will be compared to the hex specified above.</dd>
+					<dt>variable</dt>
+					<dd>the resulting nearest unit will be stored in a WML variable with the given name, default is <var>nearest_unit.</var>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_unit_defense">[get_unit_defense]</h3>
+			<div>
+				<p>Stores the defensive percentage of a unit on its current hex in a WML variable.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd><em>Do not use a [filter] sub-tag</em>. All the units matching the filter will be checked.</dd>
+					<dt>variable</dt>
+					<dd>the variable where the results will be stored, default name is <var>defense</var> Every element of the array will contain the following keys: <var>id</var> (the unit's id), <var>x</var> and <var>y</var> (the unit's location), <var>terrain</var> (the terrain where the unit is), <var>defense</var> (the current unit's defense).</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="absolute_value">[absolute_value]</h3>
+			<div>
+				<p>Converts the value of the supplied variable to its absolute value (that is, removing the minus sign if the number has it).</p>
+				<dl>
+					<dt>variable</dt>
+					<dd>required. Its content will be converted to its absolute value.</dd>
+					<dt>result_variable</dt>
+					<dd>The resulting value will be stored here. If not supplied, the resulting value will be stored in the same variable supplied as argument for the <var>variable=</var> key.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_numerical_minimum">[get_numerical_minimum]</h3>
+			<div>
+				<p>Given a list of values, stores in a variable the lowest one.</p>
+				<dl>
+					<dt>values</dt>
+					<dd>a comma separated list of the values that will be compared. Non numerical values will be ignored.</dd>
+					<dt>result_variable</dt>
+					<dd>required. The lowest value will be stored here.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_numerical_maximum">[get_numerical_maximum]</h3>
+			<div>
+				<p>Given a list of values, stores in a variable the highest one.</p>
+				<dl>
+					<dt>values</dt>
+					<dd>a comma separated list of the values that will be compared. Non numerical values will be ignored.</dd>
+					<dt>result_variable</dt>
+					<dd>required. The highest value will be stored here.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_percentage">[get_percentage]</h3>
+			<div>
+				<p>Given a value (example: 20) and a percentage (example: 50), stores in a variable resulting value (example: 10).</p>
+				<dl>
+					<dt>value</dt>
+					<dd>required. The value from which the percentage will be calculated.</dd>
+					<dt>percentage</dt>
+					<dd>required. <em>Do not use the % sign.</em></dd>
+					<dt>variable</dt>
+					<dd>required. The variable where the result will be stored.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_ratio_as_percentage">[get_ratio_as_percentage]</h3>
+			<div>
+				<p>Converts a ratio as a percent value, and stores the result in a variable.</p>
+				<dl>
+					<dt>numerator, denominator</dt>
+					<dd>required. The fraction to convert. <em>Do not use the / sign</em> (unless you want to use the FormulaAI notation).</dd>
+					<dt>variable</dt>
+					<dd>required. The variable where the result will be stored.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="get_movement_type">[get_movement_type]</h3>
+			<div>
+				<p>Stores the movement type of the unit matching the filter inside a variable with the given name. If more than one unit matches the filter, only the first one is chosen.</p>
+				<dl>
+					<dt><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a></dt>
+					<dd><em>do not use a [filter] sub-tag</em>.</dd>
+					<dt>variable</dt>
+					<dd>the variable name where the movement type will be stored, if no value is supplied <var>"movement_type"</var> will be used as default name.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="reverse_value">[reverse_value]</h3>
+			<div>
+				<p>Reverses the value of the supplied variable, as in string reversal.</p>
+				<dl>
+					<dt>variable</dt>
+					<dd>required. Its content will be reversed.</dd>
+					<dt>result_variable</dt>
+					<dd>The reversed value will be stored here. If not supplied, the reversed value will be stored in the same variable supplied as argument for the <var>variable=</var> key.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="random_number">[random_number]</h3>
+			<div>
+				<p>Sets a variable containing a randomly generated integer number. This tag relies upon Lua's RNG rather than on WML's RNG. <strong>Warning:</strong> this tag, due to some engine limitations, does not work on non multiplayer-synchronized events. For this reason, if you're planning to use it in a start or prestart event, you should use a <em>turn 1</em> event instead - even in single player campaigns.</p>
+				<dl>
+					<dt>lowest, highest</dt>
+					<dd>required, these are the limits between which the random numer will be enclosed.</dd>
+					<dt>variable</dt>
+					<dd>the variable where said number will be stored, default value is <var>random</var>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<!-- <h3>[random_seed]</h3>
+		<p>In case that you need to set a seed for use by [random_number] above, use this tag.<br />
+		<b>seed:</b> required, it will be the seed used to initialize Lua's RNG as used by [random_number].</p> -->
+		<div class="tags">
+			<h3 id="get_recruit_list">[get_recruit_list]</h3>
+			<div>
+				<p>Retrieves and stores in a variable the recruitment list for each matching side. If a SUF is supplied, also the units recruitable by matching leaders <var>(extra_recruit)</var> are added to the list.</p>
+				<dl>
+					<dt>[filter_side]</dt>
+					<dd><a href="http://wiki.wesnoth.org/StandardSideFilter">StandardSideFilter</a>, required. The recruit list will be acquired from every matching side.</dd>
+					<dt>[filter]</dt>
+					<dd><a href="http://wiki.wesnoth.org/StandardUnitFilter">StandardUnitFilter</a>. If present, every matching leader will be checked for its <var>extra_recruit</var> key, and such recruits will be added to the list.</dd>
+					<dt>variable</dt>
+					<dd>default is <var>"recruit_list"</var>. It will contain an array with the following attributes of the side: <var>side</var> (the side's number), <var>team_name, user_team_name, name, recruit_list</var>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<h2 id="interfaceActions">InterfaceActionsWML</h2>
+		<div class="tags">
+			<h3 id="narrate">[narrate]</h3>
+			<div>
+				<p>Shows a message with <em>"narrator"</em> as speaker. All the standard keys and tags supported by <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D">[message]</a> are available, with two exceptions:</p>
+				<dl>
+					<dt>speaker</dt>
+					<dd>is always equal to <em>"narrator"</em></dd>
+					<dt>image</dt>
+					<dd>is <em>"wesnoth-icon.png"</em> by default, if not present</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="flash_color">[flash_color]</h3>
+			<div>
+				<p>Flashes the screen with the specified color.</p>
+				<dl>
+					<dt>red, green, blue</dt>
+					<dd>RGB value specifying the color required.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="flash_screen">[flash_screen]</h3>
+			<div>
+				<p>As <a href="#flash_color">[flash_color]</a>, but accepts a color name as value.</p>
+				<dl>
+					<dt>color</dt>
+					<dd>the color in which the screen will flash. Currently supported values are <kbd>white, red, green, blue, magenta, fuchsia, yellow, cyan, aqua, purple, orange, black</kbd>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_to_black">[fade_to_black]</h3>
+			<div>
+				<p>Fades the screen to black. Use <a href="#fade_in">[fade_in]</a> to return to normal. It is a replacement for the <em>{FADE_TO_BLACK}</em> macro.</p>
+				<dl>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_to_black_hold">[fade_to_black_hold]</h3>
+			<div>
+				<p>Fades the screen to black and then pauses. Use <a href="#fade_in">[fade_in]</a> to return to normal. It is a replacement for the <em>{FADE_TO_BLACK_HOLD}</em> macro.</p>
+				<dl>
+					<dt>delay</dt>
+					<dd>required, it is the pause duration, in milliseconds.</dd>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_in">[fade_in]</h3>
+			<div>
+				<p>Brings the screen back from a <a href="#fade_to_black">[fade_to_black]</a> or a <a href="#fade_to_black_hold">[fade_to_black_hold]</a>. It is a replacement for the <em>{FADE_IN}</em> macro.</p>
+				<dl>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_to_white">[fade_to_white]</h3>
+			<div>
+				<p>Fades the screen to white. Use <a href="#fade_in_from_white">[fade_in_from_white]</a> to return to normal. It is equivalent to a theorical <em>{FADE_TO_WHITE}</em> macro.</p>
+				<dl>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_to_white_hold">[fade_to_white_hold]</h3>
+			<div>
+				<p>Fades the screen to white and then pauses. Use <a href="#fade_in_from_white">[fade_in_from_white]</a> to return to normal. It is equivalent to a theorical <em>{FADE_TO_WHITE_HOLD}</em> macro.</p>
+				<dl>
+					<dt>delay</dt>
+					<dd>required, it is the pause duration, in milliseconds.</dd>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="fade_in_from_white">[fade_in_from_white]</h3>
+			<div>
+				<p>Brings the screen back from a <a href="#fade_to_white">[fade_to_white]</a> or a <a href="#fade_to_white_hold">[fade_to_white_hold]</a>. It is equivalent to a theorical <em>{FADE_IN_FROM_WHITE}</em>  macro.</p>
+				<dl>
+					<dt>interval</dt>
+					<dd>this key controls the slowness of the fading. Use higher values to have a slower fading, default value is 5 milliseconds.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="animate_path">[animate_path]</h3>
+			<div>
+				<p>Move an image or cycle of images along a path not restricted by the map grid.</p>
+				<dl>
+					<dt>x, y</dt>
+					<dd>required. A list of points that control the movement. Points are specified in pixels and ranges are not accepted. For most interpolation methods, the animation will pass through the listed points. Some interpolation methods require a minimum number of points be specified.</dd>
+					<dt>hex_x, hex_y</dt>
+					<dd>required. The coordinates of the hex that the x and y coordinates will be relative to. 0,0 is the centre of this hex, with positive values for x and y up and to the right.</dd>
+					<dt>image</dt>
+					<dd>required. The image or sequence of images to display. If the value of <var>frames</var> exceeds the number of images, the images will be displayed in a loop. The images must have a 72 pixel transparent border surrounding them to be displayed properly.<dd>
+					<dt>frame_length</dt>
+					<dd>required. The amount of time each image will be displayed on screen in milliseconds.</dd>
+					<dt>frames</dt>
+					<dd>The number of frames to use in the animation. If it is not specified, then the number of <var>images</var> from image will be used to calculate the number of frames. The number of frames must be at least 2 (so including a single image in <var>image</var> and not including this attribute will not work).</dd>
+					<dt>linger</dt>
+					<dd>(default: no). If yes, then the last image will remain visible after the animation completes. It may be removed using <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bremove_item.5D">[remove_item]</a>.</dd>
+					<dt>transpose</dt>
+					<dd>(default: no). Interpolation methods marked function are normally based on the x coordinates. If this is yes, then they are based on the y coordinates. It has no effect on other interpolation methods.</dd>
+					<dt>interpolation</dt>
+					<dd>(default linear). The interpolation method used to travel between points. Allowed values are: <kbd>linear, bspline, parabola and cubic_spline.</kbd><br />
+					Method Details:<br />
+    					Methods marked (function) require that the x values (y values if <var>transpose</var> is yes) be distinct and sorted (increasing or decreasing). Currently this is not checked, provide points out of order at your own risk.
+	    					<dl>
+				    			<dt>linear</dt>
+							<dd>Animation moves in a straight line between each set of points.</dd>
+				    			<dt>bspline</dt>
+							<dd>requires that at least 4 points be specified. Animation moves within a curve bounded by the points. It usually will not pass exactly through any point. It is currently the only method that produces curves that can form spirals or overlapping shapes.</dd>
+				    			<dt>parabola (function)</dt>
+							<dd>requires exactly 3 points be specified. The animation moves along the unique parabola that includes the specified points.</dd>
+				    			<dt>cubic_spline (function)</dt>
+							<dd>Animation moves along a curved path passing through each point. It is not possible to double back.</dd>
+				    		</dl>
+					</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="unknown_message">[unknown_message]</h3>
+			<div>
+				<p>Displays a message with the unknown unit icon as speaker portrait. Can team color the icon and set the caption.</p>
+				<dl>
+					<dt>message</dt>
+					<dd>required. The message to display, use exactly like in the <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D">[message]</a> tag.</dd>
+					<dt>color</dt>
+					<dd>if specified, the unknown unit icon will be team colored. Supported values are <kbd>red, lightred, darkred, blue, green, purple, black, brown, orange, white, teal</kbd> or integer numeric values between <kbd>1</kbd> and <kbd>9</kbd> (enclosed).</dd>
+					<dt>right</dt>
+					<dd>default no, if yes the unknown unit icon will be displayed on the right side of the screen.</dd>
+					<dt>caption</dt>
+					<dd>the text to display as speaker's name, use like in the <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D">[message]</a> tag.</dd>
+					<dt>duration</dt>
+					<dd>the minimum number of frames for the message to be displayed.</dd>
+					<dt>side_for</dt>
+					<dd>a comma-separated list of sides that determines which sides see the message.</dd>
+					<dt>sound</dt>
+					<dd>a sound effect to play as the message is shown. This can take a comma-separated list; a sound from such a list will be randomly chosen to be played.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="show_quick_debug">[show_quick_debug]</h3>
+			<div>
+				<p>When used inside a <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D">[set_menu_item]</a>, this tag allows modifying several unit attributes using the right-click menu. It displays a dialog where you can set hitpoints, moves, etc.<br />
+				<strong>This tag accepts no additional keys.</strong> Usage:</p>
+				<pre><code>[set_menu_item]
+	id=quick_debug
+	description=Quick Debug
+	[command]
+		[show_quick_debug]
+		[/show_quick_debug]
+	[/command]
+[/set_menu_item]</code></pre>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="show_side_debug">[show_side_debug]</h3>
+			<div>
+				<p>When used inside a <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D">[set_menu_item]</a>, this tag allows modifying several side attributes using the right-click menu. It displays a dialog where you can set gold, income, etc.<br />
+				<strong>This tag accepts no additional keys.</strong> Usage:</p>
+				<pre><code>[set_menu_item]
+	id=side_debug
+	description=Side Debug
+	[command]
+		[show_side_debug]
+		[/show_side_debug]
+	[/command]
+[/set_menu_item]</code></pre>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="item_dialog">[item_dialog]</h3>
+			<div>
+				<p>This tag shows a dialog box that can be used in place of the usual [message] with [option] tags. Upon the user's choice, it will set a variable that can be checked to see if the item was picked or not.</p>
+				<dl>
+					<dt>name</dt>
+					<dd>will be the dialog's title.</dd>
+					<dt>image</dt>
+					<dd>the image that will be displayed in the left side of the dialog. For Holy Water, for example, you can use <kbd>items/holy-water.png</kbd>.</dd>
+					<dt>description</dt>
+					<dd>a long description of the item. If it's too long, scrollbars will be automatically used. <em>This key supports Pango markup.</em></dd>
+					<dt>effect</dt>
+					<dd>very short description of the item's effects. For example: <kbd>"This staff grants a melee 5-2 impact magical attack"</kbd>. <em>This key supports Pango markup.</em></dd>
+					<dt>take_string</dt>
+					<dd>required, this string will be displayed on the button that allows taking the item.</dd>
+					<dt>leave_string</dt>
+					<dd>required, this string will be displayed on the button that allows refusing the item.</dd>
+					<dt>variable</dt>
+					<dd>the resulting choice will be stored (as yes/no) in the variable specified here, default is <var>item_picked</var>.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="whisper">[whisper]</h3>
+			<div>
+				<p>This tag shows a message in italic ans small font. It is meant as a replacement for both <em>{WHISPER}</em> and <em>{ASIDE}</em> macros.</p>
+				<dl>
+					<dt>message</dt>
+					<dd>the message to display, use exactly like in the <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D">[message]</a> tag.</dd>
+					<dt>speaker</dt>
+					<dd>speaker of the message, if no value is supplied <em>narrator</em> is used by default.</dd>
+					<dt>image</dt>
+					<dd>the image that will be displayed at the side of this message, if no value is supplied <em>wesnoth-icon.png</em> is used by default.</dd>
+					<dt>caption</dt>
+					<dd>the text to display as speaker's name, use like in the <a href="http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D">[message]</a> tag.</dd>
+					<dt>duration</dt>
+					<dd>the minimum number of frames for the message to be displayed.</dd>
+					<dt>side_for</dt>
+					<dd>a comma-separated list of sides that determines which sides see the message.</dd>
+					<dt>sound</dt>
+					<dd>a sound effect to play as the message is shown. This can take a comma-separated list; a sound from such a list will be randomly chosen to be played.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="alert">[alert]</h3>
+			<div>
+				<p>This tag is equivalent to Javascript's <em>alert</em> standard dialog. It shows a message with a OK button. Does not return any value.</p>
+				<dl>
+					<dt>title</dt>
+					<dd>will be the dialog's title.</dd>
+					<dt>message</dt>
+					<dd>the shown message. <em>This key supports Pango markup.</em></dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="confirm">[confirm]</h3>
+			<div>
+				<p>This tag is equivalent to Javascript's <em>confirm</em> standard dialog. It shows a message with two buttons, OK and Close.</p>
+				<dl>
+					<dt>title</dt>
+					<dd>will be the dialog's title.</dd>
+					<dt>message</dt>
+					<dd>the shown message. <em>This key supports Pango markup.</em></dd>
+					<dt>variable</dt>
+					<dd>required, this variable will be set to yes (true) if OK is pressed, and to no (false) if Close is pressed.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="prompt">[prompt]</h3>
+			<div>
+				<p>This tag is equivalent to Javascript's <em>prompt</em> standard dialog. It shows a message with a text entry and two buttons, OK and Close.</p>
+				<dl>
+					<dt>title</dt>
+					<dd>will be the dialog's title.</dd>
+					<dt>message</dt>
+					<dd>the shown message. <em>This key supports Pango markup.</em></dd>
+					<dt>variable</dt>
+					<dd>required, this variable's content will be the text typed in the textbox if OK is pressed, or the string <kbd>"null"</kbd> if Close is pressed.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+		<div class="tags">
+			<h3 id="earthquake">[earthquake]</h3>
+			<div>
+				<p>Visuals and sound for an earth tremor. Replacement for the <em>{QUAKE}</em> macro.</p>
+				<dl>
+					<dt>times</dt>
+					<dd>the times that the earthquake will be repeated, default 1.</dd>
+					<dt>delay</dt>
+					<dd>the interval between each movement of the screen, default 50. Use higher numbers for a slower earthquake, lower numbers for a faster one.</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+<div class="tags">
+			<h3 id="choice_box">[choice_box]</h3>
+			<div>
+				<p>This tag displays a window containing a listbox. Once that you choose one of the items, the resulting value will be stored.</p>
+				<dl>
+					<dt>variable</dt>
+					<dd>required, the value corresponding to the chosen item will be stored here. If you press Esc or the Cancel button, this variable will contain the string <kbd>"null"</kbd>.</dd>
+					<dt>title</dt>
+					<dd>the title of the window. Pango markup is not supported here.</dd>
+					<dt>message</dt>
+					<dd>a string that will be printed just below the title. <em>This key supports Pango markup.</em></dd>
+					<dt>[option]</dt>
+					<dd>multiple tags allowed, it can contain the following keys:
+						<dl>
+							<dt>image</dt>
+							<dd>an image file, it will be displayed in the leftmost column.</dd>
+							<dt>description</dt>
+							<dd>a string describing the option, it will be displayed in the central column. <em>This key supports Pango markup.</em></dd>
+							<dt>note</dt>
+							<dd>a string useful to add additional information, like the cost of an item in gold pieces. It will be displayed in the rightmost column. <em>This key supports Pango markup.</em></dd>
+							<dt>value</dt>
+							<dd>if this key is present, the associated value will be stored inside the variable indicated by the variable= key above. If this key isn't present, variable= will just contain the 1-based index of the chosen option.</dd>
+						</dl>
+					</dd>
+				</dl>
+				<a class="top" href="#top">Back to top</a>
+			</div>
+		</div>
+	</body>
+</html>
