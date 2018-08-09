@@ -1,4 +1,4 @@
-Version 1.7.0+svn:
+Version 1.7.0+git:
    * Added support for flag_icon, defeat_condition, scroll_to_leader, lost,
      village_support, recruit and hidden to [show_side_debug]
    * side.color is now handled by a text box in [show_side_debug]
