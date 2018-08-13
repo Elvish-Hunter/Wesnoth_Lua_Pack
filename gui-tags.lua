@@ -1351,7 +1351,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.total_income, "total_income_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.name, "name_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.side_name, "name_label" )
 
 			if lua_dialog_side.flag_icon == "" then
 				wesnoth.set_dialog_value ( string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color ), "flag_image" )
