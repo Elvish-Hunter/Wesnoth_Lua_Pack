@@ -5,7 +5,7 @@ local wlp_utils = wesnoth.require "~add-ons/Wesnoth_Lua_Pack/wlp_utils.lua"
 local wml_actions = wesnoth.wml_actions
 
 -- metatable for GUI tags
-local T = helper.set_wml_tag_metatable {}
+local T = wml.tag
 
 -- support for translatable strings, custom textdomain
 local _ = wesnoth.textdomain "wesnoth-Wesnoth_Lua_Pack"
