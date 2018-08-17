@@ -656,7 +656,7 @@ function wml_actions.earthquake( cfg )
 	repeat
 		wesnoth.play_sound( "rumble.ogg" )
 		for i, v in ipairs( coordinates ) do
-			wml_actions.scroll { x=v[1], y=v[2] }
+			wesnoth.scroll( v[1], v[2] )
 			wesnoth.delay( delay )
 		end
 		counter = counter - 1
