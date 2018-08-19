@@ -3,6 +3,7 @@ Version 1.7.0+git:
      village_support, recruit and hidden to [show_side_debug]
    * side.color is now handled by a text box in [show_side_debug]
    * Various layout corrections in [show_side_debug] and [show_quick_debug]
+   * Refactored [set_shroud]
 
 Version 1.7.0
    * Removed file ai_helper.lua.

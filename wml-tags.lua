@@ -54,44 +54,45 @@ end
 
 function wml_actions.set_shroud(cfg)
 	local side = wesnoth.get_sides( cfg )[1] or helper.wml_error("No matching side found in [set_shroud]")
-	local team_number = side.side
 	local shroud_data = cfg.shroud_data or helper.wml_error("Missing required shroud_data= attribute in [set_shroud]")
 
 	if shroud_data == nil then helper.wml_error("[set_shroud] was passed an empty shroud string")
-	elseif string.sub(shroud_data,1,1) ~= "|" then helper.wml_error("[set_shroud] was passed an invalid shroud string")
+        -- shroud data can contain only pipes, 0, 1 and newlines
+	elseif string.sub(shroud_data,1,1) ~= "|" or string.match(shroud_data,"[^|01\n]") then
+		helper.wml_error("[set_shroud] was passed an invalid shroud string")
 	else
 		-- yes, I prefer long variable names. I think that they make the code more understandable. E_H.
 		local width, height, border = wesnoth.get_map_size()
-		local shroud_x = ( 1 - border )
 
-		-- my variation: to make code faster (hopefully), and avoid multiple callings of remove_shroud
-		-- I append every location to a table, convert them as strings, and invoke remove_shroud
-		-- only once, with these lists of locations. E_H.
-		local rows, columns = {}, {}
+		-- you might think that I could've converted this tag to just use wesnoth.place_shroud()
+                -- and be done with it.
+                -- Think again: the purpose of [set_shroud] is to restore the shroud exactly as it was 
+                -- stored by [store_shroud], which means also clearing the hexes that didn't have it.
+
+		local to_shroud = {}
+                local to_clear = {}
+		local shroud_x = ( 1 - border )
 
 		for row in string.gmatch ( shroud_data, "|(%d*)" ) do
 			local shroud_y = ( 1 - border )
 			for column in string.gmatch ( row, "%d" ) do
-				if column == "1" then
+				if column == "0" then
 					-- I tend to confuse them, so better specify: x are columns and y are rows. E_H.
-					table.insert( rows, shroud_y ) -- appending them to the tables.
-					table.insert( columns, shroud_x )
+					table.insert( to_shroud, { shroud_x, shroud_y } )
+				elseif column == "1" then
+					table.insert( to_clear, { shroud_x, shroud_y } )
 				end
 				shroud_y = shroud_y + 1
 			end
 			shroud_x = shroud_x + 1
 		end
 
-		-- converting them to strings with separator
-		local locs_x = table.concat( columns, "," )
-		local locs_y = table.concat( rows, "," )
-
-		if not wesnoth.sides[team_number].__cfg.shroud then
-			wml_actions.modify_side { side = team_number, shroud = true } -- in case that shroud was removed by modify_side
+		if not side.shroud then
+			side.shroud = true
 		end
 
-		wml_actions.place_shroud { side = team_number, x = string.format("%d-%d", 1 - border, height + border ), y = string.format("%d-%d", 1 - border, width + border ) }
-		wml_actions.remove_shroud { side = team_number, x = locs_x, y = locs_y }
+		wesnoth.place_shroud( side.side, to_shroud )
+                wesnoth.remove_shroud( side.side, to_clear )
 	end
 end
 
