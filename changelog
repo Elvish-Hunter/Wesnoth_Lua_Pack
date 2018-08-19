@@ -4,6 +4,7 @@ Version 1.7.0+git:
    * side.color is now handled by a text box in [show_side_debug]
    * Various layout corrections in [show_side_debug] and [show_quick_debug]
    * Refactored [set_shroud]
+   * Converted documentation to Markdown
 
 Version 1.7.0
    * Removed file ai_helper.lua.
