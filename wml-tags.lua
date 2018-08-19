@@ -645,7 +645,7 @@ function wml_actions.get_recruit_list( cfg )
 		wesnoth.set_variable( string.format( "%s[%d]", variable, index - 1 ), { side = side.side,
 											team_name = side.team_name,
 											user_team_name = side.user_team_name,
-											name = side.name,
+											name = side.side_name,
 											recruit_list = table.concat( recruit_list, "," ) } )
 	end
 end
