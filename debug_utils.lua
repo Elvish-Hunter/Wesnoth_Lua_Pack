@@ -275,18 +275,18 @@ end
 
 ------------------------------------------------------------------------------------------------------------------------
 
-local function log_function_body(message, logger)
+local function log_function_body(message, logger, in_chat)
 	assert(type(message) == "string")
-	wesnoth.wml_actions.wml_message({ logger = logger, message = message })
+	wesnoth.log(logger, message, in_chat)
 	if wesnoth.game_config.debug then wesnoth.message(message) end
 end
 
 function debug_utils.dbg(message)
-	log_function_body(message, "debug")
+	log_function_body(message, "debug", false)
 end
 
 function debug_utils.wrn(message)
-	log_function_body(message, "warning")
+	log_function_body(message, "warning", true)
 end
 
 ------------------------------------------------------------------------------------------------------------------------
