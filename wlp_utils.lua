@@ -16,7 +16,7 @@ end
 --! melinath
 
 function utils.filter_wml( f, t, indent )
-	print( indent .. "Matching..." )
+	std_print( indent .. "Matching..." )
 	local function sub_filter( f, t )
 		local indent = indent .. "    "
 		local attr_match = true
@@ -26,13 +26,13 @@ function utils.filter_wml( f, t, indent )
 			if ( type(value) == "table" ) then
 				tables = tables + 1
 			else
-				print( string.format( "%sChecking filter attribute: %s", indent, key ) )
-				print( string.format( "%sfilter: %s", indent, tostring( f[key] ) ) )
-				print( string.format( "%schecking: %s", indent, tostring( t[key] ) ) )
+				std_print( string.format( "%sChecking filter attribute: %s", indent, key ) )
+				std_print( string.format( "%sfilter: %s", indent, tostring( f[key] ) ) )
+				std_print( string.format( "%schecking: %s", indent, tostring( t[key] ) ) )
 
 				if ( f[key] ~= t[key]) then attr_match = false end
 
-				print( string.format( "%sMatch: %s", indent, tostring( f[key] == t[key] ) ) )
+				std_print( string.format( "%sMatch: %s", indent, tostring( f[key] == t[key] ) ) )
 			end
 		end
 
@@ -42,15 +42,15 @@ function utils.filter_wml( f, t, indent )
 
 			for key, value in pairs(f) do
 				if ( type(value) == "table" ) then
-					print( string.format( "%sEntering filter table: %s", indent, value[1] ) )
+					std_print( string.format( "%sEntering filter table: %s", indent, value[1] ) )
 
 					for index = 1, #t do
-						print( string.format( "%sChecking against: %s", indent, t[index][1] ) )
-						print( string.format( "%sName Match: %s", indent, tostring( value[1] == t[index][1] ) ) )
+						std_print( string.format( "%sChecking against: %s", indent, t[index][1] ) )
+						std_print( string.format( "%sName Match: %s", indent, tostring( value[1] == t[index][1] ) ) )
 
 						if( t[iindex][1] == value[1] ) then
 							local x=sub_filter( value[2], t[index][2] )
-							print( string.format( "%sTable match: %s", indent, tostring(x) ) )
+							std_print( string.format( "%sTable match: %s", indent, tostring(x) ) )
 
 							if x then return true end
 						end

@@ -152,7 +152,7 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 
 	if clear and wesnoth then wesnoth.clear_messages() end
 	if not only_return then
-		if wesnoth then wesnoth.message("dbms", result) end; print(result)
+		if wesnoth then wesnoth.message("dbms", result) end; std_print(result)
 	end
 	local continue = true
 	if onscreen and wesnoth and not only_return then
@@ -180,7 +180,7 @@ function debug_utils.sdbms(args)
 	if type == "table" then
 		message = string.format("%s; LENGTH: %s", message, tostring(#args))
 	end
-	wesnoth.message(message); print(message)
+	wesnoth.message(message); std_print(message)
 end
 
 ------------------------------------------------------------------------------------------------------------------------
