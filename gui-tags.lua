@@ -725,7 +725,7 @@ function wml_actions.show_quick_debug ( cfg )
 
 		local return_table = wesnoth.synchronize_choice(sync)
 		local return_value = return_table.return_value
-		local temp_table = helper.get_child( return_table, "temp_table" )
+		local temp_table = wml.get_child( return_table, "temp_table" )
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
 			-- sliders
@@ -1438,7 +1438,7 @@ function wml_actions.show_side_debug ( cfg )
 		end
 		local return_table = wesnoth.synchronize_choice(sync)
 		local return_value = return_table.return_value
-		local temp_table = helper.get_child(return_table, "temp_table")
+		local temp_table = wml.get_child(return_table, "temp_table")
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
 			lua_dialog_side.gold = temp_table.gold
@@ -1985,7 +1985,7 @@ function wml_actions.choice_box( cfg )
 		wesnoth.set_dialog_markup( true, "window_message" )
 		
 		local counter = 1
-		for option in helper.child_range( cfg, "option") do
+		for option in wml.child_range( cfg, "option") do
 			if option.value then
 				choice_values[counter] = option.value
 			else

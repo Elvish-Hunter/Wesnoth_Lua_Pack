@@ -484,7 +484,7 @@ function wesnoth.wml_actions.animate_path(cfg)
 	end
 	local delay = tonumber(cfg.frame_length) or helper.wml_error("Missing required frame_length= attribute in [animate_path]")
 	local num_animations = 1
-	for extra_path in helper.child_range(cfg, "extra_path") do
+	for extra_path in wml.child_range(cfg, "extra_path") do
 		num_animations = num_animations + 1
 		animation[num_animations] = load_path(extra_path, "[extra_path]")
 	end

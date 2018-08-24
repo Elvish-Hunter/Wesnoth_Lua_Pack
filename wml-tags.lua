@@ -198,7 +198,7 @@ function wml_actions.nearest_hex(cfg)
 	local nearest_hex_found
 
 	for index,location in ipairs(wesnoth.get_locations(filter)) do
-		local distance = helper.distance_between( starting_x, starting_y, location[1], location[2] )
+		local distance = wesnoth.map.distance_between( starting_x, starting_y, location[1], location[2] )
 		if distance < current_distance then
 			current_distance = distance
 			nearest_hex_found = location
@@ -221,7 +221,7 @@ function wml_actions.nearest_unit(cfg)
 	local nearest_unit_found
 
 	for index,unit in ipairs(wesnoth.get_units(filter)) do
-		local distance = helper.distance_between( starting_x, starting_y, unit.x, unit.y )
+		local distance = wesnoth.map.distance_between( starting_x, starting_y, unit.x, unit.y )
 		if distance < current_distance then
 			current_distance = distance
 			nearest_unit_found = unit
@@ -348,11 +348,11 @@ function wml_actions.fade_in_from_white(cfg) -- use after [fade_to_white] or [fa
 end
 
 function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
-	local locations = wesnoth.get_locations( helper.get_child( cfg, "filter_location" ) ) or helper.wml_error( "Missing required [filter_location] in [scatter_units]" )
+	local locations = wesnoth.get_locations( wml.get_child( cfg, "filter_location" ) ) or helper.wml_error( "Missing required [filter_location] in [scatter_units]" )
 	local unit_string = cfg.unit_types or helper.wml_error( "Missing required unit_types= in [scatter_units]" )
 	local units = tonumber( cfg.units ) or helper.wml_error( "Missing or wrong required units= in [scatter_units]" )
 	local scatter_radius =  tonumber( cfg.scatter_radius ) -- not mandatory, if nil cycle will be jumped
-	local unit_table = helper.parsed( helper.get_child( cfg, "wml" ) ) or {} -- initialize as empty table, just in need
+	local unit_table = wml.parsed( wml.get_child( cfg, "wml" ) ) or {} -- initialize as empty table, just in need
 
 	local unit_types = {} -- create a table, then append each value after splitting with string.gmatch.
 
@@ -384,7 +384,7 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 				-- and remove those that are too close
 				-- using standard ipairs jumps some locations
 				for index = #locations, 1, -1 do --lenght of locations, until 1, step -1
-					local distance = helper.distance_between( where_to_place[1], where_to_place[2], locations[index][1], locations[index][2] )
+					local distance = wesnoth.map.distance_between( where_to_place[1], where_to_place[2], locations[index][1], locations[index][2] )
 
 					if distance < scatter_radius then
 						table.remove( locations, index )
@@ -617,8 +617,8 @@ function wml_actions.get_recruit_list( cfg )
 		return false
 	end
 
-	local filter_side = helper.get_child( cfg, "filter_side" ) or helper.wml_error( "Missing [filter_side] in [get_recruit_list]" )
-	local filter = helper.get_child( cfg, "filter" )
+	local filter_side = wml.get_child( cfg, "filter_side" ) or helper.wml_error( "Missing [filter_side] in [get_recruit_list]" )
+	local filter = wml.get_child( cfg, "filter" )
 	local variable = cfg.variable or "recruit_list"
 
 	for index, side in ipairs( wesnoth.get_sides( filter_side ) ) do
