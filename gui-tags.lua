@@ -238,6 +238,44 @@ function wml_actions.show_quick_debug ( cfg )
 						}
 					}
 
+		local alignment_radiobutton = T.horizontal_listbox {
+							id = "alignment_listbox",
+							T.list_definition {
+								T.row {
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "alignment_radiobutton",
+											definition = "radio"
+										}
+									}
+								}
+							},
+							T.list_data {
+								T.row {
+									T.column {
+										label = _"Lawful"
+									}
+								},
+								T.row {
+									T.column {
+										label = _"Neutral"
+									}
+								},
+								T.row {
+									T.column {
+										label = _"Chaotic"
+									}
+								},
+								T.row {
+									T.column {
+										label = _"Liminal"
+									}
+								}
+							}
+						}
 
 		local facing_radiobutton = T.horizontal_listbox {
 						id = "facing_listbox",
@@ -579,6 +617,23 @@ function wml_actions.show_quick_debug ( cfg )
 							status_checkbuttons
 						}
 					},
+					-- alignment
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Alignment"
+							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							alignment_radiobutton
+						}
+					},
 					-- facing
 					T.row {
 						T.column {
@@ -718,6 +773,14 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.status.guardian, "guardian_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.status.unhealable, "unhealable_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.status.stunned, "stunned_checkbutton" )
+			-- set radiobutton for alignment
+			local temp_alignment
+			if lua_dialog_unit.alignment == "lawful" then temp_alignment = 1
+			elseif lua_dialog_unit.alignment == "neutral" then temp_alignment = 2
+			elseif lua_dialog_unit.alignment == "chaotic" then temp_alignment = 3
+			elseif lua_dialog_unit.alignment == "liminal" then temp_alignment = 4
+			end
+			wesnoth.set_dialog_value ( temp_alignment, "alignment_listbox" )
 			-- set radiobutton for facing
 			local temp_facing
 			if lua_dialog_unit.facing == "nw" then temp_facing = 1
@@ -758,6 +821,9 @@ function wml_actions.show_quick_debug ( cfg )
 				temp_table.guardian = wesnoth.get_dialog_value "guardian_checkbutton"
 				temp_table.unhealable = wesnoth.get_dialog_value "unhealable_checkbutton"
 				temp_table.stunned = wesnoth.get_dialog_value "stunned_checkbutton"
+				-- alignment radiobutton
+				local alignments = { "lawful", "neutral", "chaotic", "liminal" }
+				temp_table.alignment = alignments[ wesnoth.get_dialog_value ( "alignment_listbox" ) ]
 				-- put facing here
 				local facings = { "nw", "ne", "n", "sw", "se", "s" }
 				-- wesnoth.get_dialog_value ( "facing_listbox" ) returns a number, that was 2 for the second radiobutton and 5 for the fifth, hence the table above
@@ -809,6 +875,7 @@ function wml_actions.show_quick_debug ( cfg )
 			lua_dialog_unit.status.guardian = temp_table.guardian
 			lua_dialog_unit.status.unhealable = temp_table.unhealable
 			lua_dialog_unit.status.stunned = temp_table.stunned
+			lua_dialog_unit.alignment = temp_table.alignment
 			lua_dialog_unit.facing = temp_table.facing
 			-- misc; checkbuttons
 			lua_dialog_unit.resting = temp_table.resting
