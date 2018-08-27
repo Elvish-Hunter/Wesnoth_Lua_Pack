@@ -336,7 +336,31 @@ function wml_actions.show_quick_debug ( cfg )
 				}
 
 		-- widgets for modifying unit
-		local modify_panel = T.grid { -- side slider
+		local modify_panel = T.grid {
+					-- level slider
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Level"
+							}
+						},
+						T.column {
+							vertical_grow = true,
+							horizontal_grow = true,
+							border = "all",
+							border_size = 5,
+							T.slider {
+								minimum_value = math.min( 0, lua_dialog_unit.level ),
+								maximum_value = math.max( 5, lua_dialog_unit.level ),
+								step_size = 1,
+								id = "unit_level_slider" --unit.level
+							}
+						}
+					},
+					-- side slider
 					T.row {
 						T.column {
 							horizontal_alignment = "right",
@@ -654,6 +678,7 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
 			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
 			-- set sliders
+			wesnoth.set_dialog_value ( lua_dialog_unit.level, "unit_level_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.side, "unit_side_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.hitpoints, "unit_hitpoints_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.experience, "unit_experience_slider" )
@@ -692,6 +717,7 @@ function wml_actions.show_quick_debug ( cfg )
 			local function postshow()
 				-- here get all the widget values in variables; store them in temp variables
 				-- sliders
+				temp_table.level = wesnoth.get_dialog_value( "unit_level_slider" )
 				temp_table.side = wesnoth.get_dialog_value ( "unit_side_slider" )
 				temp_table.hitpoints = wesnoth.get_dialog_value ( "unit_hitpoints_slider" )
 				temp_table.experience = wesnoth.get_dialog_value ( "unit_experience_slider" )
@@ -729,6 +755,7 @@ function wml_actions.show_quick_debug ( cfg )
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
 			-- sliders
+			lua_dialog_unit.level = temp_table.level
 			if wesnoth.sides[temp_table.side] then
 				lua_dialog_unit.side = temp_table.side
 			end
