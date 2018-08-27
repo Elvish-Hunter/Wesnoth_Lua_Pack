@@ -158,6 +158,24 @@ function wml_actions.show_quick_debug ( cfg )
 									id = "unit_canrecruit"--unit.canrecruit
 								}
 							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Race"
+								}
+							},
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "unit_race" -- unit.race
+								}
+							}
 						}
 					}
 
@@ -676,6 +694,7 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.type, "unit_type" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.name, "unit_name" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
+			wesnoth.set_dialog_value ( lua_dialog_unit.race, "unit_race" )
 			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
 			-- set sliders
 			wesnoth.set_dialog_value ( lua_dialog_unit.level, "unit_level_slider" )
