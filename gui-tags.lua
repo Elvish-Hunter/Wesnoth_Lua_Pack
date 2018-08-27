@@ -39,42 +39,6 @@ function wml_actions.show_quick_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
-									label = _"X"
-								}
-							},
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label { --unit.x
-									id = "unit_x"
-								}
-							}
-						},
-						T.row {
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
-									label = _"Y"
-								}
-							},
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
-									id = "unit_y" --unit.y
-								}
-							}
-						},
-						T.row {
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
 									label = _"ID"
 								}
 							},
@@ -160,6 +124,50 @@ function wml_actions.show_quick_debug ( cfg )
 							}
 						}
 					}
+
+		local location_form = T.grid {
+			T.row {
+				grow_factor = 0,
+				T.column {
+					horizontal_alignment = "left",
+					border = "all",
+					border_size = 5,
+					T.label {
+						label = _"X"
+					}
+				},
+				T.column {
+					vertical_grow = true,
+					horizontal_grow = true,
+					grow_factor = 1,
+					border = "all",
+					border_size = 5,
+					T.text_box {
+						id = "textbox_loc_x", -- unit.x
+						history = "other_loc_x",
+					}
+				},
+				T.column {
+					horizontal_alignment = "left",
+					border = "all",
+					border_size = 5,
+					T.label {
+						label = _"Y"
+					}
+				},
+				T.column {
+					vertical_grow = true,
+					horizontal_grow = true,
+					grow_factor = 1,
+					border = "all",
+					border_size = 5,
+					T.text_box {
+						id = "textbox_loc_y", -- unit.y
+						history = "other_loc_y",
+					}
+				}
+			}
+		}
 
 		local status_checkbuttons = T.grid {
 						T.row {
@@ -375,6 +383,25 @@ function wml_actions.show_quick_debug ( cfg )
 
 		-- widgets for modifying unit
 		local modify_panel = T.grid {
+					-- location form
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Location"
+							}
+						},
+						T.column {
+							vertical_grow = true,
+							horizontal_grow = true,
+							grow_factor = 1,
+							border = "all",
+							border_size = 5,
+							location_form
+						}
+					},
 					-- level slider
 					T.row {
 						T.column {
@@ -745,14 +772,15 @@ function wml_actions.show_quick_debug ( cfg )
 		local function preshow()
 			-- here set all widget starting values
 			-- set read_only labels
-			wesnoth.set_dialog_value ( lua_dialog_unit.x, "unit_x" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.y, "unit_y" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.id, "unit_id" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.valid, "unit_valid" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.type, "unit_type" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.race, "unit_race" )
 			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
+			-- set location form
+			wesnoth.set_dialog_value ( lua_dialog_unit.x, "textbox_loc_x" )
+			wesnoth.set_dialog_value ( lua_dialog_unit.y, "textbox_loc_y" )
 			-- set sliders
 			wesnoth.set_dialog_value ( lua_dialog_unit.level, "unit_level_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.side, "unit_side_slider" )
@@ -801,6 +829,24 @@ function wml_actions.show_quick_debug ( cfg )
 
 			local function postshow()
 				-- here get all the widget values in variables; store them in temp variables
+				-- location form; it requires a validation procedure
+				local new_x, new_y
+				new_x = tonumber(wesnoth.get_dialog_value( "textbox_loc_x" ))
+				new_y = tonumber(wesnoth.get_dialog_value( "textbox_loc_y" ))
+				local width, height, border = wesnoth.get_map_size()
+
+				if (not new_x) or (new_x < 1) or (new_x > width) then
+					wesnoth.log("wml", "Invalid X location input in [show_quick_debug], ignoring")
+				else
+					temp_table.x = new_x
+				end
+
+				if (not new_y) or (new_y < 1) or (new_y > height) then
+					wesnoth.log("wml", "Invalid Y location input in [show_quick_debug], ignoring")
+				else
+					temp_table.y = new_y
+				end
+
 				-- sliders
 				temp_table.level = wesnoth.get_dialog_value( "unit_level_slider" )
 				temp_table.side = wesnoth.get_dialog_value ( "unit_side_slider" )
@@ -843,6 +889,16 @@ function wml_actions.show_quick_debug ( cfg )
 		local temp_table = wml.get_child( return_table, "temp_table" )
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
+			-- location form
+			-- setting these values doesn't have any effect if the final location
+			-- is occupied by another unit, at least in 1.14
+			if temp_table.x and temp_table.y then
+				lua_dialog_unit.loc = {temp_table.x, temp_table.y}
+			elseif temp_table.x then
+				lua_dialog_unit.x = temp_table.x
+			elseif temp_table.y then
+				lua_dialog_unit.y = temp_table.y
+			end
 			-- sliders
 			lua_dialog_unit.level = temp_table.level
 			if wesnoth.sides[temp_table.side] then
