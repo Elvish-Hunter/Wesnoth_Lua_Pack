@@ -129,24 +129,6 @@ function wml_actions.show_quick_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
-									label = _"Name"
-								}
-							},
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
-									id = "unit_name" --unit.name
-								}
-							}
-						},
-						T.row {
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
 									label = _"Can recruit"
 								}
 							},
@@ -498,6 +480,27 @@ function wml_actions.show_quick_debug ( cfg )
 							}
 						}
 					},
+					-- name
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Name"
+							}
+						},
+						T.column {
+							vertical_grow = true,
+							horizontal_grow = true,
+							border = "all",
+							border_size = 5,
+							T.text_box {
+								id = "textbox_name", -- unit.name
+								history = "other_names"
+							}
+						}
+					},
 					-- extra recruit
 					T.row {
 						T.column {
@@ -692,7 +695,6 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.id, "unit_id" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.valid, "unit_valid" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.type, "unit_type" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.name, "unit_name" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.race, "unit_race" )
 			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
@@ -704,6 +706,7 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.moves, "unit_moves_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.attacks_left, "unit_attacks_slider" )
 			-- set textboxes
+			wesnoth.set_dialog_value ( lua_dialog_unit.name, "textbox_name" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.extra_recruit, "," ), "textbox_extra_recruit" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.advances_to, "," ), "textbox_advances_to" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.role, "textbox_role" )
@@ -743,6 +746,7 @@ function wml_actions.show_quick_debug ( cfg )
 				temp_table.moves = wesnoth.get_dialog_value ( "unit_moves_slider" )
 				temp_table.attacks_left = wesnoth.get_dialog_value ( "unit_attacks_slider" )
 				-- text boxes
+				temp_table.name = wesnoth.get_dialog_value "textbox_name"
 				temp_table.advances_to = wesnoth.get_dialog_value "textbox_advances_to"
 				temp_table.extra_recruit = wesnoth.get_dialog_value "textbox_extra_recruit"
 				temp_table.role = wesnoth.get_dialog_value "textbox_role"
@@ -783,6 +787,7 @@ function wml_actions.show_quick_debug ( cfg )
 			lua_dialog_unit.moves = temp_table.moves
 			lua_dialog_unit.attacks_left = temp_table.attacks_left
 			-- text boxes
+			lua_dialog_unit.name = temp_table.name
 			-- we do this empty table/gmatch/insert cycle, because get_dialog_value returns a string from a text_box, and the value required is a "table with unnamed indices holding strings"
 			-- moved here because synchronize_choice needs a WML object, and a table with unnamed indices isn't
 			local temp_advances_to = {}
