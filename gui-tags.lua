@@ -752,7 +752,15 @@ function wml_actions.show_quick_debug ( cfg )
 								},
 								-- modification part
 								T.column {
-									modify_panel
+									T.scrollbar_panel {
+										T.definition {
+											T.row {
+												T.column {
+													modify_panel
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -761,6 +769,8 @@ function wml_actions.show_quick_debug ( cfg )
 				-- button box
 				T.row {
 					T.column {
+						border = "all",
+						border_size = 5,
 						buttonbox
 					}
 				}
