@@ -122,6 +122,24 @@ function wml_actions.show_quick_debug ( cfg )
 									id = "unit_race" -- unit.race
 								}
 							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Cost"
+								}
+							},
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "unit_cost" -- unit.cost
+								}
+							}
 						}
 					}
 
@@ -787,6 +805,7 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.type, "unit_type" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.race, "unit_race" )
+			wesnoth.set_dialog_value ( lua_dialog_unit.cost, "unit_cost" )
 			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
 			-- set location form
 			wesnoth.set_dialog_value ( lua_dialog_unit.x, "textbox_loc_x" )
