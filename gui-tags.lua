@@ -1415,6 +1415,15 @@ function wml_actions.show_side_debug ( cfg )
 								id = "shroud_checkbutton",
 								label = _ "Shroud"
 							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							T.toggle_button {
+								id = "persistent_checkbutton",
+								label = _ "Persistent"
+							}
 						}
 					},
 					T.row {
@@ -1443,6 +1452,13 @@ function wml_actions.show_side_debug ( cfg )
 							T.toggle_button {
 								id = "fog_checkbutton",
 								label = _ "Fog"
+							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							T.spacer {
 							}
 						}
 					}
@@ -1763,6 +1779,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.objectives_changed, "objectives_changed_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.scroll_to_leader, "scroll_to_leader_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_checkbutton" )
+			wesnoth.set_dialog_value ( lua_dialog_side.persistent, "persistent_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.hidden, "hidden_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.lost, "lost_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_checkbutton" )
@@ -1816,6 +1833,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_table.objectives_changed = wesnoth.get_dialog_value ( "objectives_changed_checkbutton" )
 				temp_table.scroll_to_leader = wesnoth.get_dialog_value ( "scroll_to_leader_checkbutton" )
 				temp_table.shroud = wesnoth.get_dialog_value ( "shroud_checkbutton" )
+				temp_table.persistent = wesnoth.get_dialog_value ( "persistent_checkbutton" )
 				temp_table.hidden = wesnoth.get_dialog_value ( "hidden_checkbutton" )
 				temp_table.lost = wesnoth.get_dialog_value ( "lost_checkbutton" )
 				temp_table.fog = wesnoth.get_dialog_value ( "fog_checkbutton" )
@@ -1851,6 +1869,7 @@ function wml_actions.show_side_debug ( cfg )
 			lua_dialog_side.lost = temp_table.lost
 			lua_dialog_side.shroud = temp_table.shroud
 			lua_dialog_side.fog = temp_table.fog
+			lua_dialog_side.persistent = temp_table.persistent
 			lua_dialog_side.controller = temp_table.controller
 			lua_dialog_side.defeat_condition = temp_table.defeat_condition
 			lua_dialog_side.share_vision = temp_table.share_vision
