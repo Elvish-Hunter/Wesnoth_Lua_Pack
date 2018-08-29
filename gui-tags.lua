@@ -1187,42 +1187,6 @@ function wml_actions.show_side_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
-									label = _"Fog"
-								}
-							},
-							T.column {
-								horizontal_alignment = "right",
-								border = "all",
-								border_size = 5,
-								T.label {
-									id = "fog_label"
-								}
-							}
-						},
-						T.row {
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
-									label = _"Shroud"
-								}
-							},
-							T.column {
-								horizontal_alignment = "right",
-								border = "all",
-								border_size = 5,
-								T.label {
-									id = "shroud_label"
-								}
-							}
-						},
-						T.row {
-							T.column {
-								horizontal_alignment = "left",
-								border = "all",
-								border_size = 5,
-								T.label {
 									label = _"Name"
 								}
 							},
@@ -1403,6 +1367,15 @@ function wml_actions.show_side_debug ( cfg )
 								id = "hidden_checkbutton",
 								label = _ "Hidden"
 							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							T.toggle_button {
+								id = "shroud_checkbutton",
+								label = _ "Shroud"
+							}
 						}
 					},
 					T.row {
@@ -1422,6 +1395,15 @@ function wml_actions.show_side_debug ( cfg )
 							T.toggle_button {
 								id = "lost_checkbutton",
 								label = _ "Lost"
+							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							T.toggle_button {
+								id = "fog_checkbutton",
+								label = _ "Fog"
 							}
 						}
 					}
@@ -1700,8 +1682,6 @@ function wml_actions.show_side_debug ( cfg )
 			-- read-only labels
 			wesnoth.set_dialog_value ( lua_dialog_side.side, "side_number_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.total_income, "total_income_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.side_name, "name_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.faction, "faction_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.faction_name, "faction_name_label" )
@@ -1726,8 +1706,10 @@ function wml_actions.show_side_debug ( cfg )
 			-- checkbuttons
 			wesnoth.set_dialog_value ( lua_dialog_side.objectives_changed, "objectives_changed_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.scroll_to_leader, "scroll_to_leader_checkbutton" )
+			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.hidden, "hidden_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.lost, "lost_checkbutton" )
+			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_checkbutton" )
 			-- radiobutton
 			local temp_controller
 
@@ -1775,8 +1757,10 @@ function wml_actions.show_side_debug ( cfg )
 				-- checkbuttons
 				temp_table.objectives_changed = wesnoth.get_dialog_value ( "objectives_changed_checkbutton" )
 				temp_table.scroll_to_leader = wesnoth.get_dialog_value ( "scroll_to_leader_checkbutton" )
+				temp_table.shroud = wesnoth.get_dialog_value ( "shroud_checkbutton" )
 				temp_table.hidden = wesnoth.get_dialog_value ( "hidden_checkbutton" )
 				temp_table.lost = wesnoth.get_dialog_value ( "lost_checkbutton" )
+				temp_table.fog = wesnoth.get_dialog_value ( "fog_checkbutton" )
 				-- radiobuttons
 				local controllers = { "ai", "human", "human_ai", "network", "network_ai", "null" }
 				temp_table.controller = controllers[ wesnoth.get_dialog_value ( "controller_listbox" ) ]
@@ -1804,6 +1788,8 @@ function wml_actions.show_side_debug ( cfg )
 			lua_dialog_side.scroll_to_leader = temp_table.scroll_to_leader
 			lua_dialog_side.hidden = temp_table.hidden
 			lua_dialog_side.lost = temp_table.lost
+			lua_dialog_side.shroud = temp_table.shroud
+			lua_dialog_side.fog = temp_table.fog
 			lua_dialog_side.controller = temp_table.controller
 			lua_dialog_side.defeat_condition = temp_table.defeat_condition
 			lua_dialog_side.color = temp_table.color
