@@ -1259,6 +1259,132 @@ function wml_actions.show_side_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
+									label = _"Share maps"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "share_maps_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Share view"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "share_view_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Units"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "num_units_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Villages"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "num_villages_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Total upkeep"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "total_upkeep_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Expenses"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "expenses_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
+									label = _"Net income"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "net_income_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
 									label = _"Flag"
 								}
 							},
@@ -1774,6 +1900,13 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.faction, "faction_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.faction_name, "faction_name_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.is_local, "is_local_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.share_maps, "share_maps_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.share_view, "share_view_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.num_units, "num_units_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.num_villages, "num_villages_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.total_upkeep, "total_upkeep_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.expenses, "expenses_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.net_income, "net_income_label" )
 
 			if lua_dialog_side.flag_icon == "" then
 				wesnoth.set_dialog_value ( string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color ), "flag_image" )
