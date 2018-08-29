@@ -1241,6 +1241,24 @@ function wml_actions.show_side_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
+									label = _"Faction"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "faction_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
 									label = _"Flag"
 								}
 							},
@@ -1667,6 +1685,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.side_name, "name_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.faction, "faction_label" )
 
 			if lua_dialog_side.flag_icon == "" then
 				wesnoth.set_dialog_value ( string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color ), "flag_image" )
