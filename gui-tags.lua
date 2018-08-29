@@ -1390,39 +1390,81 @@ function wml_actions.show_side_debug ( cfg )
 		local misc_checkbuttons = T.grid {
 					T.row {
 						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "objectives_changed_checkbutton",
-								label = _ "Objectives changed"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "hidden_checkbutton",
-								label = _ "Hidden"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "shroud_checkbutton",
-								label = _ "Shroud"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "persistent_checkbutton",
-								label = _ "Persistent"
+							T.grid {
+								T.row {
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "objectives_changed_checkbutton",
+											label = _ "Objectives changed"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "hidden_checkbutton",
+											label = _ "Hidden"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "shroud_checkbutton",
+											label = _ "Shroud"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "persistent_checkbutton",
+											label = _ "Persistent"
+										}
+									}
+								},
+								T.row {
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "scroll_to_leader_checkbutton",
+											label = _ "Scroll to leader"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "lost_checkbutton",
+											label = _ "Lost"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.toggle_button {
+											id = "fog_checkbutton",
+											label = _ "Fog"
+										}
+									},
+									T.column {
+										horizontal_alignment = "left",
+										border = "all",
+										border_size = 5,
+										T.spacer {
+										}
+									}
+								}
 							}
 						}
 					},
@@ -1432,33 +1474,8 @@ function wml_actions.show_side_debug ( cfg )
 							border = "all",
 							border_size = 5,
 							T.toggle_button {
-								id = "scroll_to_leader_checkbutton",
-								label = _ "Scroll to leader"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "lost_checkbutton",
-								label = _ "Lost"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.toggle_button {
-								id = "fog_checkbutton",
-								label = _ "Fog"
-							}
-						},
-						T.column {
-							horizontal_alignment = "left",
-							border = "all",
-							border_size = 5,
-							T.spacer {
+								id = "end_turn_checkbutton",
+								label = _ "Suppress end turn confirmation"
 							}
 						}
 					}
@@ -1783,6 +1800,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.hidden, "hidden_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.lost, "lost_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_checkbutton" )
+			wesnoth.set_dialog_value ( lua_dialog_side.suppress_end_turn_confirmation, "end_turn_checkbutton" )
 			-- radiobutton
 			local temp_controller
 
@@ -1837,6 +1855,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_table.hidden = wesnoth.get_dialog_value ( "hidden_checkbutton" )
 				temp_table.lost = wesnoth.get_dialog_value ( "lost_checkbutton" )
 				temp_table.fog = wesnoth.get_dialog_value ( "fog_checkbutton" )
+				temp_table.suppress_end_turn_confirmation = wesnoth.get_dialog_value ( "end_turn_checkbutton" )
 				-- radiobuttons
 				local controllers = { "ai", "human", "null" }
 				temp_table.controller = controllers[ wesnoth.get_dialog_value ( "controller_listbox" ) ]
@@ -1870,6 +1889,7 @@ function wml_actions.show_side_debug ( cfg )
 			lua_dialog_side.shroud = temp_table.shroud
 			lua_dialog_side.fog = temp_table.fog
 			lua_dialog_side.persistent = temp_table.persistent
+			lua_dialog_side.suppress_end_turn_confirmation = temp_table.suppress_end_turn_confirmation
 			lua_dialog_side.controller = temp_table.controller
 			lua_dialog_side.defeat_condition = temp_table.defeat_condition
 			lua_dialog_side.share_vision = temp_table.share_vision
