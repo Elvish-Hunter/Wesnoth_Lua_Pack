@@ -1346,6 +1346,42 @@ function wml_actions.show_side_debug ( cfg )
 						}
 					}
 				}
+
+		-- share vision radiobutton
+		-- allowed values: all, shroud, none
+		local share_vision_radio = T.horizontal_listbox {
+					id = "share_vision_listbox",
+					T.list_definition {
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.toggle_button {
+									id = "share_vision_radiobutton",
+									definition = "radio"
+								}
+							}
+						}
+					},
+					T.list_data {
+						T.row {
+							T.column {
+								label = _"All"
+							}
+						},
+						T.row {
+							T.column {
+								label = _"Shroud"
+							}
+						},
+						T.row {
+							T.column {
+								label = _"None"
+							}
+						}
+					}
+				}
 		
 		-- various checkbuttons
 		local misc_checkbuttons = T.grid {
@@ -1622,6 +1658,22 @@ function wml_actions.show_side_debug ( cfg )
 							border_size = 5,
 							radiobutton
 						}
+					},
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Share vision"
+							}
+						},
+						T.column {
+							horizontal_alignment = "left",
+							border = "all",
+							border_size = 5,
+							share_vision_radio
+						}
 					}
 				}
 
@@ -1737,6 +1789,14 @@ function wml_actions.show_side_debug ( cfg )
 			elseif lua_dialog_side.defeat_condition == "always" then
 				wesnoth.set_dialog_value( 4, "defeat_condition_listbox" )
 			end
+
+			if lua_dialog_side.share_vision == "all" then
+				wesnoth.set_dialog_value( 1, "share_vision_listbox" )
+			elseif lua_dialog_side.share_vision == "shroud" then
+				wesnoth.set_dialog_value( 2, "share_vision_listbox" )
+			elseif lua_dialog_side.share_vision == "none" then
+				wesnoth.set_dialog_value( 3, "share_vision_listbox" )
+			end
 		end
 
 		local function sync()
@@ -1767,6 +1827,9 @@ function wml_actions.show_side_debug ( cfg )
 				
 				local defeat_conditions = { "no_leader_left", "no_units_left", "never", "always" }
 				temp_table.defeat_condition = defeat_conditions[ wesnoth.get_dialog_value ( "defeat_condition_listbox" ) ]
+
+				local share_vision = { "all", "shroud", "none" }
+				temp_table.share_vision = share_vision[ wesnoth.get_dialog_value ( "share_vision_listbox" ) ]
 			end
 
 			local return_value = wesnoth.show_dialog( side_dialog, preshow, postshow )
@@ -1792,6 +1855,7 @@ function wml_actions.show_side_debug ( cfg )
 			lua_dialog_side.fog = temp_table.fog
 			lua_dialog_side.controller = temp_table.controller
 			lua_dialog_side.defeat_condition = temp_table.defeat_condition
+			lua_dialog_side.share_vision = temp_table.share_vision
 			lua_dialog_side.color = temp_table.color
 
 			local temp_recruit = {}
