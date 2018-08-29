@@ -187,6 +187,60 @@ function wml_actions.show_quick_debug ( cfg )
 			}
 		}
 
+		local upkeep_form = T.grid {
+			T.row {
+				T.column {
+					grow_factor = 0,
+					T.horizontal_listbox {
+						id = "upkeep_listbox",
+						T.list_definition {
+							T.row {
+								T.column {
+									horizontal_alignment = "left",
+									border = "left,right",
+									border_size = 5,
+									T.toggle_button {
+										id = "upkeep_radiobutton",
+										definition = "radio"
+									}
+								}
+							}
+						},
+						T.list_data {
+							T.row {
+								T.column {
+									label = _"Loyal"
+								}
+							},
+							T.row {
+								T.column {
+									label = _"Full"
+								}
+							},
+							T.row {
+								T.column {
+									label = _"Other"
+								}
+							}
+						}
+					}
+				},
+				T.column {
+					horizontal_grow = true,
+					vertical_grow = true,
+					grow_factor = 1,
+					border = "all",
+					border_size = 5,
+					T.slider {
+						minimum_value = 0,
+						maximum_value = 5,
+						step_size = 1,
+						id = "upkeep_slider"
+					}
+				}
+			}
+		}
+
 		local status_checkbuttons = T.grid {
 						T.row {
 							T.column {
@@ -565,6 +619,24 @@ function wml_actions.show_quick_debug ( cfg )
 							}
 						}
 					},
+					-- upkeep
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
+								label = _"Upkeep"
+							}
+						},
+						T.column {
+							vertical_grow = true,
+							horizontal_grow = true,
+							border = "all",
+							border_size = 5,
+							upkeep_form
+						}
+					},
 					-- name
 					T.row {
 						T.column {
@@ -819,6 +891,29 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_unit.experience, "unit_experience_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.moves, "unit_moves_slider" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.attacks_left, "unit_attacks_slider" )
+			-- set upkeep
+			local upkeep = lua_dialog_unit.upkeep
+			if upkeep == "loyal" or upkeep == "free" then
+				wesnoth.set_dialog_value ( 1, "upkeep_listbox" )
+				wesnoth.set_dialog_active ( false, "upkeep_slider" )
+			elseif upkeep == "full" then
+				wesnoth.set_dialog_value ( 2, "upkeep_listbox" )
+				wesnoth.set_dialog_active ( false, "upkeep_slider" )
+			else
+				wesnoth.set_dialog_value ( 3, "upkeep_listbox" )
+				wesnoth.set_dialog_value ( tonumber(upkeep), "upkeep_slider" )
+			end
+
+			-- the slider becomes active only if the upkeep becomes a numerical value
+			local function upkeep_cb()
+				if wesnoth.get_dialog_value ( "upkeep_listbox" ) == 3 then
+					wesnoth.set_dialog_active ( true, "upkeep_slider" )
+				else
+					wesnoth.set_dialog_active ( false, "upkeep_slider" )
+				end
+			end
+			wesnoth.set_dialog_callback( upkeep_cb, "upkeep_listbox" )
+
 			-- set textboxes
 			wesnoth.set_dialog_value ( lua_dialog_unit.name, "textbox_name" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.extra_recruit, "," ), "textbox_extra_recruit" )
@@ -879,6 +974,16 @@ function wml_actions.show_quick_debug ( cfg )
 					temp_table.y = new_y
 				end
 
+				-- upkeep
+				local upkeep_type = wesnoth.get_dialog_value ( "upkeep_listbox" )
+				if upkeep_type == 1 then
+					temp_table.upkeep = "loyal"
+				elseif upkeep_type == 2 then
+					temp_table.upkeep = "full"
+				elseif upkeep_type == 3 then
+					temp_table.upkeep = wesnoth.get_dialog_value( "upkeep_slider" )
+				end
+
 				-- sliders
 				temp_table.level = wesnoth.get_dialog_value( "unit_level_slider" )
 				temp_table.side = wesnoth.get_dialog_value ( "unit_side_slider" )
@@ -932,6 +1037,8 @@ function wml_actions.show_quick_debug ( cfg )
 			elseif temp_table.y then
 				lua_dialog_unit.y = temp_table.y
 			end
+
+			lua_dialog_unit.upkeep = temp_table.upkeep
 			-- sliders
 			lua_dialog_unit.level = temp_table.level
 			if wesnoth.sides[temp_table.side] then
