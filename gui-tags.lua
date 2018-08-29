@@ -1285,21 +1285,6 @@ function wml_actions.show_side_debug ( cfg )
 						},
 						T.row {
 							T.column {
-								label = _"human_ai"
-							}
-						},
-						T.row {
-							T.column {
-								label = _"network"
-							}
-						},
-						T.row {
-							T.column {
-								label = _"network_ai"
-							}
-						},
-						T.row {
-							T.column {
 								label = _"null"
 							}
 						}
@@ -1769,14 +1754,8 @@ function wml_actions.show_side_debug ( cfg )
 				temp_controller = 1
 			elseif lua_dialog_side.controller == "human" then
 				temp_controller = 2
-			elseif lua_dialog_side.controller == "human_ai" then
-				temp_controller = 3
-			elseif lua_dialog_side.controller == "network" then
-				temp_controller = 4
-			elseif lua_dialog_side.controller == "network_ai" then
-				temp_controller = 5
 			elseif lua_dialog_side.controller == "null" then
-				temp_controller = 6
+				temp_controller = 3
 			end
 			wesnoth.set_dialog_value ( temp_controller, "controller_listbox" )
 			
@@ -1822,7 +1801,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_table.lost = wesnoth.get_dialog_value ( "lost_checkbutton" )
 				temp_table.fog = wesnoth.get_dialog_value ( "fog_checkbutton" )
 				-- radiobuttons
-				local controllers = { "ai", "human", "human_ai", "network", "network_ai", "null" }
+				local controllers = { "ai", "human", "null" }
 				temp_table.controller = controllers[ wesnoth.get_dialog_value ( "controller_listbox" ) ]
 				
 				local defeat_conditions = { "no_leader_left", "no_units_left", "never", "always" }
