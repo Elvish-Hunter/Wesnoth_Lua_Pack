@@ -1792,6 +1792,25 @@ function wml_actions.show_side_debug ( cfg )
 							border = "all",
 							border_size = 5,
 							T.label {
+								label = _"Flag icon"
+							}
+						},
+						T.column {
+							horizontal_grow = true,
+							border = "all",
+							border_size = 5,
+							T.text_box {
+								id = "flag_icon_textbox",
+								history = "flag_icon_history"
+							}
+						}
+					},
+					T.row {
+						T.column {
+							horizontal_alignment = "right",
+							border = "all",
+							border_size = 5,
+							T.label {
 								label = _"Recruit"
 							}
 						},
@@ -1925,6 +1944,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.team_name, "team_name_textbox" )
 			wesnoth.set_dialog_value ( lua_dialog_side.color, "side_color_textbox" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_side.recruit, "," ), "recruit_textbox" )
+			wesnoth.set_dialog_value ( lua_dialog_side.flag_icon, "flag_icon_textbox" )
 			-- checkbuttons
 			wesnoth.set_dialog_value ( lua_dialog_side.objectives_changed, "objectives_changed_checkbutton" )
 			wesnoth.set_dialog_value ( lua_dialog_side.scroll_to_leader, "scroll_to_leader_checkbutton" )
@@ -1980,6 +2000,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_table.team_name = wesnoth.get_dialog_value ( "team_name_textbox" )
 				temp_table.recruit = wesnoth.get_dialog_value ( "recruit_textbox" )
 				temp_table.color = wesnoth.get_dialog_value ( "side_color_textbox" )
+				temp_table.flag_icon = wesnoth.get_dialog_value ( "flag_icon_textbox" )
 				-- checkbuttons
 				temp_table.objectives_changed = wesnoth.get_dialog_value ( "objectives_changed_checkbutton" )
 				temp_table.scroll_to_leader = wesnoth.get_dialog_value ( "scroll_to_leader_checkbutton" )
@@ -2027,6 +2048,7 @@ function wml_actions.show_side_debug ( cfg )
 			lua_dialog_side.defeat_condition = temp_table.defeat_condition
 			lua_dialog_side.share_vision = temp_table.share_vision
 			lua_dialog_side.color = temp_table.color
+			lua_dialog_side.flag_icon = temp_table.flag_icon
 
 			local temp_recruit = {}
 			for value in wlp_utils.split( temp_table.recruit ) do
