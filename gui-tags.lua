@@ -1385,6 +1385,24 @@ function wml_actions.show_side_debug ( cfg )
 								border = "all",
 								border_size = 5,
 								T.label {
+									label = _"Chose random"
+								}
+							},
+							T.column {
+								horizontal_alignment = "right",
+								border = "all",
+								border_size = 5,
+								T.label {
+									id = "chose_random_label"
+								}
+							}
+						},
+						T.row {
+							T.column {
+								horizontal_alignment = "left",
+								border = "all",
+								border_size = 5,
+								T.label {
 									label = _"Flag"
 								}
 							},
@@ -1926,6 +1944,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.total_upkeep, "total_upkeep_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.expenses, "expenses_label" )
 			wesnoth.set_dialog_value ( lua_dialog_side.net_income, "net_income_label" )
+			wesnoth.set_dialog_value ( lua_dialog_side.chose_random, "chose_random_label" )
 
 			if lua_dialog_side.flag_icon == "" then
 				wesnoth.set_dialog_value ( string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color ), "flag_image" )
