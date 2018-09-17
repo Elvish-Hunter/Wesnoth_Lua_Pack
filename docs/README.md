@@ -1,7 +1,11 @@
 Wesnoth Lua Pack
 ================
 
-Current maintainers: Elvish_Hunter and Anonymissimus
+Current maintainer: Elvish_Hunter
+
+Former maintainer: Anonymissimus
+
+Original author: melinath
 
 Contributors: Alarantalara, Espreon, SigurdFireDragon, mattsc
 

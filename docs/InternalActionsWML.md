@@ -24,7 +24,7 @@ Table of Content
 
 Stores a side's shroud data in a WML variable.
 
-**[StandardSideFilter] (http://wiki.wesnoth.org/StandardSideFilter):** do not use a [filter_side] sub-tag. The first matching side will have its shroud stored. If no side matches the supplied filter, a WML error will be raised.
+**[StandardSideFilter](http://wiki.wesnoth.org/StandardSideFilter):** do not use a [filter_side] sub-tag. The first matching side will have its shroud stored. If no side matches the supplied filter, a WML error will be raised.
 
 **variable:** the variable where shroud data will be stored.
 
@@ -42,7 +42,7 @@ Finds the nearest hex to another given hex, that matches the SLF.
 
 **starting\_x, starting\_y:** the location that will be used as base for the calculation.
 
-**[filter_location]:** [StandardLocationFilter] (http://wiki.wesnoth.org/StandardLocationFilter), all the locations matching the filter will be compared to the one specified above.
+**[filter_location]:** [StandardLocationFilter](http://wiki.wesnoth.org/StandardLocationFilter), all the locations matching the filter will be compared to the one specified above.
 
 **variable:** the resulting nearest location will be stored in a WML variable with the given name, default is `nearest_hex`.
 
@@ -53,7 +53,7 @@ Finds the nearest unit to a given hex, that matches the SUF.
 
 **starting\_x, starting\_y:** the location that will be used as base for the calculation.
 
-**[filter]:** [StandardUnitFilter] (http://wiki.wesnoth.org/StandardUnitFilter), all the units matching the filter will be compared to the hex specified above.
+**[filter]:** [StandardUnitFilter](http://wiki.wesnoth.org/StandardUnitFilter), all the units matching the filter will be compared to the hex specified above.
 
 **variable:** the resulting nearest unit will be stored in a WML variable with the given name, default is `nearest_unit`.
 
@@ -62,7 +62,7 @@ Finds the nearest unit to a given hex, that matches the SUF.
 
 Stores the defensive percentage of a unit on its current hex in a WML variable.
 
-**[StandardUnitFilter] (http://wiki.wesnoth.org/StandardUnitFilter):** Do not use a [filter] sub-tag. All the units matching the filter will be checked.
+**[StandardUnitFilter](http://wiki.wesnoth.org/StandardUnitFilter):** Do not use a [filter] sub-tag. All the units matching the filter will be checked.
 
 **variable:** the variable where the results will be stored, default name is `defense`. Every element of the array will contain the following keys: `id` (the unit's id), `x` and `y` (the unit's location), `terrain` (the terrain where the unit is), `defense` (the current unit's defense).
 
@@ -118,7 +118,7 @@ Converts a ratio as a percent value, and stores the result in a variable.
 
 Stores the movement type of the unit matching the filter inside a variable with the given name. If more than one unit matches the filter, only the first one is chosen.
 
-**[StandardUnitFilter] (http://wiki.wesnoth.org/StandardUnitFilter):** Do not use a [filter] sub-tag.
+**[StandardUnitFilter](http://wiki.wesnoth.org/StandardUnitFilter):** Do not use a [filter] sub-tag.
 
 **variable:** the variable name where the movement type will be stored, if no value is supplied `movement_type` will be used as default name.
 
@@ -145,8 +145,8 @@ Sets a variable containing a randomly generated integer number. This tag relies 
 
 Retrieves and stores in a variable the recruitment list for each matching side. If a SUF is supplied, also the units recruitable by matching leaders `(extra_recruit)` are added to the list.
 
-**[filter_side]:** [StandardSideFilter] (http://wiki.wesnoth.org/StandardSideFilter), required. The recruit list will be acquired from every matching side.
+**[filter_side]:** [StandardSideFilter](http://wiki.wesnoth.org/StandardSideFilter), required. The recruit list will be acquired from every matching side.
 
-**[filter]:** [StandardUnitFilter] (http://wiki.wesnoth.org/StandardUnitFilter). If present, every matching leader will be checked for its `extra_recruit` key, and such recruits will be added to the list.
+**[filter]:** [StandardUnitFilter](http://wiki.wesnoth.org/StandardUnitFilter). If present, every matching leader will be checked for its `extra_recruit` key, and such recruits will be added to the list.
 
 **variable:** default is `recruit_list`. It will contain an array with the following attributes of the side: `side` (the side's number), `team_name, user_team_name, name, recruit_list`.

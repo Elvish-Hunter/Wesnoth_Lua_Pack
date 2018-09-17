@@ -28,7 +28,7 @@ Table of Content
 [narrate]
 ---------
 
-Shows a message with `narrator` as speaker. All the standard keys and tags supported by [\[message\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) are available, with two exceptions:
+Shows a message with `narrator` as speaker. All the standard keys and tags supported by [\[message\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) are available, with two exceptions:
 
 **speaker** is always equal to `narrator`;
 
@@ -109,7 +109,7 @@ Move an image or cycle of images along a path not restricted by the map grid.
 
 **frames:** The number of frames to use in the animation. If it is not specified, then the number of `images` from image will be used to calculate the number of frames. The number of frames must be at least 2 (so including a single image in `image` and not including this attribute will not work).
 
-**linger:** (default: no). If yes, then the last image will remain visible after the animation completes. It may be removed using [\[remove\_item\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bremove_item.5D).
+**linger:** (default: no). If yes, then the last image will remain visible after the animation completes. It may be removed using [\[remove\_item\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bremove_item.5D).
 
 **transpose:** (default: no). Interpolation methods marked function are normally based on the x coordinates. If this is yes, then they are based on the y coordinates. It has no effect on other interpolation methods.
 
@@ -129,13 +129,13 @@ Methods marked (function) require that the x values (y values if `transpose` is 
 
 Displays a message with the unknown unit icon as speaker portrait. Can team color the icon and set the caption.
 
-**message:** required. The message to display, use exactly like in the [\[message\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
+**message:** required. The message to display, use exactly like in the [\[message\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
 
 **color:** if specified, the unknown unit icon will be team colored. Supported values are `red, lightred, darkred, blue, green, purple, black, brown, orange, white, teal` or integer numeric values between `1` and `9` (enclosed).
 
 **right:** default no, if yes the unknown unit icon will be displayed on the right side of the screen.
 
-**caption:** the text to display as speaker's name, use like in the [\[message\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
+**caption:** the text to display as speaker's name, use like in the [\[message\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
 
 **duration:** the minimum number of frames for the message to be displayed.
 
@@ -146,7 +146,7 @@ Displays a message with the unknown unit icon as speaker portrait. Can team colo
 [show_quick_debug]
 ------------------
 
-When used inside a [\[set\_menu\_item\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D), this tag allows modifying several unit attributes using the right-click menu. It displays a dialog where you can set hitpoints, moves, etc.
+When used inside a [\[set\_menu\_item\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D), this tag allows modifying several unit attributes using the right-click menu. It displays a dialog where you can set hitpoints, moves, etc.
 
 **This tag accepts no additional keys.** Usage:
 
@@ -162,7 +162,7 @@ When used inside a [\[set\_menu\_item\]] (http://wiki.wesnoth.org/InterfaceActio
 [show_side_debug]
 -----------------
 
-When used inside a [\[set\_menu\_item\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D), this tag allows modifying several side attributes using the right-click menu. It displays a dialog where you can set gold, income, etc.
+When used inside a [\[set\_menu\_item\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bset_menu_item.5D), this tag allows modifying several side attributes using the right-click menu. It displays a dialog where you can set gold, income, etc.
 
 **This tag accepts no additional keys.** Usage:
 
@@ -198,13 +198,13 @@ This tag shows a dialog box that can be used in place of the usual [message] wit
 
 This tag shows a message in italic ans small font. It is meant as a replacement for both `{WHISPER}` and `{ASIDE}` macros.
 
-**message:** the message to display, use exactly like in the [\[message\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
+**message:** the message to display, use exactly like in the [\[message\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
 
 **speaker:** speaker of the message, if no value is supplied _narrator_ is used by default.
 
 **image:** the image that will be displayed at the side of this message, if no value is supplied _wesnoth-icon.png_ is used by default.
 
-**caption:** the text to display as speaker's name, use like in the [\[message\]] (http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
+**caption:** the text to display as speaker's name, use like in the [\[message\]](http://wiki.wesnoth.org/InterfaceActionsWML#.5Bmessage.5D) tag.
 
 **duration:** the minimum number of frames for the message to be displayed.
 
