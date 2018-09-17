@@ -1,3 +1,5 @@
+Version 1.8.0+git:
+
 Version 1.8.0:
    * Added support for flag_icon, defeat_condition, scroll_to_leader, lost,
      village_support, recruit and hidden to [show_side_debug]
