@@ -430,6 +430,7 @@ end
 	variable=test_math_5
 [/get_ratio_as_percentage] ]]
 function wml_actions.absolute_value(cfg)
+	wesnoth.deprecated_message('[absolute_value]', 1, '1.0', 'Use [set_variable]abs=yes instead')
 	local variable = cfg.variable or
 		helper.wml_error "[absolute_value] missing required variable= attribute"
 
