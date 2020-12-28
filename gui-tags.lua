@@ -437,7 +437,7 @@ function wml_actions.show_quick_debug ( cfg )
 					T.row {
 						T.column {
 							T.button {
-								label = "✔ " .. _"OK",
+								label = _"✔ OK",
 								return_value = 1
 							}
 						},
@@ -448,7 +448,7 @@ function wml_actions.show_quick_debug ( cfg )
 						},
 						T.column {
 							T.button {
-								label = "✘ " .. _"Cancel",
+								label = _"✘ Cancel",
 								return_value = 2
 							}
 						}
@@ -1122,7 +1122,7 @@ function wml_actions.show_side_debug ( cfg )
 					T.row {
 						T.column {
 							T.button {
-								label = "✔ " .. _"OK",
+								label = _"✔ OK",
 								return_value = 1
 							}
 						},
@@ -1133,7 +1133,7 @@ function wml_actions.show_side_debug ( cfg )
 						},
 						T.column {
 							T.button {
-								label = "✘ " .. _"Cancel",
+								label = _"✘ Cancel",
 								return_value = 2
 							}
 						}
