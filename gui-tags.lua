@@ -437,7 +437,7 @@ function wml_actions.show_quick_debug ( cfg )
 					T.row {
 						T.column {
 							T.button {
-								label = "✔ " .. _"OK",
+								label = _"✔ OK",
 								return_value = 1
 							}
 						},
@@ -448,7 +448,7 @@ function wml_actions.show_quick_debug ( cfg )
 						},
 						T.column {
 							T.button {
-								label = "✘ " .. _"Cancel",
+								label = _"✘ Cancel",
 								return_value = 2
 							}
 						}
@@ -1122,7 +1122,7 @@ function wml_actions.show_side_debug ( cfg )
 					T.row {
 						T.column {
 							T.button {
-								label = "✔ " .. _"OK",
+								label = _"✔ OK",
 								return_value = 1
 							}
 						},
@@ -1133,7 +1133,7 @@ function wml_actions.show_side_debug ( cfg )
 						},
 						T.column {
 							T.button {
-								label = "✘ " .. _"Cancel",
+								label = _"✘ Cancel",
 								return_value = 2
 							}
 						}
@@ -2214,155 +2214,26 @@ end
 
 -- the three tags below are WML/Lua remakes of Javascript's standard dialogs alert(), confirm() and prompt()
 function wml_actions.alert( cfg )
-	local alert_dialog = {
-		T.helptip { id="tooltip_large" }, -- mandatory field
-		T.tooltip { id="tooltip_large" }, -- mandatory field
-		maximum_height = 600,
-		maximum_width = 800,
-		T.grid { -- Title, will be the object name
-			T.row {
-				T.column {
-					horizontal_alignment = "left",
-					grow_factor = 1,
-					border = "all",
-					border_size = 5,
-					T.label {
-						definition = "title",
-						id = "title"
-					}
-				}
-			},
-			T.row {
-				T.column {
-					vertical_alignment = "center",
-					horizontal_alignment = "center",
-					border = "all",
-					border_size = 5,
-					T.scroll_label {
-						id = "message"
-					}
-				}
-			},
-			T.row {
-				T.column {
-					vertical_alignment = "center",
-					horizontal_alignment = "center",
-					border = "all",
-					border_size = 5,
-					T.button {
-						label = "OK",
-						return_value = 1
-					}
-				}
-			}
-		}
-	}
-
-	local function preshow()
-		-- here set all widget starting values
-		wesnoth.set_dialog_markup( true, "message" )
-		wesnoth.set_dialog_value ( cfg.title or "", "title" )
-		wesnoth.set_dialog_value ( cfg.message or "", "message" )
+	if cfg.title then
+		gui.alert(cfg.title, cfg.message)
+	else
+		gui.alert(cfg.message)
 	end
-
-	local function postshow()
-		-- here get all widget values
-	end
-	wesnoth.show_dialog( alert_dialog, preshow, postshow )
-	-- no syncronization, as we aren't interested in returned values
 end
 
 function wml_actions.confirm( cfg )
 	local variable = cfg.variable or helper.wml_error( "Missing variable= key in [confirm]" )
 
-	local buttonbox = T.grid {
-				T.row {
-					T.column {
-						T.button {
-							label = "OK",
-							return_value = 1
-						}
-					},
-					T.column {
-						T.spacer {
-							width = 10
-						}
-					},
-					T.column {
-						T.button {
-							label = "Close",
-							return_value = 2
-						}
-					}
-				}
-			}
-
-	local confirm_dialog = {
-		T.helptip { id="tooltip_large" }, -- mandatory field
-		T.tooltip { id="tooltip_large" }, -- mandatory field
-		maximum_height = 600,
-		maximum_width = 800,
-		T.grid { -- Title, will be the object name
-			T.row {
-				T.column {
-					horizontal_alignment = "left",
-					grow_factor = 1,
-					border = "all",
-					border_size = 5,
-					T.label {
-						definition = "title",
-						id = "title"
-					}
-				}
-			},
-			T.row {
-				T.column {
-					vertical_alignment = "center",
-					horizontal_alignment = "center",
-					border = "all",
-					border_size = 5,
-					T.scroll_label {
-						id = "message"
-					}
-				}
-			},
-			-- button box
-			T.row {
-				T.column {
-					vertical_alignment = "center",
-					horizontal_alignment = "center",
-					border = "all",
-					border_size = 5,
-					buttonbox
-				}
-			}
-		}
-	}
-
-	local function preshow()
-		-- here set all widget starting values
-		wesnoth.set_dialog_markup( true, "message" )
-		wesnoth.set_dialog_value ( cfg.title or "", "title" )
-		wesnoth.set_dialog_value ( cfg.message or "", "message" )
-	end
-
 	local function sync()
-		local function postshow()
-			-- here get all widget values
+		if cfg.title then
+			return { return_value = gui.confirm(cfg.title, cfg.message) }
+		else
+			return { return_value = gui.confirm(cfg.message) }
 		end
-
-		local return_value = wesnoth.show_dialog( confirm_dialog, preshow, postshow )
-		return { return_value = return_value }
 	end
 
 	local return_table = wesnoth.synchronize_choice(sync)
-	local return_value = return_table.return_value
-
-	if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter
-		wesnoth.set_variable ( variable, true )
-	elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc
-		wesnoth.set_variable ( variable, false )
-	else wesnoth.message( ( tostring( _"Confirm" ) .. ": " .. tostring( _"Error, return value :" ) .. return_value ) ) end -- any unhandled case is handled here
+	wml.variables[variable] = return_table.return_value
 end
 
 function wml_actions.prompt( cfg )

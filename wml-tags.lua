@@ -430,6 +430,7 @@ end
 	variable=test_math_5
 [/get_ratio_as_percentage] ]]
 function wml_actions.absolute_value(cfg)
+	wesnoth.deprecated_message('[absolute_value]', 1, '1.0', 'Use [set_variable]abs=yes instead')
 	local variable = cfg.variable or
 		helper.wml_error "[absolute_value] missing required variable= attribute"
 
@@ -592,6 +593,7 @@ end
 end]]
 
 function wml_actions.random_number( cfg )
+	wesnoth.deprecated_message('[random_number]', 1, '1.0', 'Use [set_variable]rand=a..b instead')
 	local lowest = tonumber( cfg.lowest ) or helper.wml_error( "Missing or wrong lowest= attribute in [random_number]" )
 	local highest = tonumber( cfg.highest ) or helper.wml_error( "Missing or wrong highest= attribute in [random_number]" )
 	local variable = cfg.variable or "random"
