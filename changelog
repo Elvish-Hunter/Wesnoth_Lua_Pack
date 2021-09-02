@@ -2,6 +2,7 @@ Version 1.8.0+git:
    * Deprecated `[absolute_value]` and `[random_number]`
    * `[alert]` and `[confirm]` now use the `gui.alert` and `gui.confirm` functions
    * Fixed `[get_recruit_list]` crashing if `[filter]` was used
+   * Added a test scenario, which can be accessed only by starting Wesnoth with the `--debug` command line switch
 
 Version 1.8.0:
    * Added support for flag_icon, defeat_condition, scroll_to_leader, lost,
