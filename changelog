@@ -6,6 +6,7 @@ Version 1.8.0+git:
    * Updates for the 1.15.x series:
        * wesnoth.game_config.version -> wesnoth.current_version()
        * wesnoth.compare_version() -> wesnoth.version() and comparison operators
+       * wesnoth.get_sides() -> wesnoth.sides.find()
    * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:

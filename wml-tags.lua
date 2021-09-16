@@ -35,7 +35,7 @@ wesnoth.dofile '~add-ons/Wesnoth_Lua_Pack/gui-tags.lua'
 -- [/store_shroud]
 
 function wml_actions.store_shroud(cfg)
-	local side = wesnoth.get_sides( cfg )[1] or helper.wml_error("No matching side found in [store_shroud]")
+	local side = wesnoth.sides.find( cfg )[1] or helper.wml_error("No matching side found in [store_shroud]")
 	local variable = cfg.variable or helper.wml_error("Missing required variable= attribute in [store_shroud].")
 	local current_shroud = side.__cfg.shroud_data
 	wesnoth.set_variable(variable, current_shroud)
@@ -52,7 +52,7 @@ end
 -- [/set_shroud]
 
 function wml_actions.set_shroud(cfg)
-	local side = wesnoth.get_sides( cfg )[1] or helper.wml_error("No matching side found in [set_shroud]")
+	local side = wesnoth.sides.find( cfg )[1] or helper.wml_error("No matching side found in [set_shroud]")
 	local shroud_data = cfg.shroud_data or helper.wml_error("Missing required shroud_data= attribute in [set_shroud]")
 
 	if shroud_data == nil then helper.wml_error("[set_shroud] was passed an empty shroud string")
@@ -622,7 +622,7 @@ function wml_actions.get_recruit_list( cfg )
 	local filter = wml.get_child( cfg, "filter" )
 	local variable = cfg.variable or "recruit_list"
 
-	for index, side in ipairs( wesnoth.get_sides( filter_side ) ) do
+	for index, side in ipairs( wesnoth.sides.find( filter_side ) ) do
 		local recruit_list = { }
 
 		for recruitable in string.gmatch( side.__cfg.recruit, '[^,]+' ) do
@@ -671,7 +671,7 @@ end
 -- amount, raises error if not number
 function wml_actions.loot( cfg )
 	local gold_amount = tonumber( cfg.amount ) or helper.wml_error( "Missing or wrong amount= value in [loot]" )
-	local sides = wesnoth.get_sides( cfg )
+	local sides = wesnoth.sides.find( cfg )
 	for index, side in ipairs( sides ) do
 		wml_actions.message {
 			side_for = side.side,
