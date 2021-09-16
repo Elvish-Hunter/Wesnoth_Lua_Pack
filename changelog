@@ -3,6 +3,10 @@ Version 1.8.0+git:
    * `[alert]` and `[confirm]` now use the `gui.alert` and `gui.confirm` functions
    * Fixed `[get_recruit_list]` crashing if `[filter]` was used
    * Added a test scenario, which can be accessed only by starting Wesnoth with the `--debug` command line switch
+   * Updates for the 1.15.x series:
+       * wesnoth.game_config.version -> wesnoth.current_version()
+       * wesnoth.compare_version() -> wesnoth.version() and comparison operators
+   * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:
    * Added support for flag_icon, defeat_condition, scroll_to_leader, lost,

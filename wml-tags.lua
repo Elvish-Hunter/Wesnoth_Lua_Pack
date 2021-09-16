@@ -1,7 +1,6 @@
 
-local required_version = "1.13.12"
-local sufficient = wesnoth.compare_versions and wesnoth.compare_versions(required_version, "<=", wesnoth.game_config.version)
-if not sufficient then
+local required_version = "1.15.14"
+if wesnoth.current_version() < wesnoth.version(required_version) then
 	error(string.format("The Wesnoth Lua Pack requires Battle for Wesnoth %s or greater!", required_version))
 end
 

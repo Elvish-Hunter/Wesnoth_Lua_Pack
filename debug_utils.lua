@@ -222,7 +222,8 @@ function debug_utils.set_inspect()
 		local condition_string = tostring((condition_userdata).condition_string)
 		local condition_function_string = string.format("return %s", condition_string)
 		local condition_function, error_message
-		if wesnoth.compare_versions and wesnoth.compare_versions(string.sub(_VERSION, 5), ">=", "5.2") then
+		-- check Lua version; is this still necessary?
+		if wesnoth.version(string.sub(_VERSION, 5)) >= wesnoth.version("5.2") then
 			condition_function, error_message = load(condition_function_string)
 		else
 			condition_function, error_message = loadstring(condition_function_string)
