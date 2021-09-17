@@ -10,6 +10,7 @@ Version 1.8.0+git:
        * wesnoth.set_variable() -> wml.variables[]
        * wesnoth.get_variable() -> wml.variables[]
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
+   * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:

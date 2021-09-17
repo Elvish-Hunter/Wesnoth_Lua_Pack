@@ -534,7 +534,7 @@ function wml_actions.unknown_message(cfg)
 		image = image .. "~RIGHT()"
 	end
 
-	wesnoth.message { speaker = "narrator", message = cfg.message, caption = cfg.caption, image = image, duration = cfg.duration, side_for = cfg.side_for, sound = cfg.sound }
+	wml_actions.message { speaker = "narrator", message = cfg.message, caption = cfg.caption, image = image, duration = cfg.duration, side_for = cfg.side_for, sound = cfg.sound }
 end
 
 -- [get_movement_type], by silene
