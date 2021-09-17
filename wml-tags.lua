@@ -444,6 +444,7 @@ function wml_actions.absolute_value(cfg)
 end
 
 function wml_actions.get_numerical_minimum(cfg)
+	wesnoth.deprecated_message('[get_numerical_minimum]', 1, '1.0', 'Use [set_variable] min= instead')
 	-- notify users of the change
 	if cfg.first_value then	helper.wml_error "first_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
 	if cfg.other_value then	helper.wml_error "other_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
@@ -464,6 +465,7 @@ function wml_actions.get_numerical_minimum(cfg)
 end
 
 function wml_actions.get_numerical_maximum(cfg)
+	wesnoth.deprecated_message('[get_numerical_maximum]', 1, '1.0', 'Use [set_variable] max= instead')
 	-- notify users of the change
 	if cfg.first_value then	helper.wml_error "first_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
 	if cfg.other_value then	helper.wml_error "other_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
@@ -557,6 +559,7 @@ end
 --		result_variable=test2
 --	[/reverse_value]
 function wml_actions.reverse_value( cfg )
+	wesnoth.deprecated_message('[reverse_value]', 1, '1.0', 'Use [set_variable] reverse=yes instead')
 	local variable = cfg.variable or helper.wml_error( "[reverse_value] missing required variable= attribute" )
 	local result_variable = cfg.result_variable or cfg.variable -- if there is a result_variable= the original variable won't be overwritten
 	local temp_value = wml.variables[variable]
