@@ -61,7 +61,9 @@ function wml_actions.set_shroud(cfg)
 		helper.wml_error("[set_shroud] was passed an invalid shroud string")
 	else
 		-- yes, I prefer long variable names. I think that they make the code more understandable. E_H.
-		local width, height, border = wesnoth.get_map_size()
+		local width = wesnoth.current.map.playable_width
+		local height = wesnoth.current.map.playable_height
+		local border = wesnoth.current.map.border_size
 
 		-- you might think that I could've converted this tag to just use wesnoth.place_shroud()
                 -- and be done with it.
@@ -111,7 +113,9 @@ end
 
 function wml_actions.save_map(cfg)
 	local variable = cfg.variable or helper.wml_error "[save_map] missing required variable= attribute"
-	local width, height, border = wesnoth.get_map_size()
+	local width = wesnoth.current.map.playable_width
+	local height = wesnoth.current.map.playable_height
+	local border = wesnoth.current.map.border_size
 	local t = {} -- not table, to avoid overriding the table library!
 
 	for y = 1 - border, height + border do

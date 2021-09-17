@@ -960,7 +960,9 @@ function wml_actions.show_quick_debug ( cfg )
 				local new_x, new_y
 				new_x = tonumber(wesnoth.get_dialog_value( "textbox_loc_x" ))
 				new_y = tonumber(wesnoth.get_dialog_value( "textbox_loc_y" ))
-				local width, height, border = wesnoth.get_map_size()
+				local width = wesnoth.current.map.playable_width
+				local height = wesnoth.current.map.playable_height
+				local border = wesnoth.current.map.border_size
 
 				if (not new_x) or (new_x < 1) or (new_x > width) then
 					wesnoth.log("wml", "Invalid X location input in [show_quick_debug], ignoring")
