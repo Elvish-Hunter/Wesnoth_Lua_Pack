@@ -65,7 +65,7 @@ function wml_actions.set_shroud(cfg)
 		local height = wesnoth.current.map.playable_height
 		local border = wesnoth.current.map.border_size
 
-		-- you might think that I could've converted this tag to just use wesnoth.place_shroud()
+		-- you might think that I could've converted this tag to just use wesnoth.sides.place_shroud()
                 -- and be done with it.
                 -- Think again: the purpose of [set_shroud] is to restore the shroud exactly as it was 
                 -- stored by [store_shroud], which means also clearing the hexes that didn't have it.
@@ -92,8 +92,8 @@ function wml_actions.set_shroud(cfg)
 			side.shroud = true
 		end
 
-		wesnoth.place_shroud( side.side, to_shroud )
-                wesnoth.remove_shroud( side.side, to_clear )
+		wesnoth.sides.place_shroud( side.side, to_shroud )
+                wesnoth.sides.remove_shroud( side.side, to_clear )
 	end
 end
 
