@@ -38,7 +38,7 @@ function wml_actions.store_shroud(cfg)
 	local side = wesnoth.sides.find( cfg )[1] or helper.wml_error("No matching side found in [store_shroud]")
 	local variable = cfg.variable or helper.wml_error("Missing required variable= attribute in [store_shroud].")
 	local current_shroud = side.__cfg.shroud_data
-	wesnoth.set_variable(variable, current_shroud)
+	wml.variables[variable] = current_shroud
 end
 
 --! [set_shroud]
@@ -124,12 +124,12 @@ function wml_actions.save_map(cfg)
 		t[ y + border ] = table.concat ( row, ', ' )
 	end
 
-	wesnoth.set_variable( variable, table.concat( t, '\n' ) )
+	wml.variables[variable] = table.concat(t, '\n')
 end
 
 function wml_actions.load_map(cfg)
 	local variable = cfg.variable or helper.wml_error "[load_map] missing required variable= attribute"
-	wml_actions.replace_map { map = wesnoth.get_variable ( variable ), expand = true, shrink = true }
+	wml_actions.replace_map { map = wml.variables[variable], expand = true, shrink = true }
 end
 
 --! [narrate]
@@ -205,7 +205,7 @@ function wml_actions.nearest_hex(cfg)
 	end
 
 	if nearest_hex_found then
-		wesnoth.set_variable( variable, { x = nearest_hex_found[1], y = nearest_hex_found[2], terrain = wesnoth.get_terrain( nearest_hex_found[1], nearest_hex_found[2] ) })
+		wml.variables[variable] = { x = nearest_hex_found[1], y = nearest_hex_found[2], terrain = wesnoth.get_terrain( nearest_hex_found[1], nearest_hex_found[2] ) }
 	else wesnoth.message( "WML", "No suitable location found by [nearest_hex]" )
 	end
 end
@@ -242,7 +242,7 @@ function wesnoth.wml_actions.get_unit_defense(cfg)
 		local terrain = wesnoth.get_terrain ( unit.x, unit.y )
 		-- it is WML defense: the lower, the better. Converted to normal defense with 100 -
 		local defense = 100 - wesnoth.unit_defense ( unit, terrain )
-		wesnoth.set_variable ( string.format ( "%s[%d]", variable, index - 1 ), { id = unit.id, x = unit.x, y = unit.y, terrain = terrain, defense = defense } )
+		wml.variables[string.format("%s[%d]", variable, index - 1)] = { id = unit.id, x = unit.x, y = unit.y, terrain = terrain, defense = defense }
 	end
 end
 
@@ -433,13 +433,13 @@ function wml_actions.absolute_value(cfg)
 	local variable = cfg.variable or
 		helper.wml_error "[absolute_value] missing required variable= attribute"
 
-	local variable_value = wesnoth.get_variable(variable)
+	local variable_value = wml.variables[variable]
 	local result = math.abs(variable_value)
 
 	if cfg.result_variable == nil then
-		wesnoth.set_variable(variable, result)
+		wml.variables[variable] = result
 	else
-		wesnoth.set_variable(cfg.result_variable, result)
+		wml.variables[cfg.result_variable] = result
 	end
 end
 
@@ -460,7 +460,7 @@ function wml_actions.get_numerical_minimum(cfg)
 	end
 
 	-- what's the lowest value? Convert the args table to a series of arguments and feed them to math.min
-	wesnoth.set_variable( result_variable, math.min( table.unpack( args ) ) )
+	wml.variables[result_variable] = math.min(table.unpack(args))
 end
 
 function wml_actions.get_numerical_maximum(cfg)
@@ -480,7 +480,7 @@ function wml_actions.get_numerical_maximum(cfg)
 	end
 
 	-- what's the highest value? Convert the args table to a series of arguments and feed them to math.max
-	wesnoth.set_variable( result_variable, math.max( table.unpack( args ) ) )
+	wml.variables[result_variable] = math.max(table.unpack(args))
 end
 
 function wml_actions.get_percentage(cfg)
@@ -492,7 +492,7 @@ function wml_actions.get_percentage(cfg)
 		helper.wml_error "[get_percentage] missing required variable= attribute"
 
 	local result = (value * percentage) / 100
-	wesnoth.set_variable(variable, result)
+	wml.variables[variable] = result
 end
 
 function wml_actions.get_ratio_as_percentage(cfg)
@@ -504,7 +504,7 @@ function wml_actions.get_ratio_as_percentage(cfg)
 		helper.wml_error "[get_ratio_as_percentage] missing required variable= attribute"
 
 	local result = (100 * numerator) / denominator
-	wesnoth.set_variable(variable, result)
+	wml.variables[variable] = result
 end
 
 -- [unknown_message], by Espreon, with modifications by Elvish_Hunter
@@ -548,7 +548,7 @@ function wml_actions.get_movement_type(cfg)
 	local unit = wesnoth.get_units(cfg)[1] or helper.wml_error "[get_movement_type] filter didn't match any unit"
 	local unit_type = wesnoth.unit_types[unit.type]
 	local variable = cfg.variable or "movement_type"
-	wesnoth.set_variable( variable, unit_type.__cfg.movement_type )
+	wml.variables[variable] = unit_type.__cfg.movement_type
 end
 
 -- [reverse_value]: reverses the content of a variable. Usage:
@@ -559,12 +559,12 @@ end
 function wml_actions.reverse_value( cfg )
 	local variable = cfg.variable or helper.wml_error( "[reverse_value] missing required variable= attribute" )
 	local result_variable = cfg.result_variable or cfg.variable -- if there is a result_variable= the original variable won't be overwritten
-	local temp_value = wesnoth.get_variable( variable )
+	local temp_value = wml.variables[variable]
 	local type_value = type( temp_value )
 	if type_value == "string" or type_value == "number" then
-		wesnoth.set_variable( result_variable, string.reverse( temp_value ) )
+		wml.variables[result_variable] = string.reverse(temp_value)
 	elseif type_value == "userdata" then -- handle translatable strings, or at least try to
-		wesnoth.set_variable( result_variable, string.reverse( tostring ( temp_value ) ) )
+		wml.variables[result_variable] = string.reverse(tostring(temp_value))
 	else helper.wml_error( "Invalid value in [reverse_value] tag" )
 	end
 end
@@ -602,7 +602,7 @@ function wml_actions.random_number( cfg )
     		return { value = math.random( lowest, highest ) }
 	end)
 
-	wesnoth.set_variable( variable, result.value )
+	wml.variables[variable] = result.value
 end
 
 function wml_actions.get_recruit_list( cfg )
@@ -643,11 +643,11 @@ function wml_actions.get_recruit_list( cfg )
 			end
 		end
 
-		wesnoth.set_variable( string.format( "%s[%d]", variable, index - 1 ), { side = side.side,
+		wml.variables[string.format("%s[%d]", variable, index - 1)] = { side = side.side,
 											team_name = side.team_name,
 											user_team_name = side.user_team_name,
 											name = side.side_name,
-											recruit_list = table.concat( recruit_list, "," ) } )
+											recruit_list = table.concat( recruit_list, "," ) }
 	end
 end
 

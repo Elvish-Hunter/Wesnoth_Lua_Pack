@@ -151,8 +151,8 @@ function utils.get_text_input(attr, options)
 	ti["variable"]="LUA_text_input"
 	table.insert(msg, { "text_input", ti })
 	wesnoth.wml_actions.message(msg)
-	local result = wesnoth.get_variable("LUA_text_input")
-	wesnoth.set_variable("LUA_text_input")
+	local result = wml.variables["LUA_text_input"]
+	wml.variables["LUA_text_input"] = nil
 	return result
 end
 

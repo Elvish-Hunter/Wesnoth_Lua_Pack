@@ -208,15 +208,15 @@ function debug_utils.set_inspect()
 	wesnoth.wml_actions.message({ speaker = "narrator", message = "Before which action tag ? Type the name. Example: \"unstore_unit\" (without the \"\")", image = "wesnoth-icon.png",
 	{"text_input", { variable = "LUA_inspect_tag_name", text = "message" }},
 	})
-	local tag = tostring(wesnoth.get_variable("LUA_inspect_tag_name"))
-	wesnoth.set_variable("LUA_inspect_tag_name")
+	local tag = tostring(wml.variables["LUA_inspect_tag_name"])
+	wml.variables["LUA_inspect_tag_name"] = nil
 	if not wesnoth.wml_actions[tag] then error(string.format("not a valid tag name: %s", tag)) end
 
 	wesnoth.wml_actions.message({ speaker = "narrator", message = "Condition ? Example: \"$|turn_number == 2 and $|side_number == 3\" (without the \"\"):", image = "wesnoth-icon.png",
 	{"text_input", { variable = "LUA_inspect_condition", text = "true" }},
 	})
-	local condition_userdata = wesnoth.tovconfig({ condition_string = wesnoth.get_variable("LUA_inspect_condition") })
-	wesnoth.set_variable("LUA_inspect_condition")
+	local condition_userdata = wesnoth.tovconfig({ condition_string = wml.variables["LUA_inspect_condition"] })
+	wml.variables["LUA_inspect_condition"] = nil
 
 	local function show_inspect()
 		local condition_string = tostring((condition_userdata).condition_string)

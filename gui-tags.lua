@@ -1085,7 +1085,7 @@ function wml_actions.show_quick_debug ( cfg )
 			elseif lua_dialog_unit.experience >= lua_dialog_unit.max_experience then
 				wml_actions.store_unit { { "filter", { id = lua_dialog_unit.id } }, variable = "Lua_store_unit", kill = true }
 				wml_actions.unstore_unit { variable = "Lua_store_unit", find_vacant = false, advance = true, fire_event = true }
-				wesnoth.set_variable ( "Lua_store_unit")
+				wml.variables["Lua_store_unit"] = nil
 			end
 			-- finally, redraw to be sure of showing changes
 			wml_actions.redraw {}
@@ -2207,8 +2207,8 @@ function wml_actions.item_dialog( cfg )
 
 	local return_table = wesnoth.synchronize_choice(sync)
 	if return_table.return_value == 1 or return_table.return_value == -1 then
-		wesnoth.set_variable ( cfg.variable or "item_picked", "yes" )
-	else wesnoth.set_variable ( cfg.variable or "item_picked", "no" )
+		wml.variables[cfg.variable or "item_picked"] = "yes"
+	else wml.variables[cfg.variable or "item_picked"] = "no"
 	end
 end
 
@@ -2338,9 +2338,9 @@ function wml_actions.prompt( cfg )
 	local return_value = return_table.return_value
 
 	if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter
-		wesnoth.set_variable ( variable, return_table.input )
+		wml.variables[variable] = return_table.input
 	elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc
-		wesnoth.set_variable ( variable, "null" ) -- any better choice?
+		wml.variables[variable] = "null" -- any better choice?
 	else helper.wml_error( ( tostring( _"Prompt" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
 end
 
@@ -2507,8 +2507,8 @@ function wml_actions.choice_box( cfg )
 	local return_value = return_table.return_value
 
 	if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter
-		wesnoth.set_variable ( variable, return_table.choice )
+		wml.variables[variable] = return_table.choice
 	elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc
-		wesnoth.set_variable ( variable, "null" ) -- any better choice?
+		wml.variables[variable] = "null" -- any better choice?
 	else helper.wml_error( ( tostring( _"Choice box" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
 end

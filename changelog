@@ -7,6 +7,8 @@ Version 1.8.0+git:
        * wesnoth.game_config.version -> wesnoth.current_version()
        * wesnoth.compare_version() -> wesnoth.version() and comparison operators
        * wesnoth.get_sides() -> wesnoth.sides.find()
+       * wesnoth.set_variable() -> wml.variables[]
+       * wesnoth.get_variable() -> wml.variables[]
    * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:
