@@ -122,7 +122,7 @@ function wml_actions.save_map(cfg)
 		local row = {}
 
 		for x = 1 - border, width + border do
-			row[ x + border ] = wesnoth.get_terrain ( x, y )
+			row[ x + border ] = wesnoth.current.map[{x, y}]
 		end
 
 		t[ y + border ] = table.concat ( row, ', ' )
@@ -209,7 +209,7 @@ function wml_actions.nearest_hex(cfg)
 	end
 
 	if nearest_hex_found then
-		wml.variables[variable] = { x = nearest_hex_found[1], y = nearest_hex_found[2], terrain = wesnoth.get_terrain( nearest_hex_found[1], nearest_hex_found[2] ) }
+		wml.variables[variable] = { x = nearest_hex_found[1], y = nearest_hex_found[2], terrain = wesnoth.current.map[{nearest_hex_found[1], nearest_hex_found[2]}] }
 	else wesnoth.message( "WML", "No suitable location found by [nearest_hex]" )
 	end
 end
@@ -243,7 +243,7 @@ function wesnoth.wml_actions.get_unit_defense(cfg)
 	local variable = cfg.variable or "defense"
 
 	for index, unit in ipairs(filter) do
-		local terrain = wesnoth.get_terrain ( unit.x, unit.y )
+		local terrain = wesnoth.current.map[{unit.x, unit.y}]
 		-- it is WML defense: the lower, the better. Converted to normal defense with 100 -
 		local defense = 100 - wesnoth.unit_defense ( unit, terrain )
 		wml.variables[string.format("%s[%d]", variable, index - 1)] = { id = unit.id, x = unit.x, y = unit.y, terrain = terrain, defense = defense }
