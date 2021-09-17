@@ -133,7 +133,7 @@ end
 
 function wml_actions.load_map(cfg)
 	local variable = cfg.variable or helper.wml_error "[load_map] missing required variable= attribute"
-	wml_actions.replace_map { map = wml.variables[variable], expand = true, shrink = true }
+	wml_actions.replace_map { map_data = wml.variables[variable], expand = true, shrink = true }
 end
 
 --! [narrate]
