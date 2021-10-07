@@ -245,7 +245,7 @@ function wesnoth.wml_actions.get_unit_defense(cfg)
 	for index, unit in ipairs(filter) do
 		local terrain = wesnoth.current.map[{unit.x, unit.y}]
 		-- it is WML defense: the lower, the better. Converted to normal defense with 100 -
-		local defense = 100 - wesnoth.unit_defense ( unit, terrain )
+		local defense = 100 - wesnoth.units.chance_to_be_hit ( unit, terrain )
 		wml.variables[string.format("%s[%d]", variable, index - 1)] = { id = unit.id, x = unit.x, y = unit.y, terrain = terrain, defense = defense }
 	end
 end
