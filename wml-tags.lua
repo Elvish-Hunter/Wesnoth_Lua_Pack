@@ -35,8 +35,8 @@ wesnoth.dofile '~add-ons/Wesnoth_Lua_Pack/gui-tags.lua'
 -- [/store_shroud]
 
 function wml_actions.store_shroud(cfg)
-	local side = wesnoth.sides.find( cfg )[1] or helper.wml_error("No matching side found in [store_shroud]")
-	local variable = cfg.variable or helper.wml_error("Missing required variable= attribute in [store_shroud].")
+	local side = wesnoth.sides.find( cfg )[1] or wml.error("No matching side found in [store_shroud]")
+	local variable = cfg.variable or wml.error("Missing required variable= attribute in [store_shroud].")
 	local current_shroud = side.__cfg.shroud_data
 	wml.variables[variable] = current_shroud
 end
@@ -52,13 +52,13 @@ end
 -- [/set_shroud]
 
 function wml_actions.set_shroud(cfg)
-	local side = wesnoth.sides.find( cfg )[1] or helper.wml_error("No matching side found in [set_shroud]")
-	local shroud_data = cfg.shroud_data or helper.wml_error("Missing required shroud_data= attribute in [set_shroud]")
+	local side = wesnoth.sides.find( cfg )[1] or wml.error("No matching side found in [set_shroud]")
+	local shroud_data = cfg.shroud_data or wml.error("Missing required shroud_data= attribute in [set_shroud]")
 
-	if shroud_data == nil then helper.wml_error("[set_shroud] was passed an empty shroud string")
+	if shroud_data == nil then wml.error("[set_shroud] was passed an empty shroud string")
         -- shroud data can contain only pipes, 0, 1 and newlines
 	elseif string.sub(shroud_data,1,1) ~= "|" or string.match(shroud_data,"[^|01\n]") then
-		helper.wml_error("[set_shroud] was passed an invalid shroud string")
+		wml.error("[set_shroud] was passed an invalid shroud string")
 	else
 		-- yes, I prefer long variable names. I think that they make the code more understandable. E_H.
 		local width = wesnoth.current.map.playable_width
@@ -112,7 +112,7 @@ end
 -- [/load_map]
 
 function wml_actions.save_map(cfg)
-	local variable = cfg.variable or helper.wml_error "[save_map] missing required variable= attribute"
+	local variable = cfg.variable or wml.error "[save_map] missing required variable= attribute"
 	local width = wesnoth.current.map.playable_width
 	local height = wesnoth.current.map.playable_height
 	local border = wesnoth.current.map.border_size
@@ -132,7 +132,7 @@ function wml_actions.save_map(cfg)
 end
 
 function wml_actions.load_map(cfg)
-	local variable = cfg.variable or helper.wml_error "[load_map] missing required variable= attribute"
+	local variable = cfg.variable or wml.error "[load_map] missing required variable= attribute"
 	wml_actions.replace_map { map_data = wml.variables[variable], expand = true, shrink = true }
 end
 
@@ -157,15 +157,15 @@ local function flash(red,green,blue)
 end
 
 function wml_actions.flash_color(cfg)
-	local red = tonumber(cfg.red) or helper.wml_error("[flash_color] is missing required red= attribute")
-	local green = tonumber(cfg.green) or helper.wml_error("[flash_color] is missing required green= attribute")
-	local blue = tonumber(cfg.blue) or helper.wml_error("[flash_color] is missing required blue= attribute")
+	local red = tonumber(cfg.red) or wml.error("[flash_color] is missing required red= attribute")
+	local green = tonumber(cfg.green) or wml.error("[flash_color] is missing required green= attribute")
+	local blue = tonumber(cfg.blue) or wml.error("[flash_color] is missing required blue= attribute")
 
 	flash( red, green, blue )
 end
 
 function wml_actions.flash_screen(cfg)
-	local color = cfg.color or helper.wml_error("[flash_screen] is missing required color= attribute")
+	local color = cfg.color or wml.error("[flash_screen] is missing required color= attribute")
 	if color == "white" then
 		flash( 100, 100, 100 )
 	elseif color == "red" then
@@ -187,14 +187,14 @@ function wml_actions.flash_screen(cfg)
 	elseif color == "black" then
 		flash( -100, -100, -100 )
 	else
-		helper.wml_error("Unsupported color in [flash_screen]")
+		wml.error("Unsupported color in [flash_screen]")
 	end
 end
 
 function wml_actions.nearest_hex(cfg)
-	local starting_x = tonumber(cfg.starting_x) or helper.wml_error("Missing required starting_x in [nearest_hex]")
-	local starting_y = tonumber(cfg.starting_y) or helper.wml_error("Missing required starting_y in [nearest_hex]")
-	local filter = (wml.get_child(cfg, "filter_location")) or helper.wml_error("Missing required [filter_location] in [nearest_hex]")
+	local starting_x = tonumber(cfg.starting_x) or wml.error("Missing required starting_x in [nearest_hex]")
+	local starting_y = tonumber(cfg.starting_y) or wml.error("Missing required starting_y in [nearest_hex]")
+	local filter = (wml.get_child(cfg, "filter_location")) or wml.error("Missing required [filter_location] in [nearest_hex]")
 	local variable = cfg.variable or "nearest_hex" -- default
 
 	local current_distance = math.huge -- feed it the biggest value possible
@@ -215,9 +215,9 @@ function wml_actions.nearest_hex(cfg)
 end
 
 function wml_actions.nearest_unit(cfg)
-	local starting_x = tonumber(cfg.starting_x) or helper.wml_error("Missing required starting_x in [nearest_unit]")
-	local starting_y = tonumber(cfg.starting_y) or helper.wml_error("Missing required starting_y in [nearest_unit]")
-	local filter = (wml.get_child(cfg, "filter")) or helper.wml_error("Missing required [filter] in [nearest_unit]")
+	local starting_x = tonumber(cfg.starting_x) or wml.error("Missing required starting_x in [nearest_unit]")
+	local starting_y = tonumber(cfg.starting_y) or wml.error("Missing required starting_y in [nearest_unit]")
+	local filter = (wml.get_child(cfg, "filter")) or wml.error("Missing required [filter] in [nearest_unit]")
 	local variable = cfg.variable or "nearest_unit" -- default
 
 	local current_distance = math.huge -- feed it the biggest value possible
@@ -306,7 +306,7 @@ function wml_actions.fade_to_black(cfg) -- replaces FADE_TO_BLACK macro
 end
 
 function wml_actions.fade_to_black_hold(cfg) -- replaces FADE_TO_BLACK_HOLD macro
-	local delay = tonumber( cfg.delay ) or helper.wml_error( "Missing delay= in [fade_to_black_hold]" )
+	local delay = tonumber( cfg.delay ) or wml.error( "Missing delay= in [fade_to_black_hold]" )
 	local interval = tonumber( cfg.interval or 5 )
 
 	for value = -32, -192, -32 do
@@ -332,7 +332,7 @@ function wml_actions.fade_to_white(cfg) -- similar to a theoretical FADE_TO_WHIT
 end
 
 function wml_actions.fade_to_white_hold(cfg) -- like a FADE_TO_WHITE_HOLD macro
-	local delay = tonumber( cfg.delay ) or helper.wml_error( "Missing delay= in [fade_to_black_hold]" )
+	local delay = tonumber( cfg.delay ) or wml.error( "Missing delay= in [fade_to_black_hold]" )
 	local interval = tonumber( cfg.interval or 5 )
 
 	for value = 32, 192, 32 do
@@ -351,9 +351,9 @@ function wml_actions.fade_in_from_white(cfg) -- use after [fade_to_white] or [fa
 end
 
 function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
-	local locations = wesnoth.map.find( wml.get_child( cfg, "filter_location" ) ) or helper.wml_error( "Missing required [filter_location] in [scatter_units]" )
-	local unit_string = cfg.unit_types or helper.wml_error( "Missing required unit_types= in [scatter_units]" )
-	local units = tonumber( cfg.units ) or helper.wml_error( "Missing or wrong required units= in [scatter_units]" )
+	local locations = wesnoth.map.find( wml.get_child( cfg, "filter_location" ) ) or wml.error( "Missing required [filter_location] in [scatter_units]" )
+	local unit_string = cfg.unit_types or wml.error( "Missing required unit_types= in [scatter_units]" )
+	local units = tonumber( cfg.units ) or wml.error( "Missing or wrong required units= in [scatter_units]" )
 	local scatter_radius =  tonumber( cfg.scatter_radius ) -- not mandatory, if nil cycle will be jumped
 	local unit_table = wml.parsed( wml.get_child( cfg, "wml" ) ) or {} -- initialize as empty table, just in need
 
@@ -435,7 +435,7 @@ end
 function wml_actions.absolute_value(cfg)
 	wesnoth.deprecated_message('[absolute_value]', 1, '1.0', 'Use [set_variable]abs=yes instead')
 	local variable = cfg.variable or
-		helper.wml_error "[absolute_value] missing required variable= attribute"
+		wml.error "[absolute_value] missing required variable= attribute"
 
 	local variable_value = wml.variables[variable]
 	local result = math.abs(variable_value)
@@ -450,11 +450,11 @@ end
 function wml_actions.get_numerical_minimum(cfg)
 	wesnoth.deprecated_message('[get_numerical_minimum]', 1, '1.0', 'Use [set_variable] min= instead')
 	-- notify users of the change
-	if cfg.first_value then	helper.wml_error "first_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
-	if cfg.other_value then	helper.wml_error "other_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
+	if cfg.first_value then	wml.error "first_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
+	if cfg.other_value then	wml.error "other_value= attribute is no longer supported in [get_numerical_minimum], use values= instead" end
 	-- values is a comma separated list
-	local values = cfg.values or helper.wml_error "[get_numerical_minimum] missing required value= attribute"
-	local result_variable = cfg.result_variable or helper.wml_error "[get_numerical_minimum] missing required result_variable= attribute"
+	local values = cfg.values or wml.error "[get_numerical_minimum] missing required value= attribute"
+	local result_variable = cfg.result_variable or wml.error "[get_numerical_minimum] missing required result_variable= attribute"
 	
 	-- set an empty table
 	local args = { }
@@ -471,11 +471,11 @@ end
 function wml_actions.get_numerical_maximum(cfg)
 	wesnoth.deprecated_message('[get_numerical_maximum]', 1, '1.0', 'Use [set_variable] max= instead')
 	-- notify users of the change
-	if cfg.first_value then	helper.wml_error "first_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
-	if cfg.other_value then	helper.wml_error "other_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
+	if cfg.first_value then	wml.error "first_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
+	if cfg.other_value then	wml.error "other_value= attribute is no longer supported in [get_numerical_maximum], use values= instead" end
 	-- values is a comma separated list
-	local values = cfg.values or helper.wml_error "[get_numerical_maximum] missing required value= attribute"
-	local result_variable = cfg.result_variable or helper.wml_error "[get_numerical_maximum] missing required result_variable= attribute"
+	local values = cfg.values or wml.error "[get_numerical_maximum] missing required value= attribute"
+	local result_variable = cfg.result_variable or wml.error "[get_numerical_maximum] missing required result_variable= attribute"
 	
 	-- set an empty table
 	local args = { }
@@ -491,11 +491,11 @@ end
 
 function wml_actions.get_percentage(cfg)
 	local value = cfg.value or
-		helper.wml_error "[get_percentage] missing required value= attribute"
+		wml.error "[get_percentage] missing required value= attribute"
 	local percentage = cfg.percentage or
-		helper.wml_error "[get_percentage] missing required percentage= attribute"
+		wml.error "[get_percentage] missing required percentage= attribute"
 	local variable = cfg.variable or
-		helper.wml_error "[get_percentage] missing required variable= attribute"
+		wml.error "[get_percentage] missing required variable= attribute"
 
 	local result = (value * percentage) / 100
 	wml.variables[variable] = result
@@ -503,11 +503,11 @@ end
 
 function wml_actions.get_ratio_as_percentage(cfg)
 	local numerator = cfg.numerator or
-		helper.wml_error "[get_ratio_as_percentage] missing required numerator= attribute"
+		wml.error "[get_ratio_as_percentage] missing required numerator= attribute"
 	local denominator = cfg.denominator or
-		helper.wml_error "[get_ratio_as_percentage] missing required denominator= attribute"
+		wml.error "[get_ratio_as_percentage] missing required denominator= attribute"
 	local variable = cfg.variable or
-		helper.wml_error "[get_ratio_as_percentage] missing required variable= attribute"
+		wml.error "[get_ratio_as_percentage] missing required variable= attribute"
 
 	local result = (100 * numerator) / denominator
 	wml.variables[variable] = result
@@ -523,7 +523,7 @@ end
 [/unknown_message] ]]
 function wml_actions.unknown_message(cfg)
 	local message = cfg.message or
-		helper.wml_error "[unknown_message] missing required message= attribute"
+		wml.error "[unknown_message] missing required message= attribute"
 	local image
 
 	if type(cfg.color) == "string" then
@@ -551,7 +551,7 @@ variable=variable_name
 [/get_movement_type]
 Stores the unit's movement type in the given variable. ]]
 function wml_actions.get_movement_type(cfg)
-	local unit = wesnoth.units.find_on_map(cfg)[1] or helper.wml_error "[get_movement_type] filter didn't match any unit"
+	local unit = wesnoth.units.find_on_map(cfg)[1] or wml.error "[get_movement_type] filter didn't match any unit"
 	local unit_type = wesnoth.unit_types[unit.type]
 	local variable = cfg.variable or "movement_type"
 	wml.variables[variable] = unit_type.__cfg.movement_type
@@ -564,7 +564,7 @@ end
 --	[/reverse_value]
 function wml_actions.reverse_value( cfg )
 	wesnoth.deprecated_message('[reverse_value]', 1, '1.0', 'Use [set_variable] reverse=yes instead')
-	local variable = cfg.variable or helper.wml_error( "[reverse_value] missing required variable= attribute" )
+	local variable = cfg.variable or wml.error( "[reverse_value] missing required variable= attribute" )
 	local result_variable = cfg.result_variable or cfg.variable -- if there is a result_variable= the original variable won't be overwritten
 	local temp_value = wml.variables[variable]
 	local type_value = type( temp_value )
@@ -572,7 +572,7 @@ function wml_actions.reverse_value( cfg )
 		wml.variables[result_variable] = string.reverse(temp_value)
 	elseif type_value == "userdata" then -- handle translatable strings, or at least try to
 		wml.variables[result_variable] = string.reverse(tostring(temp_value))
-	else helper.wml_error( "Invalid value in [reverse_value] tag" )
+	else wml.error( "Invalid value in [reverse_value] tag" )
 	end
 end
 
@@ -594,14 +594,14 @@ function wml_actions.whisper( cfg )
 end
 
 --[[function wml_actions.random_seed( cfg )
-	local seed = tonumber( cfg.seed ) or helper.wml_error( "Missing or wrong seed= attribute in [random_seed]" )
+	local seed = tonumber( cfg.seed ) or wml.error( "Missing or wrong seed= attribute in [random_seed]" )
 	math.randomseed( seed )
 end]]
 
 function wml_actions.random_number( cfg )
 	wesnoth.deprecated_message('[random_number]', 1, '1.0', 'Use [set_variable]rand=a..b instead')
-	local lowest = tonumber( cfg.lowest ) or helper.wml_error( "Missing or wrong lowest= attribute in [random_number]" )
-	local highest = tonumber( cfg.highest ) or helper.wml_error( "Missing or wrong highest= attribute in [random_number]" )
+	local lowest = tonumber( cfg.lowest ) or wml.error( "Missing or wrong lowest= attribute in [random_number]" )
+	local highest = tonumber( cfg.highest ) or wml.error( "Missing or wrong highest= attribute in [random_number]" )
 	local variable = cfg.variable or "random"
 
 	-- does not work in start event
@@ -625,7 +625,7 @@ function wml_actions.get_recruit_list( cfg )
 		return false
 	end
 
-	local filter_side = wml.get_child( cfg, "filter_side" ) or helper.wml_error( "Missing [filter_side] in [get_recruit_list]" )
+	local filter_side = wml.get_child( cfg, "filter_side" ) or wml.error( "Missing [filter_side] in [get_recruit_list]" )
 	local filter = wml.get_child( cfg, "filter" )
 	local variable = cfg.variable or "recruit_list"
 
@@ -677,7 +677,7 @@ end
 -- StandardSideFilter
 -- amount, raises error if not number
 function wml_actions.loot( cfg )
-	local gold_amount = tonumber( cfg.amount ) or helper.wml_error( "Missing or wrong amount= value in [loot]" )
+	local gold_amount = tonumber( cfg.amount ) or wml.error( "Missing or wrong amount= value in [loot]" )
 	local sides = wesnoth.sides.find( cfg )
 	for index, side in ipairs( sides ) do
 		wml_actions.message {

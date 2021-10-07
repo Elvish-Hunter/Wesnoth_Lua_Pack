@@ -2193,8 +2193,8 @@ function wml_actions.item_dialog( cfg )
 		wesnoth.set_dialog_value ( cfg.image or "", "image_name" )
 		wesnoth.set_dialog_value ( cfg.description or "", "item_description" )
 		wesnoth.set_dialog_value ( cfg.effect or "", "item_effect" )
-		wesnoth.set_dialog_value ( cfg.take_string or helper.wml_error( "Missing take_string= key in [item_dialog]" ), "take_button" )
-		wesnoth.set_dialog_value ( cfg.leave_string or helper.wml_error( "Missing leave_string= key in [item_dialog]" ), "leave_button" )
+		wesnoth.set_dialog_value ( cfg.take_string or wml.error( "Missing take_string= key in [item_dialog]" ), "take_button" )
+		wesnoth.set_dialog_value ( cfg.leave_string or wml.error( "Missing leave_string= key in [item_dialog]" ), "leave_button" )
 	end
 
 	local function sync()
@@ -2224,7 +2224,7 @@ function wml_actions.alert( cfg )
 end
 
 function wml_actions.confirm( cfg )
-	local variable = cfg.variable or helper.wml_error( "Missing variable= key in [confirm]" )
+	local variable = cfg.variable or wml.error( "Missing variable= key in [confirm]" )
 
 	local function sync()
 		if cfg.title then
@@ -2239,7 +2239,7 @@ function wml_actions.confirm( cfg )
 end
 
 function wml_actions.prompt( cfg )
-	local variable = cfg.variable or helper.wml_error( "Missing variable= key in [prompt]" )
+	local variable = cfg.variable or wml.error( "Missing variable= key in [prompt]" )
 
 	local buttonbox = T.grid {
 				T.row {
@@ -2343,11 +2343,11 @@ function wml_actions.prompt( cfg )
 		wml.variables[variable] = return_table.input
 	elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc
 		wml.variables[variable] = "null" -- any better choice?
-	else helper.wml_error( ( tostring( _"Prompt" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
+	else wml.error( ( tostring( _"Prompt" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
 end
 
 function wml_actions.choice_box( cfg )
-	local variable = cfg.variable or helper.wml_error( "Missing variable= key in [choice_box]" )
+	local variable = cfg.variable or wml.error( "Missing variable= key in [choice_box]" )
 	local choice_values = {} -- it will be populated by preshow, and supply values to postshow
 
 	local buttonbox = T.grid {
@@ -2512,5 +2512,5 @@ function wml_actions.choice_box( cfg )
 		wml.variables[variable] = return_table.choice
 	elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc
 		wml.variables[variable] = "null" -- any better choice?
-	else helper.wml_error( ( tostring( _"Choice box" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
+	else wml.error( ( tostring( _"Choice box" ) .. ": " .. tostring( _"Error, return value :" ) .. tostring( return_value ) ) ) end -- any unhandled case is handled here
 end
