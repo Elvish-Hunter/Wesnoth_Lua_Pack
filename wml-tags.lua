@@ -293,7 +293,7 @@ end
 
 local function fade( value, delay ) -- equivalent to FADE_STEP WML macro
 	wml_actions.color_adjust { red = value, green = value, blue = value }
-	wesnoth.delay( delay )
+	wesnoth.interface.delay( delay )
 	wml_actions.redraw {}
 end
 
@@ -666,7 +666,7 @@ function wml_actions.earthquake( cfg )
 		wesnoth.play_sound( "rumble.ogg" )
 		for i, v in ipairs( coordinates ) do
 			wesnoth.scroll( v[1], v[2] )
-			wesnoth.delay( delay )
+			wesnoth.interface.delay( delay )
 		end
 		counter = counter - 1
 	until counter <= 0

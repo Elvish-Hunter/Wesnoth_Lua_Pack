@@ -1080,7 +1080,7 @@ function wml_actions.show_quick_debug ( cfg )
 			lua_dialog_unit.resting = temp_table.resting
 			lua_dialog_unit.hidden = temp_table.hidden
 			-- for some reason, without this delay the death animation isn't played
-			wesnoth.delay(1)
+			wesnoth.interface.delay(1)
 			-- fire events if needed
 			if lua_dialog_unit.hitpoints <= 0 then -- do not try to advance a dead unit
 				wml_actions.kill( { id = lua_dialog_unit.id, animate = true, fire_event = true } )

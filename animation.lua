@@ -523,7 +523,7 @@ function wesnoth.wml_actions.animate_path(cfg)
 				y = animation[j].target_hex_y,
 				halo = animation[j].image_name})
 		end
-		wesnoth.delay(delay)
+		wesnoth.interface.delay(delay)
 		for j = 1, num_animations do
 			wesnoth.remove_tile_overlay(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
 		end
