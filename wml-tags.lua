@@ -258,9 +258,9 @@ function wml_actions.slow(cfg)
 		if unit.valid and not unit.status.slowed then
 			unit.status.slowed = true
 			if unit.__cfg.gender == "female" then
-				wesnoth.float_label( unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"female^slowed" ) ) )
+				wesnoth.interface.float_label( unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"female^slowed" ) ) )
 			else
-				wesnoth.float_label( unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"slowed" ) ) )
+				wesnoth.interface.float_label( unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"slowed" ) ) )
 			end
 		end
 	end
@@ -271,9 +271,9 @@ function wml_actions.poison(cfg)
 		if unit.valid and not unit.status.poisoned and not unit.status.not_living then
 			unit.status.poisoned = true
 			if unit.__cfg.gender == "female" then
-				wesnoth.float_label(unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"female^poisoned" ) ) )
+				wesnoth.interface.float_label(unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"female^poisoned" ) ) )
 			else
-				wesnoth.float_label(unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"poisoned" ) ) )
+				wesnoth.interface.float_label(unit.x, unit.y, string.format("<span color='red'>%s</span>", tostring( _"poisoned" ) ) )
 			end
 		end
 	end

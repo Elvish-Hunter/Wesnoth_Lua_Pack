@@ -18,6 +18,7 @@ Version 1.8.0+git:
        * wesnoth.get_locations() -> wesnoth.map.find()
        * wesnoth.get_units() -> wesnoth.units.find_on_map()
        * wesnoth.unit_defense() -> wesnoth.units.chance_to_be_hit()
+       * wesnoth.float_label() -> wesnoth.interface.float_label()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14
