@@ -200,7 +200,7 @@ function wml_actions.nearest_hex(cfg)
 	local current_distance = math.huge -- feed it the biggest value possible
 	local nearest_hex_found
 
-	for index,location in ipairs(wesnoth.get_locations(filter)) do
+	for index,location in ipairs(wesnoth.map.find(filter)) do
 		local distance = wesnoth.map.distance_between( starting_x, starting_y, location[1], location[2] )
 		if distance < current_distance then
 			current_distance = distance
@@ -351,7 +351,7 @@ function wml_actions.fade_in_from_white(cfg) -- use after [fade_to_white] or [fa
 end
 
 function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
-	local locations = wesnoth.get_locations( wml.get_child( cfg, "filter_location" ) ) or helper.wml_error( "Missing required [filter_location] in [scatter_units]" )
+	local locations = wesnoth.map.find( wml.get_child( cfg, "filter_location" ) ) or helper.wml_error( "Missing required [filter_location] in [scatter_units]" )
 	local unit_string = cfg.unit_types or helper.wml_error( "Missing required unit_types= in [scatter_units]" )
 	local units = tonumber( cfg.units ) or helper.wml_error( "Missing or wrong required units= in [scatter_units]" )
 	local scatter_radius =  tonumber( cfg.scatter_radius ) -- not mandatory, if nil cycle will be jumped
