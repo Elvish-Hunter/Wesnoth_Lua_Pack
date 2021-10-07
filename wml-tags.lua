@@ -194,7 +194,7 @@ end
 function wml_actions.nearest_hex(cfg)
 	local starting_x = tonumber(cfg.starting_x) or helper.wml_error("Missing required starting_x in [nearest_hex]")
 	local starting_y = tonumber(cfg.starting_y) or helper.wml_error("Missing required starting_y in [nearest_hex]")
-	local filter = (helper.get_child(cfg, "filter_location")) or helper.wml_error("Missing required [filter_location] in [nearest_hex]")
+	local filter = (wml.get_child(cfg, "filter_location")) or helper.wml_error("Missing required [filter_location] in [nearest_hex]")
 	local variable = cfg.variable or "nearest_hex" -- default
 
 	local current_distance = math.huge -- feed it the biggest value possible
@@ -217,7 +217,7 @@ end
 function wml_actions.nearest_unit(cfg)
 	local starting_x = tonumber(cfg.starting_x) or helper.wml_error("Missing required starting_x in [nearest_unit]")
 	local starting_y = tonumber(cfg.starting_y) or helper.wml_error("Missing required starting_y in [nearest_unit]")
-	local filter = (helper.get_child(cfg, "filter")) or helper.wml_error("Missing required [filter] in [nearest_unit]")
+	local filter = (wml.get_child(cfg, "filter")) or helper.wml_error("Missing required [filter] in [nearest_unit]")
 	local variable = cfg.variable or "nearest_unit" -- default
 
 	local current_distance = math.huge -- feed it the biggest value possible
