@@ -223,7 +223,7 @@ function wml_actions.nearest_unit(cfg)
 	local current_distance = math.huge -- feed it the biggest value possible
 	local nearest_unit_found
 
-	for index,unit in ipairs(wesnoth.get_units(filter)) do
+	for index,unit in ipairs(wesnoth.units.find_on_map(filter)) do
 		local distance = wesnoth.map.distance_between( starting_x, starting_y, unit.x, unit.y )
 		if distance < current_distance then
 			current_distance = distance
@@ -239,7 +239,7 @@ end
 
 -- to store unit defense
 function wesnoth.wml_actions.get_unit_defense(cfg)
-	local filter = wesnoth.get_units(cfg)
+	local filter = wesnoth.units.find_on_map(cfg)
 	local variable = cfg.variable or "defense"
 
 	for index, unit in ipairs(filter) do
@@ -254,7 +254,7 @@ local _ = wesnoth.textdomain "wesnoth"
 -- #textdomain wesnoth
 
 function wml_actions.slow(cfg)
-	for index, unit in ipairs(wesnoth.get_units(cfg)) do
+	for index, unit in ipairs(wesnoth.units.find_on_map(cfg)) do
 		if unit.valid and not unit.status.slowed then
 			unit.status.slowed = true
 			if unit.__cfg.gender == "female" then
@@ -267,7 +267,7 @@ function wml_actions.slow(cfg)
 end
 
 function wml_actions.poison(cfg)
-	for index, unit in ipairs(wesnoth.get_units(cfg)) do
+	for index, unit in ipairs(wesnoth.units.find_on_map(cfg)) do
 		if unit.valid and not unit.status.poisoned and not unit.status.not_living then
 			unit.status.poisoned = true
 			if unit.__cfg.gender == "female" then
@@ -280,13 +280,13 @@ function wml_actions.poison(cfg)
 end
 
 function wml_actions.unpoison(cfg) -- removes poison from all units matching the filter.
-	for index, unit in ipairs(wesnoth.get_units(cfg)) do
+	for index, unit in ipairs(wesnoth.units.find_on_map(cfg)) do
 		if unit.valid then unit.status.poisoned = nil end
 	end
 end
 
 function wml_actions.unslow(cfg) -- removes slow from all units matching the filter.
-	for index, unit in ipairs(wesnoth.get_units(cfg)) do
+	for index, unit in ipairs(wesnoth.units.find_on_map(cfg)) do
 		if unit.valid then unit.status.slowed = nil end
 	end
 end
@@ -551,7 +551,7 @@ variable=variable_name
 [/get_movement_type]
 Stores the unit's movement type in the given variable. ]]
 function wml_actions.get_movement_type(cfg)
-	local unit = wesnoth.get_units(cfg)[1] or helper.wml_error "[get_movement_type] filter didn't match any unit"
+	local unit = wesnoth.units.find_on_map(cfg)[1] or helper.wml_error "[get_movement_type] filter didn't match any unit"
 	local unit_type = wesnoth.unit_types[unit.type]
 	local variable = cfg.variable or "movement_type"
 	wml.variables[variable] = unit_type.__cfg.movement_type
@@ -639,7 +639,7 @@ function wml_actions.get_recruit_list( cfg )
 		if filter then
 			filter = helper.shallow_literal( filter )
 			filter.side = side.side -- to avoid collecting extra_recruit from enemies
-			for index,unit in ipairs( wesnoth.get_units( filter ) ) do
+			for index,unit in ipairs( wesnoth.units.find_on_map( filter ) ) do
 				if unit.canrecruit and #unit.extra_recruit > 0 then
 					for extra_index, extra_recruitable in ipairs( unit.extra_recruit ) do
 						if not check( recruit_list, extra_recruitable ) then

@@ -26,8 +26,8 @@ local _ = wesnoth.textdomain "wesnoth-Wesnoth_Lua_Pack"
 -- [/set_menu_item]
 
 function wml_actions.show_quick_debug ( cfg )
-	-- acquire unit with get_units, if unit.valid show dialog
-	local lua_dialog_unit = wesnoth.get_units ( { x = wesnoth.current.event_context.x1, y = wesnoth.current.event_context.y1 } )[1] -- clearly, at x1,y1 there could be only one unit
+	-- acquire unit with units.find_on_map, if unit.valid show dialog
+	local lua_dialog_unit = wesnoth.units.find_on_map ( { x = wesnoth.current.event_context.x1, y = wesnoth.current.event_context.y1 } )[1] -- clearly, at x1,y1 there could be only one unit
 	local oversize_factor = 10 -- make it possible to increase over unit.max_attacks; no idea what would be a sensible value
 	if lua_dialog_unit and lua_dialog_unit.valid then -- to avoid indexing a nil value
 		--creating dialog here
@@ -1112,7 +1112,7 @@ end
 -- [/set_menu_item]
 
 function wml_actions.show_side_debug ( cfg )
-	local side_unit = wesnoth.get_units ( { x = wesnoth.current.event_context.x1, y = wesnoth.current.event_context.y1 } )[1]
+	local side_unit = wesnoth.units.find_on_map ( { x = wesnoth.current.event_context.x1, y = wesnoth.current.event_context.y1 } )[1]
 	if side_unit and side_unit.valid then
 		local side_number = side_unit.side -- clearly, at x1,y1 there could be only one unit
 
