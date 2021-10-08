@@ -2321,7 +2321,11 @@ function wml_actions.prompt( cfg )
 		wesnoth.set_dialog_markup( true, "message" )
 		wesnoth.set_dialog_value ( cfg.title or "", "title" )
 		wesnoth.set_dialog_value ( cfg.message or "", "message" )
-		wesnoth.set_dialog_value ( cfg.text or "", "text" )
+		-- in 1.15.x, setting a translatable string as value of a text box
+		-- widget raises an error; handle this case
+		if cfg.text then
+			wesnoth.set_dialog_value ( tostring(cfg.text), "text" )
+		end
 	end
 
 	local function sync()
