@@ -24,6 +24,7 @@ Version 1.8.0+git:
        * helper.rand() -> mathx.random_choice()
        * wesnoth.find_vacant_tile() -> wesnoth.paths.find_vacant_hex()
        * wesnoth.put_unit() -> wesnoth.units.to_map()
+       * helper.shallow_literal() -> wml.shallow_literal()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14

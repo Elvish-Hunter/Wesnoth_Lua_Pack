@@ -637,7 +637,7 @@ function wml_actions.get_recruit_list( cfg )
 		end
 
 		if filter then
-			filter = helper.shallow_literal( filter )
+			filter = wml.shallow_literal( filter )
 			filter.side = side.side -- to avoid collecting extra_recruit from enemies
 			for index,unit in ipairs( wesnoth.units.find_on_map( filter ) ) do
 				if unit.canrecruit and #unit.extra_recruit > 0 then
