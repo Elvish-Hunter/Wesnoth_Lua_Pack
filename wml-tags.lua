@@ -375,7 +375,7 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 			local unit_to_put = unit_table
 			unit_to_put.type = unit_types[index2]
 
-			local free_x, free_y = wesnoth.find_vacant_tile( where_to_place[1], where_to_place[2], unit_to_put)
+			local free_x, free_y = wesnoth.paths.find_vacant_hex( where_to_place[1], where_to_place[2], unit_to_put)
 			-- to avoid placing units in strange terrains, or overwriting, in case that the WML coder placed a wrong filter;
 			-- in such case, respect of scatter_radius is not guaranteed, exactly like in SCATTER_UNITS
 
