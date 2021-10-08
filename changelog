@@ -21,6 +21,7 @@ Version 1.8.0+git:
        * wesnoth.float_label() -> wesnoth.interface.float_label()
        * wesnoth.delay() -> wesnoth.interface.delay()
        * helper.wml_error() -> wml.error()
+       * helper.rand() -> mathx.random_choice()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14

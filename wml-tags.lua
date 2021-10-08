@@ -368,8 +368,8 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 		repeat -- repeat cycle is executed at least once
 			local rand_locs = "1.." .. #locations -- concatenation for use by WML rand
 			local rand_units = "1.." .. #unit_types
-			local index = helper.rand( rand_locs ) -- use helper.rand, to avoid OOS errors
-			local index2 = helper.rand( rand_units )
+			local index = mathx.random_choice( rand_locs ) -- use helper.rand, to avoid OOS errors
+			local index2 = mathx.random_choice( rand_units )
 			local where_to_place = locations[index]
 
 			local unit_to_put = unit_table
