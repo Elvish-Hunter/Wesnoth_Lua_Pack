@@ -663,7 +663,7 @@ function wml_actions.earthquake( cfg )
 	local delay = cfg.delay or 50
 	local coordinates = { {5,0},{-10,0},{-5,5},{0,-10},{0,5} }
 	repeat
-		wesnoth.play_sound( "rumble.ogg" )
+		wesnoth.audio.play( "rumble.ogg" )
 		for i, v in ipairs( coordinates ) do
 			wesnoth.scroll( v[1], v[2] )
 			wesnoth.interface.delay( delay )
