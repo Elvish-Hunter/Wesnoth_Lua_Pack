@@ -380,7 +380,7 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 			-- in such case, respect of scatter_radius is not guaranteed, exactly like in SCATTER_UNITS
 
 			unit_to_put.x, unit_to_put.y = free_x, free_y
-			wesnoth.put_unit( unit_to_put )
+			wesnoth.units.to_map( unit_to_put )
 			table.remove( locations, index ) -- to remove such location from the available list, because it's already busy, and avoid overwriting already placed units
 			if scatter_radius then -- loop for scatter_radius; will remove every location within the radius
 				-- apparently, a reversed ipairs like below is the best way to check every location
