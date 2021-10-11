@@ -915,7 +915,7 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_callback( upkeep_cb, "upkeep_listbox" )
 
 			-- set textboxes
-			wesnoth.set_dialog_value ( lua_dialog_unit.name, "textbox_name" )
+			wesnoth.set_dialog_value ( tostring(lua_dialog_unit.name), "textbox_name" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.extra_recruit, "," ), "textbox_extra_recruit" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.advances_to, "," ), "textbox_advances_to" )
 			wesnoth.set_dialog_value ( lua_dialog_unit.role, "textbox_role" )
@@ -1971,7 +1971,7 @@ function wml_actions.show_side_debug ( cfg )
 			wesnoth.set_dialog_value ( lua_dialog_side.village_support, "side_village_support_slider" )
 			-- text boxes
 			--wesnoth.set_dialog_value ( lua_dialog_side.objectives, "side_objectives_textbox" )
-			wesnoth.set_dialog_value ( lua_dialog_side.user_team_name, "user_team_name_textbox" )
+			wesnoth.set_dialog_value ( tostring(lua_dialog_side.user_team_name), "user_team_name_textbox" )
 			wesnoth.set_dialog_value ( lua_dialog_side.team_name, "team_name_textbox" )
 			wesnoth.set_dialog_value ( lua_dialog_side.color, "side_color_textbox" )
 			wesnoth.set_dialog_value ( table.concat( lua_dialog_side.recruit, "," ), "recruit_textbox" )

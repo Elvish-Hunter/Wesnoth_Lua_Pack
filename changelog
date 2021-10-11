@@ -32,6 +32,7 @@ Version 1.8.0+git:
        * wesnoth.set_dialog_markup() -> <widget_path>.use_markup = true
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
+   * Fixed `[show_quick_debug]`, `[show_side_debug]` and `[prompt] (they didn't work on the 1.15.x series)
    * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:
