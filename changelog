@@ -29,6 +29,7 @@ Version 1.8.0+git:
        * wesnoth.scroll() -> wesnoth.interface.scroll()
        * wesnoth.synchronize_choice() -> wesnoth.sync.evaluate_single()
        * wesnoth.show_dialog() -> gui.show_dialog()
+       * wesnoth.set_dialog_markup() -> <widget_path>.use_markup = true
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14

@@ -2185,10 +2185,10 @@ function wml_actions.item_dialog( cfg )
 		}
 	}
 
-	local function item_preshow()
+	local function item_preshow(self)
 		-- here set all widget starting values
-		wesnoth.set_dialog_markup( true, "item_description" )
-		wesnoth.set_dialog_markup( true, "item_effect" )
+		self.item_description.use_markup = true
+		self.item_effect.use_markup = true
 		wesnoth.set_dialog_value ( cfg.name or "", "item_name" )
 		wesnoth.set_dialog_value ( cfg.image or "", "image_name" )
 		wesnoth.set_dialog_value ( cfg.description or "", "item_description" )
@@ -2316,9 +2316,9 @@ function wml_actions.prompt( cfg )
 		}
 	}
 
-	local function preshow()
+	local function preshow(self)
 		-- here set all widget starting values
-		wesnoth.set_dialog_markup( true, "message" )
+		self.message.use_markup = true
 		wesnoth.set_dialog_value ( cfg.title or "", "title" )
 		wesnoth.set_dialog_value ( cfg.message or "", "message" )
 		-- in 1.15.x, setting a translatable string as value of a text box
@@ -2480,10 +2480,10 @@ function wml_actions.choice_box( cfg )
 		}
 	}
 
-	local function preshow()
+	local function preshow(self)
 		wesnoth.set_dialog_value( cfg.title, "window_title" )
 		wesnoth.set_dialog_value( cfg.message, "window_message" )
-		wesnoth.set_dialog_markup( true, "window_message" )
+		self.window_message.use_markup = true
 		
 		local counter = 1
 		for option in wml.child_range( cfg, "option") do
@@ -2494,9 +2494,9 @@ function wml_actions.choice_box( cfg )
 			end
 			wesnoth.set_dialog_value( option.image or "", "choices_listbox", counter, "choice_image" )
 			wesnoth.set_dialog_value( option.description or "", "choices_listbox", counter, "choice_description" )
-			wesnoth.set_dialog_markup( true, "choices_listbox", counter, "choice_description" )
+			self.choices_listbox[counter].choice_description.use_markup = true
 			wesnoth.set_dialog_value( option.note or "", "choices_listbox", counter, "choice_note" )
-			wesnoth.set_dialog_markup( true, "choices_listbox", counter, "choice_note" )
+			self.choices_listbox[counter].choice_note.use_markup = true
 			counter = counter + 1
 		end
 	end
