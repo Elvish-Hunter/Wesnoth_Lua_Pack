@@ -1019,7 +1019,7 @@ function wml_actions.show_quick_debug ( cfg )
 				temp_table.hidden = wesnoth.get_dialog_value "hidden_checkbutton"
 			end
 
-			local return_value = wesnoth.show_dialog( debug_dialog, preshow, postshow )
+			local return_value = gui.show_dialog( debug_dialog, preshow, postshow )
 
 			return { return_value = return_value, { "temp_table", temp_table } }
 		end
@@ -2052,7 +2052,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_table.share_vision = share_vision[ wesnoth.get_dialog_value ( "share_vision_listbox" ) ]
 			end
 
-			local return_value = wesnoth.show_dialog( side_dialog, preshow, postshow )
+			local return_value = gui.show_dialog( side_dialog, preshow, postshow )
 
 			return { return_value = return_value, { "temp_table", temp_table } }
 		end
@@ -2202,7 +2202,7 @@ function wml_actions.item_dialog( cfg )
 			-- here get all widget values
 		end
 
-		local return_value = wesnoth.show_dialog( item_dialog, item_preshow, item_postshow )
+		local return_value = gui.show_dialog( item_dialog, item_preshow, item_postshow )
 
 		return { return_value = return_value }
 	end
@@ -2336,7 +2336,7 @@ function wml_actions.prompt( cfg )
 			input = wesnoth.get_dialog_value ( "text" )
 		end
 
-		local return_value = wesnoth.show_dialog( prompt_dialog, preshow, postshow )
+		local return_value = gui.show_dialog( prompt_dialog, preshow, postshow )
 		return { return_value = return_value, input = input }
 	end
 
@@ -2505,7 +2505,7 @@ function wml_actions.choice_box( cfg )
 		local function postshow()
 			choice_index = wesnoth.get_dialog_value( "choices_listbox" ) -- read the chosen option...
 		end
-		local return_value = wesnoth.show_dialog( listbox_dialog, preshow, postshow )
+		local return_value = gui.show_dialog( listbox_dialog, preshow, postshow )
 		return { return_value = return_value, choice = choice_values[choice_index] } -- and retrieve the associated value
 	end
 
