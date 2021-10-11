@@ -605,7 +605,7 @@ function wml_actions.random_number( cfg )
 	local variable = cfg.variable or "random"
 
 	-- does not work in start event
-	local result = wesnoth.synchronize_choice( function()
+	local result = wesnoth.sync.evaluate_single( function()
     		return { value = math.random( lowest, highest ) }
 	end)
 

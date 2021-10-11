@@ -1024,7 +1024,7 @@ function wml_actions.show_quick_debug ( cfg )
 			return { return_value = return_value, { "temp_table", temp_table } }
 		end
 
-		local return_table = wesnoth.synchronize_choice(sync)
+		local return_table = wesnoth.sync.evaluate_single(sync)
 		local return_value = return_table.return_value
 		local temp_table = wml.get_child( return_table, "temp_table" )
 
@@ -1053,7 +1053,7 @@ function wml_actions.show_quick_debug ( cfg )
 			-- text boxes
 			lua_dialog_unit.name = temp_table.name
 			-- we do this empty table/gmatch/insert cycle, because get_dialog_value returns a string from a text_box, and the value required is a "table with unnamed indices holding strings"
-			-- moved here because synchronize_choice needs a WML object, and a table with unnamed indices isn't
+			-- moved here because wesnoth.sync.evaluate_single needs a WML object, and a table with unnamed indices isn't
 			local temp_advances_to = {}
 			local temp_extra_recruit = {}
 			for value in wlp_utils.split( temp_table.extra_recruit ) do
@@ -2056,7 +2056,7 @@ function wml_actions.show_side_debug ( cfg )
 
 			return { return_value = return_value, { "temp_table", temp_table } }
 		end
-		local return_table = wesnoth.synchronize_choice(sync)
+		local return_table = wesnoth.sync.evaluate_single(sync)
 		local return_value = return_table.return_value
 		local temp_table = wml.get_child(return_table, "temp_table")
 
@@ -2207,7 +2207,7 @@ function wml_actions.item_dialog( cfg )
 		return { return_value = return_value }
 	end
 
-	local return_table = wesnoth.synchronize_choice(sync)
+	local return_table = wesnoth.sync.evaluate_single(sync)
 	if return_table.return_value == 1 or return_table.return_value == -1 then
 		wml.variables[cfg.variable or "item_picked"] = "yes"
 	else wml.variables[cfg.variable or "item_picked"] = "no"
@@ -2234,7 +2234,7 @@ function wml_actions.confirm( cfg )
 		end
 	end
 
-	local return_table = wesnoth.synchronize_choice(sync)
+	local return_table = wesnoth.sync.evaluate_single(sync)
 	wml.variables[variable] = return_table.return_value
 end
 
@@ -2340,7 +2340,7 @@ function wml_actions.prompt( cfg )
 		return { return_value = return_value, input = input }
 	end
 
-	local return_table = wesnoth.synchronize_choice(sync)
+	local return_table = wesnoth.sync.evaluate_single(sync)
 	local return_value = return_table.return_value
 
 	if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter
@@ -2509,7 +2509,7 @@ function wml_actions.choice_box( cfg )
 		return { return_value = return_value, choice = choice_values[choice_index] } -- and retrieve the associated value
 	end
 
-	local return_table = wesnoth.synchronize_choice(sync)
+	local return_table = wesnoth.sync.evaluate_single(sync)
 	local return_value = return_table.return_value
 
 	if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter

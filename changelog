@@ -27,6 +27,7 @@ Version 1.8.0+git:
        * helper.shallow_literal() -> wml.shallow_literal()
        * wesnoth.play_sound() -> wesnoth.audio.play()
        * wesnoth.scroll() -> wesnoth.interface.scroll()
+       * wesnoth.synchronize_choice() -> wesnoth.sync.evaluate_single()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Bumped Wesnoth version requirement to 1.15.14

@@ -132,7 +132,7 @@ function utils.message(cfg)
 				}--grid
 			}--grid
 		}--dialog
-	return wesnoth.synchronize_choice(function() local value = wesnoth.show_dialog(dialog); return { key = value } end).key
+	return wesnoth.sync.evaluate_single(function() local value = wesnoth.show_dialog(dialog); return { key = value } end).key
 end
 
 --! Displays a WML text input message box with attributes from table @attr
