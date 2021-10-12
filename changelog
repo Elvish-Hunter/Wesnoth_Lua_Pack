@@ -30,7 +30,7 @@ Version 1.8.0+git:
        * wesnoth.synchronize_choice() -> wesnoth.sync.evaluate_single()
        * wesnoth.show_dialog() -> gui.show_dialog()
        * wesnoth.set_dialog_markup() -> <widget_path>.use_markup = true
-       * wesnoth.set_dialog_value() -> replaced depending on the widget's type:
+       * wesnoth.get/set_dialog_value() -> replaced depending on the widget's type:
            * <widget_path>.label for labels, buttons and images
            * <widget_path>.text for text boxes
            * <widget_path>.value for sliders

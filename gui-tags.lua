@@ -906,7 +906,7 @@ function wml_actions.show_quick_debug ( cfg )
 
 			-- the slider becomes active only if the upkeep becomes a numerical value
 			local function upkeep_cb()
-				if wesnoth.get_dialog_value ( "upkeep_listbox" ) == 3 then
+				if dialog.upkeep_listbox.selected_index == 3 then
 					wesnoth.set_dialog_active ( true, "upkeep_slider" )
 				else
 					wesnoth.set_dialog_active ( false, "upkeep_slider" )
@@ -954,12 +954,12 @@ function wml_actions.show_quick_debug ( cfg )
 		local function sync()
 			local temp_table = { } -- to store values before checking if user allowed modifying
 
-			local function postshow()
+			local function postshow(dialog)
 				-- here get all the widget values in variables; store them in temp variables
 				-- location form; it requires a validation procedure
 				local new_x, new_y
-				new_x = tonumber(wesnoth.get_dialog_value( "textbox_loc_x" ))
-				new_y = tonumber(wesnoth.get_dialog_value( "textbox_loc_y" ))
+				new_x = tonumber(dialog.textbox_loc_x.text)
+				new_y = tonumber(dialog.textbox_loc_y.text)
 				local width = wesnoth.current.map.playable_width
 				local height = wesnoth.current.map.playable_height
 				local border = wesnoth.current.map.border_size
@@ -977,46 +977,46 @@ function wml_actions.show_quick_debug ( cfg )
 				end
 
 				-- upkeep
-				local upkeep_type = wesnoth.get_dialog_value ( "upkeep_listbox" )
+				local upkeep_type = dialog.upkeep_listbox.selected_index
 				if upkeep_type == 1 then
 					temp_table.upkeep = "loyal"
 				elseif upkeep_type == 2 then
 					temp_table.upkeep = "full"
 				elseif upkeep_type == 3 then
-					temp_table.upkeep = wesnoth.get_dialog_value( "upkeep_slider" )
+					temp_table.upkeep = dialog.upkeep_slider.value
 				end
 
 				-- sliders
-				temp_table.level = wesnoth.get_dialog_value( "unit_level_slider" )
-				temp_table.side = wesnoth.get_dialog_value ( "unit_side_slider" )
-				temp_table.hitpoints = wesnoth.get_dialog_value ( "unit_hitpoints_slider" )
-				temp_table.experience = wesnoth.get_dialog_value ( "unit_experience_slider" )
-				temp_table.moves = wesnoth.get_dialog_value ( "unit_moves_slider" )
-				temp_table.attacks_left = wesnoth.get_dialog_value ( "unit_attacks_slider" )
+				temp_table.level = dialog.unit_level_slider.value
+				temp_table.side = dialog.unit_side_slider.value
+				temp_table.hitpoints = dialog.unit_hitpoints_slider.value
+				temp_table.experience = dialog.unit_experience_slider.value
+				temp_table.moves = dialog.unit_moves_slider.value
+				temp_table.attacks_left = dialog.unit_attacks_slider.value
 				-- text boxes
-				temp_table.name = wesnoth.get_dialog_value "textbox_name"
-				temp_table.advances_to = wesnoth.get_dialog_value "textbox_advances_to"
-				temp_table.extra_recruit = wesnoth.get_dialog_value "textbox_extra_recruit"
-				temp_table.role = wesnoth.get_dialog_value "textbox_role"
+				temp_table.name = dialog.textbox_name.text
+				temp_table.advances_to = dialog.textbox_advances_to.text
+				temp_table.extra_recruit = dialog.textbox_extra_recruit.text
+				temp_table.role = dialog.textbox_role.text
 				-- checkbuttons
-				temp_table.poisoned = wesnoth.get_dialog_value "poisoned_checkbutton"
-				temp_table.slowed = wesnoth.get_dialog_value "slowed_checkbutton"
-				temp_table.petrified = wesnoth.get_dialog_value "petrified_checkbutton"
-				temp_table.invulnerable = wesnoth.get_dialog_value "invulnerable_checkbutton"
-				temp_table.uncovered = wesnoth.get_dialog_value "uncovered_checkbutton"
-				temp_table.guardian = wesnoth.get_dialog_value "guardian_checkbutton"
-				temp_table.unhealable = wesnoth.get_dialog_value "unhealable_checkbutton"
-				temp_table.stunned = wesnoth.get_dialog_value "stunned_checkbutton"
+				temp_table.poisoned = dialog.poisoned_checkbutton.selected
+				temp_table.slowed = dialog.slowed_checkbutton.selected
+				temp_table.petrified = dialog.petrified_checkbutton.selected
+				temp_table.invulnerable = dialog.invulnerable_checkbutton.selected
+				temp_table.uncovered = dialog.uncovered_checkbutton.selected
+				temp_table.guardian = dialog.guardian_checkbutton.selected
+				temp_table.unhealable = dialog.unhealable_checkbutton.selected
+				temp_table.stunned = dialog.stunned_checkbutton.selected
 				-- alignment radiobutton
 				local alignments = { "lawful", "neutral", "chaotic", "liminal" }
-				temp_table.alignment = alignments[ wesnoth.get_dialog_value ( "alignment_listbox" ) ]
+				temp_table.alignment = alignments[ dialog.alignment_listbox.selected_index ]
 				-- put facing here
 				local facings = { "nw", "ne", "n", "sw", "se", "s" }
-				-- wesnoth.get_dialog_value ( "facing_listbox" ) returns a number, that was 2 for the second radiobutton and 5 for the fifth, hence the table above
-				temp_table.facing = facings[ wesnoth.get_dialog_value ( "facing_listbox" ) ] -- it is setted correctly, but for some reason it is not shown
-				-- misc; checkbuttons
-				temp_table.resting = wesnoth.get_dialog_value "resting_checkbutton"
-				temp_table.hidden = wesnoth.get_dialog_value "hidden_checkbutton"
+				-- dialog.facing_listbox.selected_index returns a number, that was 2 for the second radiobutton and 5 for the fifth, hence the table above
+				temp_table.facing = facings[ dialog.facing_listbox.selected_index ] -- it is setted correctly, but for some reason it is not shown
+				-- misc checkbuttons
+				temp_table.resting = dialog.resting_checkbutton.selected
+				temp_table.hidden = dialog.hidden_checkbutton.selected
 			end
 
 			local return_value = gui.show_dialog( debug_dialog, preshow, postshow )
@@ -1052,7 +1052,7 @@ function wml_actions.show_quick_debug ( cfg )
 			lua_dialog_unit.attacks_left = temp_table.attacks_left
 			-- text boxes
 			lua_dialog_unit.name = temp_table.name
-			-- we do this empty table/gmatch/insert cycle, because get_dialog_value returns a string from a text_box, and the value required is a "table with unnamed indices holding strings"
+			-- we do this empty table/gmatch/insert cycle, the .text attribute of a text_box returns a string, and the value required is a "table with unnamed indices holding strings"
 			-- moved here because wesnoth.sync.evaluate_single needs a WML object, and a table with unnamed indices isn't
 			local temp_advances_to = {}
 			local temp_extra_recruit = {}
@@ -2019,37 +2019,37 @@ function wml_actions.show_side_debug ( cfg )
 		local function sync()
 			local temp_table = { } -- to store values before checking if user allowed modifying
 
-			local function postshow()
+			local function postshow(dialog)
 				-- get widget values
 				-- sliders
-				temp_table.gold = wesnoth.get_dialog_value ( "side_gold_slider" )
-				temp_table.village_gold = wesnoth.get_dialog_value ( "side_village_gold_slider" )
-				temp_table.base_income = wesnoth.get_dialog_value ( "side_base_income_slider" )
-				temp_table.village_support = wesnoth.get_dialog_value ( "side_village_support_slider" )
+				temp_table.gold = dialog.side_gold_slider.value
+				temp_table.village_gold = dialog.side_village_gold_slider.value
+				temp_table.base_income = dialog.side_base_income_slider.value
+				temp_table.village_support = dialog.side_village_support_slider.value
 				-- text boxes
-				temp_table.user_team_name = wesnoth.get_dialog_value ( "user_team_name_textbox" )
-				temp_table.team_name = wesnoth.get_dialog_value ( "team_name_textbox" )
-				temp_table.recruit = wesnoth.get_dialog_value ( "recruit_textbox" )
-				temp_table.color = wesnoth.get_dialog_value ( "side_color_textbox" )
-				temp_table.flag_icon = wesnoth.get_dialog_value ( "flag_icon_textbox" )
+				temp_table.user_team_name = dialog.user_team_name_textbox.text
+				temp_table.team_name = dialog.team_name_textbox.text
+				temp_table.recruit = dialog.recruit_textbox.text
+				temp_table.color = dialog.side_color_textbox.text
+				temp_table.flag_icon = dialog.flag_icon_textbox.text
 				-- checkbuttons
-				temp_table.objectives_changed = wesnoth.get_dialog_value ( "objectives_changed_checkbutton" )
-				temp_table.scroll_to_leader = wesnoth.get_dialog_value ( "scroll_to_leader_checkbutton" )
-				temp_table.shroud = wesnoth.get_dialog_value ( "shroud_checkbutton" )
-				temp_table.persistent = wesnoth.get_dialog_value ( "persistent_checkbutton" )
-				temp_table.hidden = wesnoth.get_dialog_value ( "hidden_checkbutton" )
-				temp_table.lost = wesnoth.get_dialog_value ( "lost_checkbutton" )
-				temp_table.fog = wesnoth.get_dialog_value ( "fog_checkbutton" )
-				temp_table.suppress_end_turn_confirmation = wesnoth.get_dialog_value ( "end_turn_checkbutton" )
+				temp_table.objectives_changed = dialog.objectives_changed_checkbutton.selected
+				temp_table.scroll_to_leader = dialog.scroll_to_leader_checkbutton.selected
+				temp_table.shroud = dialog.shroud_checkbutton.selected
+				temp_table.persistent = dialog.persistent_checkbutton.selected
+				temp_table.hidden = dialog.hidden_checkbutton.selected
+				temp_table.lost = dialog.lost_checkbutton.selected
+				temp_table.fog = dialog.fog_checkbutton.selected
+				temp_table.suppress_end_turn_confirmation = dialog.end_turn_checkbutton.selected
 				-- radiobuttons
 				local controllers = { "ai", "human", "null" }
-				temp_table.controller = controllers[ wesnoth.get_dialog_value ( "controller_listbox" ) ]
+				temp_table.controller = controllers[ dialog.controller_listbox.selected_index ]
 				
 				local defeat_conditions = { "no_leader_left", "no_units_left", "never", "always" }
-				temp_table.defeat_condition = defeat_conditions[ wesnoth.get_dialog_value ( "defeat_condition_listbox" ) ]
+				temp_table.defeat_condition = defeat_conditions[ dialog.defeat_condition_listbox.selected_index ]
 
 				local share_vision = { "all", "shroud", "none" }
-				temp_table.share_vision = share_vision[ wesnoth.get_dialog_value ( "share_vision_listbox" ) ]
+				temp_table.share_vision = share_vision[ dialog.share_vision_listbox.selected_index ]
 			end
 
 			local return_value = gui.show_dialog( side_dialog, preshow, postshow )
@@ -2198,7 +2198,7 @@ function wml_actions.item_dialog( cfg )
 	end
 
 	local function sync()
-		local function item_postshow()
+		local function item_postshow(dialog)
 			-- here get all widget values
 		end
 
@@ -2331,9 +2331,9 @@ function wml_actions.prompt( cfg )
 	local function sync()
 		local input
 
-		local function postshow()
+		local function postshow(dialog)
 			-- here get all widget values
-			input = wesnoth.get_dialog_value ( "text" )
+			input = dialog.text.text
 		end
 
 		local return_value = gui.show_dialog( prompt_dialog, preshow, postshow )
@@ -2502,8 +2502,8 @@ function wml_actions.choice_box( cfg )
 	end
 	local function sync()
 		local choice_index
-		local function postshow()
-			choice_index = wesnoth.get_dialog_value( "choices_listbox" ) -- read the chosen option...
+		local function postshow(dialog)
+			choice_index = dialog.choices_listbox.selected_index
 		end
 		local return_value = gui.show_dialog( listbox_dialog, preshow, postshow )
 		return { return_value = return_value, choice = choice_values[choice_index] } -- and retrieve the associated value
