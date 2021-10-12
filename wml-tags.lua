@@ -150,9 +150,9 @@ end
 
 local function flash(red,green,blue)
 	-- usage: call this function by specifying the maximum values for each color. Don't go above 100.
-	wml_actions.color_adjust { red = (red * 0.67), green = (green * 0.67), blue = (blue * 0.67) }
+	wml_actions.color_adjust { red = mathx.round(red * 0.67), green = mathx.round(green * 0.67), blue = mathx.round(blue * 0.67) }
 	wml_actions.color_adjust { red = red, green = green, blue = blue }
-	wml_actions.color_adjust { red = (red * 0.33), green = (green * 0.33), blue = (blue * 0.33) }
+	wml_actions.color_adjust { red = mathx.round(red * 0.33), green = mathx.round(green * 0.33), blue = mathx.round(blue * 0.33) }
 	wml_actions.color_adjust { red = 0, green = 0, blue = 0 }
 end
 
