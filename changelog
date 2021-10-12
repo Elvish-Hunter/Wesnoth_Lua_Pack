@@ -30,6 +30,12 @@ Version 1.8.0+git:
        * wesnoth.synchronize_choice() -> wesnoth.sync.evaluate_single()
        * wesnoth.show_dialog() -> gui.show_dialog()
        * wesnoth.set_dialog_markup() -> <widget_path>.use_markup = true
+       * wesnoth.set_dialog_value() -> replaced depending on the widget's type:
+           * <widget_path>.label for labels, buttons and images
+           * <widget_path>.text for text boxes
+           * <widget_path>.value for sliders
+           * <widget_path>.selected for toggle buttons (checkbuttons)
+           * <widget_path>.selected_index for listboxes (which include radiobuttons)
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Fixed `[show_quick_debug]`, `[show_side_debug]` and `[prompt] (they didn't work on the 1.15.x series)

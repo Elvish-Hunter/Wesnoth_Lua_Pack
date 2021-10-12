@@ -871,37 +871,37 @@ function wml_actions.show_quick_debug ( cfg )
 
 		local temp_table = { } -- to store values before checking if user allowed modifying
 
-		local function preshow()
+		local function preshow(dialog)
 			-- here set all widget starting values
 			-- set read_only labels
-			wesnoth.set_dialog_value ( lua_dialog_unit.id, "unit_id" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.valid, "unit_valid" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.type, "unit_type" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.canrecruit, "unit_canrecruit" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.race, "unit_race" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.cost, "unit_cost" )
-			wesnoth.set_dialog_value ( string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side), "unit_image" )
+			dialog.unit_id.label = lua_dialog_unit.id
+			dialog.unit_valid.label = lua_dialog_unit.valid
+			dialog.unit_type.label = lua_dialog_unit.type
+			dialog.unit_canrecruit.label = lua_dialog_unit.canrecruit
+			dialog.unit_race.label = lua_dialog_unit.race
+			dialog.unit_cost.label = lua_dialog_unit.cost
+			dialog.unit_image.label = string.format("%s~TC(%d,magenta)", lua_dialog_unit.__cfg.image or "", lua_dialog_unit.side)
 			-- set location form
-			wesnoth.set_dialog_value ( lua_dialog_unit.x, "textbox_loc_x" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.y, "textbox_loc_y" )
+			dialog.textbox_loc_x.text = lua_dialog_unit.x
+			dialog.textbox_loc_y.text = lua_dialog_unit.y
 			-- set sliders
-			wesnoth.set_dialog_value ( lua_dialog_unit.level, "unit_level_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.side, "unit_side_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.hitpoints, "unit_hitpoints_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.experience, "unit_experience_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.moves, "unit_moves_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.attacks_left, "unit_attacks_slider" )
+			dialog.unit_level_slider.value = lua_dialog_unit.level
+			dialog.unit_side_slider.value = lua_dialog_unit.side
+			dialog.unit_hitpoints_slider.value = lua_dialog_unit.hitpoints
+			dialog.unit_experience_slider.value = lua_dialog_unit.experience
+			dialog.unit_moves_slider.value = lua_dialog_unit.moves
+			dialog.unit_attacks_slider.value = lua_dialog_unit.attacks_left
 			-- set upkeep
 			local upkeep = lua_dialog_unit.upkeep
 			if upkeep == "loyal" or upkeep == "free" then
-				wesnoth.set_dialog_value ( 1, "upkeep_listbox" )
+				dialog.upkeep_listbox.selected_index = 1
 				wesnoth.set_dialog_active ( false, "upkeep_slider" )
 			elseif upkeep == "full" then
-				wesnoth.set_dialog_value ( 2, "upkeep_listbox" )
+				dialog.upkeep_listbox.selected_index = 2
 				wesnoth.set_dialog_active ( false, "upkeep_slider" )
 			else
-				wesnoth.set_dialog_value ( 3, "upkeep_listbox" )
-				wesnoth.set_dialog_value ( tonumber(upkeep), "upkeep_slider" )
+				dialog.upkeep_listbox.selected_index = 3
+				dialog.upkeep_slider.value = tonumber(upkeep)
 			end
 
 			-- the slider becomes active only if the upkeep becomes a numerical value
@@ -915,19 +915,19 @@ function wml_actions.show_quick_debug ( cfg )
 			wesnoth.set_dialog_callback( upkeep_cb, "upkeep_listbox" )
 
 			-- set textboxes
-			wesnoth.set_dialog_value ( tostring(lua_dialog_unit.name), "textbox_name" )
-			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.extra_recruit, "," ), "textbox_extra_recruit" )
-			wesnoth.set_dialog_value ( table.concat( lua_dialog_unit.advances_to, "," ), "textbox_advances_to" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.role, "textbox_role" )
+			dialog.textbox_name.text = tostring(lua_dialog_unit.name)
+			dialog.textbox_extra_recruit.text = table.concat( lua_dialog_unit.extra_recruit, "," )
+			dialog.textbox_advances_to.text = table.concat( lua_dialog_unit.advances_to, "," )
+			dialog.textbox_role.text = lua_dialog_unit.role
 			-- set checkbuttons
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.poisoned, "poisoned_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.slowed, "slowed_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.petrified, "petrified_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.invulnerable, "invulnerable_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.uncovered, "uncovered_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.guardian, "guardian_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.unhealable, "unhealable_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.status.stunned, "stunned_checkbutton" )
+			dialog.poisoned_checkbutton.selected = lua_dialog_unit.status.poisoned
+			dialog.slowed_checkbutton.selected = lua_dialog_unit.status.slowed
+			dialog.petrified_checkbutton.selected = lua_dialog_unit.status.petrified
+			dialog.invulnerable_checkbutton.selected = lua_dialog_unit.status.invulnerable
+			dialog.uncovered_checkbutton.selected = lua_dialog_unit.status.uncovered
+			dialog.guardian_checkbutton.selected = lua_dialog_unit.status.guardian
+			dialog.unhealable_checkbutton.selected = lua_dialog_unit.status.unhealable
+			dialog.stunned_checkbutton.selected = lua_dialog_unit.status.stunned
 			-- set radiobutton for alignment
 			local temp_alignment
 			if lua_dialog_unit.alignment == "lawful" then temp_alignment = 1
@@ -935,7 +935,7 @@ function wml_actions.show_quick_debug ( cfg )
 			elseif lua_dialog_unit.alignment == "chaotic" then temp_alignment = 3
 			elseif lua_dialog_unit.alignment == "liminal" then temp_alignment = 4
 			end
-			wesnoth.set_dialog_value ( temp_alignment, "alignment_listbox" )
+			dialog.alignment_listbox.selected_index = temp_alignment
 			-- set radiobutton for facing
 			local temp_facing
 			if lua_dialog_unit.facing == "nw" then temp_facing = 1
@@ -945,10 +945,10 @@ function wml_actions.show_quick_debug ( cfg )
 			elseif lua_dialog_unit.facing == "se" then temp_facing = 5
 			elseif lua_dialog_unit.facing == "s" then temp_facing = 6
 			end
-			wesnoth.set_dialog_value ( temp_facing, "facing_listbox" )
+			dialog.facing_listbox.selected_index = temp_facing
 			-- other checkbuttons
-			wesnoth.set_dialog_value ( lua_dialog_unit.resting, "resting_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_unit.hidden, "hidden_checkbutton" )
+			dialog.resting_checkbutton.selected = lua_dialog_unit.resting
+			dialog.hidden_checkbutton.selected = lua_dialog_unit.hidden
 		end
 
 		local function sync()
@@ -1940,52 +1940,52 @@ function wml_actions.show_side_debug ( cfg )
 			}
 		}
 
-		local function preshow()
+		local function preshow(dialog)
 			-- set widget values
 			-- read-only labels
-			wesnoth.set_dialog_value ( lua_dialog_side.side, "side_number_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.total_income, "total_income_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.side_name, "name_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.faction, "faction_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.faction_name, "faction_name_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.is_local, "is_local_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.share_maps, "share_maps_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.share_view, "share_view_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.num_units, "num_units_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.num_villages, "num_villages_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.total_upkeep, "total_upkeep_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.expenses, "expenses_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.net_income, "net_income_label" )
-			wesnoth.set_dialog_value ( lua_dialog_side.chose_random, "chose_random_label" )
+			dialog.side_number_label.label = lua_dialog_side.side
+			dialog.total_income_label.label = lua_dialog_side.total_income
+			dialog.name_label.label = lua_dialog_side.side_name
+			dialog.faction_label.label = lua_dialog_side.faction
+			dialog.faction_name_label.label = lua_dialog_side.faction_name
+			dialog.is_local_label.label = lua_dialog_side.is_local
+			dialog.share_maps_label.label = lua_dialog_side.share_maps
+			dialog.share_view_label.label = lua_dialog_side.share_view
+			dialog.num_units_label.label = lua_dialog_side.num_units
+			dialog.num_villages_label.label = lua_dialog_side.num_villages
+			dialog.total_upkeep_label.label = lua_dialog_side.total_upkeep
+			dialog.expenses_label.label = lua_dialog_side.expenses
+			dialog.net_income_label.label = lua_dialog_side.net_income
+			dialog.chose_random_label.label = lua_dialog_side.chose_random
 
 			if lua_dialog_side.flag_icon == "" then
-				wesnoth.set_dialog_value ( string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color ), "flag_image" )
+				dialog.flag_image.label = string.format( "flags/flag-icon.png~RC(flag_green>%s)", lua_dialog_side.color )
 			else
-				wesnoth.set_dialog_value ( string.format( "%s~RC(flag_green>%s)", lua_dialog_side.flag_icon, lua_dialog_side.color ), "flag_image" )
+				dialog.flag_image.label = string.format( "%s~RC(flag_green>%s)", lua_dialog_side.flag_icon, lua_dialog_side.color )
 			end
 
 			-- sliders
-			wesnoth.set_dialog_value ( lua_dialog_side.gold, "side_gold_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_side.village_gold, "side_village_gold_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_side.base_income, "side_base_income_slider" )
-			wesnoth.set_dialog_value ( lua_dialog_side.village_support, "side_village_support_slider" )
+			dialog.side_gold_slider.value = lua_dialog_side.gold
+			dialog.side_village_gold_slider.value = lua_dialog_side.village_gold
+			dialog.side_base_income_slider.value = lua_dialog_side.base_income
+			dialog.side_village_support_slider.value = lua_dialog_side.village_support
 			-- text boxes
-			--wesnoth.set_dialog_value ( lua_dialog_side.objectives, "side_objectives_textbox" )
-			wesnoth.set_dialog_value ( tostring(lua_dialog_side.user_team_name), "user_team_name_textbox" )
-			wesnoth.set_dialog_value ( lua_dialog_side.team_name, "team_name_textbox" )
-			wesnoth.set_dialog_value ( lua_dialog_side.color, "side_color_textbox" )
-			wesnoth.set_dialog_value ( table.concat( lua_dialog_side.recruit, "," ), "recruit_textbox" )
-			wesnoth.set_dialog_value ( lua_dialog_side.flag_icon, "flag_icon_textbox" )
+			--dialog.side_objectives_textbox.text = tostring(lua_dialog_side.objectives)
+			dialog.user_team_name_textbox.text = tostring(lua_dialog_side.user_team_name)
+			dialog.team_name_textbox.text = lua_dialog_side.team_name
+			dialog.side_color_textbox.text = lua_dialog_side.color
+			dialog.recruit_textbox.text = table.concat( lua_dialog_side.recruit, "," )
+			dialog.flag_icon_textbox.text = lua_dialog_side.flag_icon
 			-- checkbuttons
-			wesnoth.set_dialog_value ( lua_dialog_side.objectives_changed, "objectives_changed_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.scroll_to_leader, "scroll_to_leader_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.shroud, "shroud_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.persistent, "persistent_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.hidden, "hidden_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.lost, "lost_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.fog, "fog_checkbutton" )
-			wesnoth.set_dialog_value ( lua_dialog_side.suppress_end_turn_confirmation, "end_turn_checkbutton" )
-			-- radiobutton
+			dialog.objectives_changed_checkbutton.selected = lua_dialog_side.objectives_changed
+			dialog.scroll_to_leader_checkbutton.selected = lua_dialog_side.scroll_to_leader
+			dialog.shroud_checkbutton.selected = lua_dialog_side.shroud
+			dialog.persistent_checkbutton.selected = lua_dialog_side.persistent
+			dialog.hidden_checkbutton.selected = lua_dialog_side.hidden
+			dialog.lost_checkbutton.selected = lua_dialog_side.lost
+			dialog.fog_checkbutton.selected = lua_dialog_side.fog
+			dialog.end_turn_checkbutton.selected = lua_dialog_side.suppress_end_turn_confirmation
+			-- radiobuttons
 			local temp_controller
 
 			if lua_dialog_side.controller == "ai" then
@@ -1995,24 +1995,24 @@ function wml_actions.show_side_debug ( cfg )
 			elseif lua_dialog_side.controller == "null" then
 				temp_controller = 3
 			end
-			wesnoth.set_dialog_value ( temp_controller, "controller_listbox" )
+			dialog.controller_listbox.selected_index = temp_controller
 			
 			if lua_dialog_side.defeat_condition == "no_leader_left" then
-				wesnoth.set_dialog_value( 1, "defeat_condition_listbox" )
+				dialog.defeat_condition_listbox.selected_index = 1
 			elseif lua_dialog_side.defeat_condition == "no_units_left" then
-				wesnoth.set_dialog_value( 2, "defeat_condition_listbox" )
+				dialog.defeat_condition_listbox.selected_index = 2
 			elseif lua_dialog_side.defeat_condition == "never" then
-				wesnoth.set_dialog_value( 3, "defeat_condition_listbox" )
+				dialog.defeat_condition_listbox.selected_index = 3
 			elseif lua_dialog_side.defeat_condition == "always" then
-				wesnoth.set_dialog_value( 4, "defeat_condition_listbox" )
+				dialog.defeat_condition_listbox.selected_index = 4
 			end
 
 			if lua_dialog_side.share_vision == "all" then
-				wesnoth.set_dialog_value( 1, "share_vision_listbox" )
+				dialog.share_vision_listbox.selected_index = 1
 			elseif lua_dialog_side.share_vision == "shroud" then
-				wesnoth.set_dialog_value( 2, "share_vision_listbox" )
+				dialog.share_vision_listbox.selected_index = 2
 			elseif lua_dialog_side.share_vision == "none" then
-				wesnoth.set_dialog_value( 3, "share_vision_listbox" )
+				dialog.share_vision_listbox.selected_index = 3
 			end
 		end
 
@@ -2185,16 +2185,16 @@ function wml_actions.item_dialog( cfg )
 		}
 	}
 
-	local function item_preshow(self)
+	local function item_preshow(dialog)
 		-- here set all widget starting values
-		self.item_description.use_markup = true
-		self.item_effect.use_markup = true
-		wesnoth.set_dialog_value ( cfg.name or "", "item_name" )
-		wesnoth.set_dialog_value ( cfg.image or "", "image_name" )
-		wesnoth.set_dialog_value ( cfg.description or "", "item_description" )
-		wesnoth.set_dialog_value ( cfg.effect or "", "item_effect" )
-		wesnoth.set_dialog_value ( cfg.take_string or wml.error( "Missing take_string= key in [item_dialog]" ), "take_button" )
-		wesnoth.set_dialog_value ( cfg.leave_string or wml.error( "Missing leave_string= key in [item_dialog]" ), "leave_button" )
+		dialog.item_description.use_markup = true
+		dialog.item_effect.use_markup = true
+		dialog.item_name.label = cfg.name or ""
+		dialog.image_name.label = cfg.image or ""
+		dialog.item_description.label = cfg.description or ""
+		dialog.item_effect.label = cfg.effect or ""
+		dialog.take_button.label = cfg.take_string or wml.error( "Missing take_string= key in [item_dialog]" )
+		dialog.leave_button.label = cfg.leave_string or wml.error( "Missing leave_string= key in [item_dialog]" )
 	end
 
 	local function sync()
@@ -2316,15 +2316,15 @@ function wml_actions.prompt( cfg )
 		}
 	}
 
-	local function preshow(self)
+	local function preshow(dialog)
 		-- here set all widget starting values
-		self.message.use_markup = true
-		wesnoth.set_dialog_value ( cfg.title or "", "title" )
-		wesnoth.set_dialog_value ( cfg.message or "", "message" )
+		dialog.message.use_markup = true
+		dialog.title.label = cfg.title or ""
+		dialog.message.label = cfg.message or ""
 		-- in 1.15.x, setting a translatable string as value of a text box
 		-- widget raises an error; handle this case
 		if cfg.text then
-			wesnoth.set_dialog_value ( tostring(cfg.text), "text" )
+			dialog.text.text = tostring(cfg.text)
 		end
 	end
 
@@ -2480,10 +2480,10 @@ function wml_actions.choice_box( cfg )
 		}
 	}
 
-	local function preshow(self)
-		wesnoth.set_dialog_value( cfg.title, "window_title" )
-		wesnoth.set_dialog_value( cfg.message, "window_message" )
-		self.window_message.use_markup = true
+	local function preshow(dialog)
+		dialog.window_title.label = cfg.title
+		dialog.window_message.label = cfg.message
+		dialog.window_message.use_markup = true
 		
 		local counter = 1
 		for option in wml.child_range( cfg, "option") do
@@ -2492,11 +2492,11 @@ function wml_actions.choice_box( cfg )
 			else
 				choice_values[counter] = counter -- just the same number, for simplicity sake
 			end
-			wesnoth.set_dialog_value( option.image or "", "choices_listbox", counter, "choice_image" )
-			wesnoth.set_dialog_value( option.description or "", "choices_listbox", counter, "choice_description" )
-			self.choices_listbox[counter].choice_description.use_markup = true
-			wesnoth.set_dialog_value( option.note or "", "choices_listbox", counter, "choice_note" )
-			self.choices_listbox[counter].choice_note.use_markup = true
+			dialog.choices_listbox[counter].choice_image.label = option.image or ""
+			dialog.choices_listbox[counter].choice_description.label = option.description or ""
+			dialog.choices_listbox[counter].choice_description.use_markup = true
+			dialog.choices_listbox[counter].choice_note.label = option.note or ""
+			dialog.choices_listbox[counter].choice_note.use_markup = true
 			counter = counter + 1
 		end
 	end
