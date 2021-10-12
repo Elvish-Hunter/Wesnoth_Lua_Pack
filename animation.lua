@@ -153,6 +153,10 @@ local function get_image_name_with_offset(x, y, image)
 	else
 		y = -y
 	end
+	x = mathx.round(x)
+	y = mathx.round(y)
+	w = mathx.round(w)
+	h = mathx.round(h)
 	return string.format("%s~CROP(%d,%d,%d,%d)",image,x,y,w,h)
 end
 
