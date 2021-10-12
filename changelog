@@ -39,6 +39,7 @@ Version 1.8.0+git:
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Fixed `[show_quick_debug]`, `[show_side_debug]` and `[prompt] (they didn't work on the 1.15.x series)
+   * Increased the width of the `[show_quick_debug]` dialog to allow displaying the upkeep radiobuttons
    * Bumped Wesnoth version requirement to 1.15.14
 
 Version 1.8.0:

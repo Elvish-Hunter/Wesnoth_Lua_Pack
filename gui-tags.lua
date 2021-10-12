@@ -791,7 +791,7 @@ function wml_actions.show_quick_debug ( cfg )
 			T.helptip { id="tooltip_large" }, -- mandatory field
 			T.tooltip { id="tooltip_large" }, -- mandatory field
 			maximum_height = 600,
-			maximum_width = 800,
+			maximum_width = 960,
 			T.grid { -- Title
 				T.row {
 					T.column { 
