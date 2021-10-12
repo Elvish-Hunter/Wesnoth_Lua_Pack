@@ -895,10 +895,10 @@ function wml_actions.show_quick_debug ( cfg )
 			local upkeep = lua_dialog_unit.upkeep
 			if upkeep == "loyal" or upkeep == "free" then
 				dialog.upkeep_listbox.selected_index = 1
-				wesnoth.set_dialog_active ( false, "upkeep_slider" )
+				dialog.upkeep_slider.enabled = false
 			elseif upkeep == "full" then
 				dialog.upkeep_listbox.selected_index = 2
-				wesnoth.set_dialog_active ( false, "upkeep_slider" )
+				dialog.upkeep_slider.enabled = false
 			else
 				dialog.upkeep_listbox.selected_index = 3
 				dialog.upkeep_slider.value = tonumber(upkeep)
@@ -907,9 +907,9 @@ function wml_actions.show_quick_debug ( cfg )
 			-- the slider becomes active only if the upkeep becomes a numerical value
 			local function upkeep_cb()
 				if dialog.upkeep_listbox.selected_index == 3 then
-					wesnoth.set_dialog_active ( true, "upkeep_slider" )
+					dialog.upkeep_slider.enabled = true
 				else
-					wesnoth.set_dialog_active ( false, "upkeep_slider" )
+					dialog.upkeep_slider.enabled = false
 				end
 			end
 			wesnoth.set_dialog_callback( upkeep_cb, "upkeep_listbox" )
