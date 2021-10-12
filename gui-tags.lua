@@ -912,7 +912,7 @@ function wml_actions.show_quick_debug ( cfg )
 					dialog.upkeep_slider.enabled = false
 				end
 			end
-			wesnoth.set_dialog_callback( upkeep_cb, "upkeep_listbox" )
+			dialog.upkeep_listbox.on_modified = upkeep_cb
 
 			-- set textboxes
 			dialog.textbox_name.text = tostring(lua_dialog_unit.name)
