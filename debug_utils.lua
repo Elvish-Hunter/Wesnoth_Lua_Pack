@@ -271,7 +271,7 @@ function debug_utils.remove_inspect()
 		a_tag_is_left = true
 	end
 	if not a_tag_is_left then return end
-	local choice = helper.get_user_choice(settings, options)
+	local choice = gui.get_user_choice(settings, options)
 	local tag = options[choice]
 	wesnoth.wml_actions[tag] = global_action_handler_storage[tag]
 	global_action_handler_storage[tag] = nil
