@@ -12,6 +12,10 @@ local debug_utils = {}
 -- variables to be outputted to distinguish their messages
 -- onscreen (boolean, optional): whether the message shall be displayed in a wml [message] dialog too
 -- That [message] dialog can get very slow for large tables such as unit arrays.
+
+-- we must declare this here because of strict mode
+global_action_handler_storage = {}
+
 function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 	if type(clear) ~= "boolean" then clear = true end
 	if type(name) ~= "string" then name = "lua_var" end
@@ -234,7 +238,6 @@ function debug_utils.set_inspect()
 
 	local call_num = 1
 	local old_handler = wesnoth.wml_actions[tag]
-	if not global_action_handler_storage then global_action_handler_storage = {} end
 	if not global_action_handler_storage[tag] then global_action_handler_storage[tag] = old_handler end
 	local function new_handler(cfg)
 		if show_inspect() then
