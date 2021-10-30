@@ -522,14 +522,14 @@ function wesnoth.wml_actions.animate_path(cfg)
 			end
 			animation[j].target_hex_x, animation[j].target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y,x,y)
 			animation[j].image_name = get_image_name_with_offset(x, y, animation[j].images[i%animation[j].num_images])
-			wesnoth.add_tile_overlay(animation[j].target_hex_x, animation[j].target_hex_y, {
+			wesnoth.interface.add_hex_overlay(animation[j].target_hex_x, animation[j].target_hex_y, {
 				x = animation[j].target_hex_x,
 				y = animation[j].target_hex_y,
 				halo = animation[j].image_name})
 		end
 		wesnoth.interface.delay(delay)
 		for j = 1, num_animations do
-			wesnoth.remove_tile_overlay(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
+			wesnoth.interface.remove_hex_overlay(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
 		end
 	end
 	for j = 1, num_animations do
