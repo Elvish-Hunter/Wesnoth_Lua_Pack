@@ -133,7 +133,7 @@ local function get_image_name_with_offset(x, y, image)
 	-- requires a 72 pixel border around the image to work properly
 	x = x*2
 	y = y*2
-	local w, h = wesnoth.get_image_size(image)
+	local w, h = filesystem.image_size(image)
 
 	w = w-math.abs(x)
 	if w <= 0 then
@@ -476,8 +476,8 @@ local function load_path(cfg, container_name)
 end
 
 function wesnoth.wml_actions.animate_path(cfg)
-	if wesnoth.get_image_size == nil then
-		wesnoth.message("Animation skipped. To see the animation, upgrade to Battle for Wesnoth version 1.9.4 or later")
+	if filesystem.image_size == nil then
+		wesnoth.message("Animation skipped. To see the animation, upgrade to Battle for Wesnoth version 1.15.14 or later")
 		return
 	end
 	local animation = {}

@@ -39,6 +39,7 @@ Version 1.8.0+git:
        * wesnoth.set_dialog_active() -> <widget_path>.enabled
        * wesnoth.set_dialog_callback() -> <widget_path>.on_modified
        * helper.get_user_choice() -> gui.get_user_choice()
+       * wesnoth.get_image_size() -> filesystem.image_size()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Fixed `[show_quick_debug]`, `[show_side_debug]` and `[prompt] (they didn't work on the 1.15.x series)
