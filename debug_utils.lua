@@ -154,7 +154,7 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 		result = string.format("warning: WML table inconsistently predicted, script says %s , engine %s \n%s", tostring(is_wml_table), tostring(engine_is_wml_table), result)
 	end
 
-	if clear and wesnoth then wesnoth.clear_messages() end
+	if clear and wesnoth then wesnoth.interface.clear_chat_messages() end
 	if not only_return then
 		if wesnoth then wesnoth.message("dbms", result) end; std_print(result)
 	end
