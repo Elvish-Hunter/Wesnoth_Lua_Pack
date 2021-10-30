@@ -156,7 +156,7 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 
 	if clear and wesnoth then wesnoth.interface.clear_chat_messages() end
 	if not only_return then
-		if wesnoth then wesnoth.message("dbms", result) end; std_print(result)
+		if wesnoth then wesnoth.interface.add_chat_message("dbms", result) end; std_print(result)
 	end
 	local continue = true
 	if onscreen and wesnoth and not only_return then
@@ -184,7 +184,7 @@ function debug_utils.sdbms(args)
 	if type == "table" then
 		message = string.format("%s; LENGTH: %s", message, tostring(#args))
 	end
-	wesnoth.message(message); std_print(message)
+	wesnoth.interface.add_chat_message(message); std_print(message)
 end
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ end
 local function log_function_body(message, logger, in_chat)
 	assert(type(message) == "string")
 	wesnoth.log(logger, message, in_chat)
-	if wesnoth.game_config.debug then wesnoth.message(message) end
+	if wesnoth.game_config.debug then wesnoth.interface.add_chat_message(message) end
 end
 
 function debug_utils.dbg(message)

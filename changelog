@@ -45,6 +45,7 @@ Version 1.8.0+git:
        * items.place_halo() -> wesnoth.interface.add_item_halo()
        * wesnoth.tovconfig() -> wml.tovconfig()
        * wesnoth_clear_messages() -> wesnoth.interface.clear_chat_messages()
+       * wesnoth.message() -> wesnoth.interface.add_chat_message()
    * Deprecated `[get_numerical_minimum]`, `[get_numerical_maximum]` and `[reverse_value]`
    * Fixed a bug that made `[unknown_message]` not working
    * Fixed `[show_quick_debug]`, `[show_side_debug]` and `[prompt] (they didn't work on the 1.15.x series)

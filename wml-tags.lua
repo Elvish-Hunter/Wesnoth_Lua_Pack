@@ -210,7 +210,7 @@ function wml_actions.nearest_hex(cfg)
 
 	if nearest_hex_found then
 		wml.variables[variable] = { x = nearest_hex_found[1], y = nearest_hex_found[2], terrain = wesnoth.current.map[{nearest_hex_found[1], nearest_hex_found[2]}] }
-	else wesnoth.message( "WML", "No suitable location found by [nearest_hex]" )
+	else wesnoth.interface.add_chat_message( "WML", "No suitable location found by [nearest_hex]" )
 	end
 end
 
@@ -233,7 +233,7 @@ function wml_actions.nearest_unit(cfg)
 
 	if nearest_unit_found then
 		wml_actions.store_unit( { variable = variable, { "filter", { id = nearest_unit_found.id } } } )
-	else wesnoth.message( "WML", "No suitable unit found by [nearest_unit]" )
+	else wesnoth.interface.add_chat_message( "WML", "No suitable unit found by [nearest_unit]" )
 	end
 end
 

@@ -1092,7 +1092,7 @@ function wml_actions.show_quick_debug ( cfg )
 			-- finally, redraw to be sure of showing changes
 			wml_actions.redraw {}
 		elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc, nothing happens
-		else wesnoth.message( tostring( _"Quick Debug" ), tostring( _"Error, return value :" ) .. return_value ) end -- any unhandled case is handled here
+		else wesnoth.interface.add_chat_message( tostring( _"Quick Debug" ), tostring( _"Error, return value :" ) .. return_value ) end -- any unhandled case is handled here
 	-- if user clicks on empty hex, do nothing
 	end
 end
@@ -2087,7 +2087,7 @@ function wml_actions.show_side_debug ( cfg )
 			end
 			lua_dialog_side.recruit = temp_recruit
 		elseif return_value == 2 or return_value == -2 then -- if user pressed Cancel or Esc, nothing happens
-		else wesnoth.message( tostring( _"Side Debug" ), tostring( _"Error, return value :" ) .. return_value ) end -- any unhandled case is handled here
+		else wesnoth.interface.add_chat_message( tostring( _"Side Debug" ), tostring( _"Error, return value :" ) .. return_value ) end -- any unhandled case is handled here
 		-- if user clicks on empty hex, do nothing
 	end
 end
