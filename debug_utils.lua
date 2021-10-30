@@ -111,8 +111,14 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 	end
 
 	local engine_is_wml_table
+
+	local function engine_test(var_content)
+		wml.variables["LUA_debug_msg"] = var_content
+		wml.variables["LUA_debug_msg"] = nil
+	end
+
 	if wesnoth then
-		engine_is_wml_table = pcall(wesnoth.set_variable, "LUA_debug_msg", lua_var); wesnoth.set_variable("LUA_debug_msg")
+		engine_is_wml_table = pcall(engine_test, lua_var)
 	end
 
 	local var_type, var_value = type(lua_var), tostring(lua_var)
