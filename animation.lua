@@ -534,7 +534,7 @@ function wesnoth.wml_actions.animate_path(cfg)
 	end
 	for j = 1, num_animations do
 		if animation[j].linger then
-			items.place_halo(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
+			wesnoth.interface.add_item_halo(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
 		end
 	end
 end
