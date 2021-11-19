@@ -124,7 +124,8 @@ function utils.message(cfg)
 						{
 							{ "column",
 								{ border_size = 10, border = "all",
-									{ "label", { label = cfg.message }}
+									{ "label", { label = cfg.message,
+										use_markup = false }}
 								}
 							}
 						}
