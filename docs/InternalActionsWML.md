@@ -69,6 +69,8 @@ Stores the defensive percentage of a unit on its current hex in a WML variable.
 [absolute_value]
 ----------------
 
+**Deprecated tag.** Use `[set_variable] abs=` instead.
+
 Converts the value of the supplied variable to its absolute value (that is, removing the minus sign if the number has it).
 
 **variable:** required. Its content will be converted to its absolute value.
@@ -78,6 +80,8 @@ Converts the value of the supplied variable to its absolute value (that is, remo
 [get_numerical_minimum]
 -----------------------
 
+**Deprecated tag.** Use `[set_variable] min=` instead.
+
 Given a list of values, stores in a variable the lowest one.
 
 **values:** a comma separated list of the values that will be compared. Non numerical values will be ignored.
@@ -86,6 +90,8 @@ Given a list of values, stores in a variable the lowest one.
 
 [get_numerical_maximum]
 -----------------------
+
+**Deprecated tag.** Use `[set_variable] max=` instead.
 
 Given a list of values, stores in a variable the highest one.
 
@@ -125,6 +131,8 @@ Stores the movement type of the unit matching the filter inside a variable with 
 [reverse_value]
 ---------------
 
+**Deprecated tag.** Use `[set_variable] reverse=yes` instead.
+
 Reverses the value of the supplied variable, as in string reversal.
 
 **variable:** required. Its content will be reversed.
@@ -133,6 +141,8 @@ Reverses the value of the supplied variable, as in string reversal.
 
 [random_number]
 ---------------
+
+**Deprecated tag.** Use `[set_variable] rand=` instead.
 
 Sets a variable containing a randomly generated integer number. This tag relies upon Lua's RNG rather than on WML's RNG. **Warning:** this tag, due to some engine limitations, does not work on non multiplayer-synchronized events. For this reason, if you're planning to use it in a start or prestart event, you should use a _turn 1_ event instead - even in single player campaigns.
 
