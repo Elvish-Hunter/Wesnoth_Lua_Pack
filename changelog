@@ -1,4 +1,4 @@
-Version 1.8.0+git:
+Version 1.9.0:
    * Deprecated `[absolute_value]` and `[random_number]`
    * `[alert]` and `[confirm]` now use the `gui.alert` and `gui.confirm` functions
    * Fixed `[get_recruit_list]` crashing if `[filter]` was used
