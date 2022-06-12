@@ -78,9 +78,6 @@ The function must return the absolute x,y coordinates of the associated point
 x, y = get_point_on_current_segment_from_offset( offset )
 ]=]
 
-local helper = wesnoth.require "lua/helper.lua"
-local items = wesnoth.require "lua/wml/items.lua"
-
 -- Linear Algebra
 local epsilon = 0.0000000001
 
@@ -131,8 +128,8 @@ local function get_image_name_with_offset(x, y, image)
 	-- since halo doesn't have a key to offset an image, use the CROP
 	-- function built into the wesnoth image placement to fake it
 	-- requires a 72 pixel border around the image to work properly
-	x = x*2
-	y = y*2
+	x = math.floor(x*2)
+	y = math.floor(y*2)
 	local w, h = filesystem.image_size(image)
 
 	w = w-math.abs(x)
@@ -153,10 +150,6 @@ local function get_image_name_with_offset(x, y, image)
 	else
 		y = -y
 	end
-	x = mathx.round(x)
-	y = mathx.round(y)
-	w = mathx.round(w)
-	h = mathx.round(h)
 	return string.format("%s~CROP(%d,%d,%d,%d)",image,x,y,w,h)
 end
 
@@ -310,8 +303,8 @@ function interpolation_methods.parabola(state, x_locs, y_locs, num_locs )
 		end
 		local A
 		A = {{x_locs[0]*x_locs[0], x_locs[0], 1},
-			{x_locs[1]*x_locs[1], x_locs[1], 1},
-			{x_locs[2]*x_locs[2], x_locs[2], 1}}
+			 {x_locs[1]*x_locs[1], x_locs[1], 1},
+			 {x_locs[2]*x_locs[2], x_locs[2], 1}}
 		state.b = {y_locs[0], y_locs[1], y_locs[2]} -- have to copy since input is 0-based
 		state.b = solve_system(A, state.b)
 		A = nil
@@ -403,9 +396,9 @@ function interpolation_methods.cubic_spline(state, x_locs, y_locs, num_locs )
 		local function get_location(offset)
 			local x = (state.delta_x * offset) + x_locs[state.index-1]
 			local y = state.a[state.index-1] * (x_locs[state.index] - x)^3 / (6 * state.h[state.index]) +
-					state.a[state.index] * (x - x_locs[state.index-1])^3 / (6 * state.h[state.index]) +
-					state.b[state.index] * (x_locs[state.index] - x ) +
-					state.c[state.index] * (x - x_locs[state.index-1])
+					  state.a[state.index] * (x - x_locs[state.index-1])^3 / (6 * state.h[state.index]) +
+					  state.b[state.index] * (x_locs[state.index] - x ) +
+					  state.c[state.index] * (x - x_locs[state.index-1])
 			return x, y
 		end
 
@@ -520,13 +513,15 @@ function wesnoth.wml_actions.animate_path(cfg)
 			if animation[j].transpose then
 				x, y = y, x
 			end
-			animation[j].target_hex_x, animation[j].target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y,x,y)
+			target_hex_x, target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y, x, y)
+			animation[j].target_hex_x, animation[j].target_hex_y = target_hex_x, target_hex_y
 			animation[j].image_name = get_image_name_with_offset(x, y, animation[j].images[i%animation[j].num_images])
-			wesnoth.interface.add_hex_overlay(animation[j].target_hex_x, animation[j].target_hex_y, {
-				x = animation[j].target_hex_x,
-				y = animation[j].target_hex_y,
+			wesnoth.interface.add_hex_overlay(target_hex_x, target_hex_y, {
+				x = target_hex_x,
+				y = target_hex_y,
 				halo = animation[j].image_name})
 		end
+		wml.fire("redraw")
 		wesnoth.interface.delay(delay)
 		for j = 1, num_animations do
 			wesnoth.interface.remove_hex_overlay(animation[j].target_hex_x, animation[j].target_hex_y, animation[j].image_name)
