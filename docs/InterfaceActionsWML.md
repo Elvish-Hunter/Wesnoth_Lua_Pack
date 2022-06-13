@@ -187,7 +187,8 @@ This tag shows a dialog box that can be used in place of the usual [message] wit
 **description:** a long description of the item. If it's too long, scrollbars will be automatically used. _This key supports Pango markup._
 
 **effect:** very short description of the item's effects. For example: `"This staff grants a melee 5-2 impact magical attack"`. _This key supports Pango markup._
-					**take_string:** required, this string will be displayed on the button that allows taking the item.
+
+**take_string:** required, this string will be displayed on the button that allows taking the item.
 
 **leave_string:** required, this string will be displayed on the button that allows refusing the item.
 
