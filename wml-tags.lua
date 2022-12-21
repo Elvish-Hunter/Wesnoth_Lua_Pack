@@ -67,7 +67,7 @@ function wml_actions.set_shroud(cfg)
 
 		-- you might think that I could've converted this tag to just use wesnoth.sides.place_shroud()
                 -- and be done with it.
-                -- Think again: the purpose of [set_shroud] is to restore the shroud exactly as it was 
+                -- Think again: the purpose of [set_shroud] is to restore the shroud exactly as it was
                 -- stored by [store_shroud], which means also clearing the hexes that didn't have it.
 
 		local to_shroud = {}
@@ -455,7 +455,7 @@ function wml_actions.get_numerical_minimum(cfg)
 	-- values is a comma separated list
 	local values = cfg.values or wml.error "[get_numerical_minimum] missing required value= attribute"
 	local result_variable = cfg.result_variable or wml.error "[get_numerical_minimum] missing required result_variable= attribute"
-	
+
 	-- set an empty table
 	local args = { }
 	-- take the string before and split it on commas
@@ -476,7 +476,7 @@ function wml_actions.get_numerical_maximum(cfg)
 	-- values is a comma separated list
 	local values = cfg.values or wml.error "[get_numerical_maximum] missing required value= attribute"
 	local result_variable = cfg.result_variable or wml.error "[get_numerical_maximum] missing required result_variable= attribute"
-	
+
 	-- set an empty table
 	local args = { }
 	-- take the string before and split it on commas
@@ -606,7 +606,7 @@ function wml_actions.random_number( cfg )
 
 	-- does not work in start event
 	local result = wesnoth.sync.evaluate_single( function()
-    		return { value = math.random( lowest, highest ) }
+		return { value = math.random( lowest, highest ) }
 	end)
 
 	wml.variables[variable] = result.value

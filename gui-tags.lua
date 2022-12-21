@@ -796,7 +796,7 @@ function wml_actions.show_quick_debug ( cfg )
 			maximum_width = 960,
 			T.grid { -- Title
 				T.row {
-					T.column { 
+					T.column {
 						horizontal_alignment = "left",
 						grow_factor = 1,
 						border = "all",
@@ -1535,7 +1535,7 @@ function wml_actions.show_side_debug ( cfg )
 						}
 					}
 				}
-		
+
 		-- various checkbuttons
 		local misc_checkbuttons = T.grid {
 					T.row {
@@ -2000,7 +2000,7 @@ function wml_actions.show_side_debug ( cfg )
 				temp_controller = 3
 			end
 			dialog.controller_listbox.selected_index = temp_controller
-			
+
 			if lua_dialog_side.defeat_condition == "no_leader_left" then
 				dialog.defeat_condition_listbox.selected_index = 1
 			elseif lua_dialog_side.defeat_condition == "no_units_left" then
@@ -2048,7 +2048,7 @@ function wml_actions.show_side_debug ( cfg )
 				-- radiobuttons
 				local controllers = { "ai", "human", "null" }
 				temp_table.controller = controllers[ dialog.controller_listbox.selected_index ]
-				
+
 				local defeat_conditions = { "no_leader_left", "no_units_left", "never", "always" }
 				temp_table.defeat_condition = defeat_conditions[ dialog.defeat_condition_listbox.selected_index ]
 
@@ -2361,10 +2361,10 @@ function wml_actions.choice_box( cfg )
 	local buttonbox = T.grid {
 				T.row {
 					T.column {
-						T.button { 
+						T.button {
 							label = _"OK",
 							return_value = 1
-						} 
+						}
 					},
 					T.column {
 						T.spacer { width = 10 }
@@ -2488,7 +2488,7 @@ function wml_actions.choice_box( cfg )
 		dialog.window_title.label = cfg.title
 		dialog.window_message.label = cfg.message
 		dialog.window_message.use_markup = true
-		
+
 		local counter = 1
 		for option in wml.child_range( cfg, "option") do
 			if option.value then
