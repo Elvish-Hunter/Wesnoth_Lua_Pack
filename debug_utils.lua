@@ -1,10 +1,10 @@
 local debug_utils = {}
 
--- an extensive debug message function
+-- dbms(): an extensive debug message function
 -- It outputs information about type, value, length, and metatable of a variable of any lua kind.
--- It also distinguishes between general tables and tables which are also wml tables. (wml tables are a subamount of tables)
--- If a table isn't a wml table it displays info about the reason.
--- If the variable is a table or if it can be dumped to a table an extensive syntactically correct output is displayed.
+-- It also distinguishes between general tables and tables which are also WML tables. (WML tables are a subamount of tables)
+-- If a table isn't a WML table, it displays info about the reason.
+-- If the variable is a table, or if it can be dumped to a table, an extensive syntactically-correct output is displayed.
 -- arguments:
 -- lua_var: the variable to investigate
 -- clear (boolean, optional): whether the chat window should be cleared before displaying the message
@@ -13,7 +13,7 @@ local debug_utils = {}
 -- onscreen (boolean, optional): whether the message shall be displayed in a wml [message] dialog too
 -- That [message] dialog can get very slow for large tables such as unit arrays.
 
--- we must declare this here because of strict mode
+-- We must declare this here because of strict mode:
 global_action_handler_storage = {}
 
 function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
@@ -157,7 +157,7 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 	if metatable then result = string.format("%s\nwith a metatable:\n", result) end
 
 	if wesnoth and is_wml_table ~= engine_is_wml_table  and (var_type == "table" or var_type == "userdata" or var_type == "function" or var_type == "thread") then
-		result = string.format("warning: WML table inconsistently predicted, script says %s , engine %s \n%s", tostring(is_wml_table), tostring(engine_is_wml_table), result)
+		result = string.format("warning: WML table inconsistently predicted, script says \"%s\", engine \"%s\" \n%s", tostring(is_wml_table), tostring(engine_is_wml_table), result)
 	end
 
 	if clear and wesnoth then wesnoth.interface.clear_chat_messages() end
