@@ -201,7 +201,7 @@ function wml_actions.nearest_hex(cfg)
 	local nearest_hex_found
 
 	for index,location in ipairs(wesnoth.map.find(filter)) do
-		local distance = wesnoth.map.distance_between( starting_x, starting_y, location[1], location[2] )
+		local distance = wesnoth.map.distance_between( starting_x, starting_y, location )
 		if distance < current_distance then
 			current_distance = distance
 			nearest_hex_found = location
@@ -375,7 +375,7 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 			local unit_to_put = unit_table
 			unit_to_put.type = unit_types[index2]
 
-			local free_x, free_y = wesnoth.paths.find_vacant_hex( where_to_place[1], where_to_place[2], unit_to_put)
+			local free_x, free_y = wesnoth.paths.find_vacant_hex( where_to_place, unit_to_put)
 			-- to avoid placing units in strange terrains, or overwriting, in case that the WML coder placed a wrong filter;
 			-- in such case, respect of scatter_radius is not guaranteed, exactly like in SCATTER_UNITS
 
@@ -387,7 +387,7 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 				-- and remove those that are too close
 				-- using standard ipairs jumps some locations
 				for index = #locations, 1, -1 do --lenght of locations, until 1, step -1
-					local distance = wesnoth.map.distance_between( where_to_place[1], where_to_place[2], locations[index][1], locations[index][2] )
+					local distance = wesnoth.map.distance_between( where_to_place, locations[index] )
 
 					if distance < scatter_radius then
 						table.remove( locations, index )
