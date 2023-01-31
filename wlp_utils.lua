@@ -1,16 +1,7 @@
 local utils = {}
 
 --! Function removes the first child with a given name.
---! melinath
-function utils.remove_child(cfg, name)
-	for index = 1, #cfg do
-		local value = cfg[index]
-		if value[1] == name then
-			table.remove(cfg, index)
-			return
-		end
-	end
-end
+utils.remove_child = wesnoth.deprecate_api('utils.remove_child', 'wml.remove_child', 1, nil, wml.remove_child)
 
 --! Function checks recursively if all values contained in table a are also contained in table b.
 --! melinath
