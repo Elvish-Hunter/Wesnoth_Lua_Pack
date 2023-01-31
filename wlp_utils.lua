@@ -33,14 +33,14 @@ function utils.filter_wml( f, t, indent )
 
 			for key, value in pairs(f) do
 				if ( type(value) == "table" ) then
-					std_print( string.format( "%sEntering filter table: %s", indent, value[1] ) )
+					std_print( string.format( "%sEntering filter table: %s", indent, value.tag ) )
 
 					for index = 1, #t do
-						std_print( string.format( "%sChecking against: %s", indent, t[index][1] ) )
-						std_print( string.format( "%sName Match: %s", indent, tostring( value[1] == t[index][1] ) ) )
+						std_print( string.format( "%sChecking against: %s", indent, t[index].tag ) )
+						std_print( string.format( "%sName Match: %s", indent, tostring( value.tag == t[index].tag ) ) )
 
-						if( t[iindex][1] == value[1] ) then
-							local x=sub_filter( value[2], t[index][2] )
+						if( t[iindex].tag == value.tag ) then
+							local x=sub_filter( value.contents, t[index].contents )
 							std_print( string.format( "%sTable match: %s", indent, tostring(x) ) )
 
 							if x then return true end
