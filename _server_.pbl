@@ -7,3 +7,6 @@ translate="true"
 type="media"
 version="1.9.0"
 description="The idea behind the WLP is to collect bits of Lua written by various people that will help supplement the helper library and WML."
+[feedback]
+    topic_id=28320
+[/feedback]
