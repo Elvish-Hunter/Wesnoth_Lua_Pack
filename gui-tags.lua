@@ -1,4 +1,3 @@
-local helper = wesnoth.require "lua/helper.lua"
 local wlp_utils = wesnoth.require "~add-ons/Wesnoth_Lua_Pack/wlp_utils.lua"
 
 -- to make code shorter
