@@ -6,10 +6,10 @@ utils.remove_child = wesnoth.deprecate_api('utils.remove_child', 'wml.remove_chi
 --! Function checks recursively if all values contained in table a are also contained in table b.
 --! melinath
 
-function utils.filter_wml( f, t, indent )
-	std_print( indent .. "Matching..." )
+function utils.filter_wml( f_initial, t_initial, indent_initial )
+	std_print( indent_initial .. "Matching..." )
 	local function sub_filter( f, t )
-		local indent = indent .. "    "
+		local indent = indent_initial .. "    "
 		local attr_match = true
 		local tables = 0
 
@@ -51,7 +51,7 @@ function utils.filter_wml( f, t, indent )
 			return false
 		end
 	end
-	return sub_filter(f,t)
+	return sub_filter(f_initial,t_initial)
 end
 
 function utils.extract_side(side_num)
@@ -150,7 +150,7 @@ end
 
 -- two support functions for handling strings
 function utils.split( str, char )
-	local char = char or ","
+	char = char or ","
 	local pattern = "[^" .. char .. "]+"
 	return string.gmatch( str, pattern )
 end

@@ -201,7 +201,7 @@ function wml_actions.show_quick_debug ( cfg )
 
 		local return_table = wesnoth.sync.evaluate_single(sync)
 		local return_value = return_table.return_value
-		local temp_table = wml.get_child( return_table, "temp_table" )
+		temp_table = wml.get_child( return_table, "temp_table" )
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
 			-- location form

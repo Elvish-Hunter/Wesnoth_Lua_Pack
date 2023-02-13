@@ -141,7 +141,7 @@ end
 -- shortcut for a [message] tag spoken by the narrator.
 
 function wml_actions.narrate(cfg)
-	local cfg = cfg.__literal
+	cfg = wml.literal(cfg)
 	cfg.speaker = "narrator"
 	if not cfg.image then cfg.image = "wesnoth-icon.png" end
 	wml_actions.message( cfg )
@@ -385,11 +385,11 @@ function wml_actions.scatter_units(cfg) -- replacement for SCATTER_UNITS macro
 				-- apparently, a reversed ipairs like below is the best way to check every location
 				-- and remove those that are too close
 				-- using standard ipairs jumps some locations
-				for index = #locations, 1, -1 do --lenght of locations, until 1, step -1
-					local distance = wesnoth.map.distance_between( where_to_place, locations[index] )
+				for i = #locations, 1, -1 do --length of locations, until 1, step -1
+					local distance = wesnoth.map.distance_between( where_to_place, locations[i] )
 
 					if distance < scatter_radius then
-						table.remove( locations, index )
+						table.remove( locations, i )
 					end
 				end
 			end
@@ -638,9 +638,9 @@ function wml_actions.get_recruit_list( cfg )
 		if filter then
 			filter = wml.shallow_literal( filter )
 			filter.side = side.side -- to avoid collecting extra_recruit from enemies
-			for index,unit in ipairs( wesnoth.units.find_on_map( filter ) ) do
+			for _,unit in ipairs( wesnoth.units.find_on_map( filter ) ) do
 				if unit.canrecruit and #unit.extra_recruit > 0 then
-					for extra_index, extra_recruitable in ipairs( unit.extra_recruit ) do
+					for _, extra_recruitable in ipairs( unit.extra_recruit ) do
 						if not check( recruit_list, extra_recruitable ) then
 							table.insert( recruit_list, extra_recruitable )
 						end

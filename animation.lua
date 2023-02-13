@@ -513,7 +513,8 @@ function wesnoth.wml_actions.animate_path(cfg)
 			if animation[j].transpose then
 				x, y = y, x
 			end
-			local target_hex_x, target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y, x, y)
+			local target_hex_x, target_hex_y
+			target_hex_x, target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y, x, y)
 			animation[j].target_hex_x, animation[j].target_hex_y = target_hex_x, target_hex_y
 			animation[j].image_name = get_image_name_with_offset(x, y, animation[j].images[i%animation[j].num_images])
 			wesnoth.interface.add_hex_overlay(target_hex_x, target_hex_y, {
