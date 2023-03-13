@@ -292,7 +292,7 @@ function wml_actions.show_side_debug ( cfg )
 		local side_number = side_unit.side -- clearly, at x1,y1 there could be only one unit
 
 		local lua_dialog_side = wesnoth.sides[side_number]
-		
+
 		local dialog_wml = wml.load "~add-ons/Wesnoth_Lua_Pack/gui/side_debug.cfg"
 		local side_dialog = wml.get_child(dialog_wml, 'resolution')
 
