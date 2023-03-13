@@ -6,10 +6,10 @@ utils.remove_child = wesnoth.deprecate_api('utils.remove_child', 'wml.remove_chi
 --! Function checks recursively if all values contained in table a are also contained in table b.
 --! melinath
 
-function utils.filter_wml( f, t, indent )
-	std_print( indent .. "Matching..." )
+function utils.filter_wml( f_initial, t_initial, indent_initial )
+	std_print( indent_initial .. "Matching..." )
 	local function sub_filter( f, t )
-		local indent = indent .. "    "
+		local indent = indent_initial .. "    "
 		local attr_match = true
 		local tables = 0
 
@@ -39,7 +39,7 @@ function utils.filter_wml( f, t, indent )
 						std_print( string.format( "%sChecking against: %s", indent, t[index].tag ) )
 						std_print( string.format( "%sName Match: %s", indent, tostring( value.tag == t[index].tag ) ) )
 
-						if( t[iindex].tag == value.tag ) then
+						if( t[index].tag == value.tag ) then
 							local x=sub_filter( value.contents, t[index].contents )
 							std_print( string.format( "%sTable match: %s", indent, tostring(x) ) )
 
@@ -51,19 +51,19 @@ function utils.filter_wml( f, t, indent )
 			return false
 		end
 	end
-	return sub_filter(f,t)
+	return sub_filter(f_initial,t_initial)
 end
 
 function utils.extract_side(side_num)
 	local team = wesnoth.sides[side_num]
 	local debug_utils = wesnoth.require("~add-ons/Wesnoth_Lua_Pack/debug_utils.lua")
-	debug_utils.dbms(wesnoth.sides[side_num], false, string.format("Extraction of side %u", side_num, true))
+	debug_utils.dbms(wesnoth.sides[side_num], false, string.format("Extraction of side %u", side_num), true)
 end
 
 function utils.extract_unit(filter)
 	local char = wesnoth.get_units(filter)
 	local debug_utils = wesnoth.require("~add-ons/Wesnoth_Lua_Pack/debug_utils.lua")
-	debug_utils.dbms(char, false, string.format("Extraction of units (first character id: %s)", char[1].id), side_num, true)
+	debug_utils.dbms(char, false, string.format("Extraction of units (first character id: %s)", char[1].id), true)
 end
 
 --like wml_actions.message but without text wrap
@@ -150,7 +150,7 @@ end
 
 -- two support functions for handling strings
 function utils.split( str, char )
-	local char = char or ","
+	char = char or ","
 	local pattern = "[^" .. char .. "]+"
 	return string.gmatch( str, pattern )
 end

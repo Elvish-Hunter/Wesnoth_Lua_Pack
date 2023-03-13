@@ -1,4 +1,3 @@
-local helper = wesnoth.require "lua/helper.lua"
 local wlp_utils = wesnoth.require "~add-ons/Wesnoth_Lua_Pack/wlp_utils.lua"
 
 -- to make code shorter
@@ -202,7 +201,7 @@ function wml_actions.show_quick_debug ( cfg )
 
 		local return_table = wesnoth.sync.evaluate_single(sync)
 		local return_value = return_table.return_value
-		local temp_table = wml.get_child( return_table, "temp_table" )
+		temp_table = wml.get_child( return_table, "temp_table" )
 
 		if return_value == 1 or return_value == -1 then -- if used pressed OK or Enter, modify unit
 			-- location form
@@ -293,7 +292,7 @@ function wml_actions.show_side_debug ( cfg )
 		local side_number = side_unit.side -- clearly, at x1,y1 there could be only one unit
 
 		local lua_dialog_side = wesnoth.sides[side_number]
-		
+
 		local dialog_wml = wml.load "~add-ons/Wesnoth_Lua_Pack/gui/side_debug.cfg"
 		local side_dialog = wml.get_child(dialog_wml, 'resolution')
 

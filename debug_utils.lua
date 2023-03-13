@@ -62,10 +62,10 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 			local current_key_type = type(current_key)
 			local current_key_to_string = tostring(current_key)
 			local current_type = type(current_value)
-			local function no_wml_table(expected, index, type)
-				if not index then index = current_key_to_string end
+			local function no_wml_table(expected, i, type)
+				if not i then i = current_key_to_string end
 				if not type then type = current_type end
-				wml_table_error = string.format("value at %s[%s]: %s expected, got %s", indices, index, expected, type)
+				wml_table_error = string.format("value at %s[%s]: %s expected, got %s", indices, i, expected, type)
 				is_wml_table = false
 			end
 
@@ -169,7 +169,7 @@ function debug_utils.dbms(lua_var, clear, name, onscreen, wrap, only_return)
 		if wrap then wesnoth.wml_actions.message({ speaker = "narrator", image = "wesnoth-icon.png", message = result })
 		else
 			local wlp_utils = wesnoth.require "~add-ons/Wesnoth_Lua_Pack/wlp_utils.lua"
-			local result = wlp_utils.message({ caption = "dbms", message = result })
+			result = wlp_utils.message({ caption = "dbms", message = result })
 			if result == -2 then continue = false end
 		end
 	end

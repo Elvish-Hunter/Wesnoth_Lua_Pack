@@ -179,8 +179,8 @@ end
 
 -- x and y are hex values in this function
 local function calc_pixel_offset(x1, y1, x2, y2)
-	px = (x2 - x1)
-	py = (y2 - y1) * 72
+	local px = (x2 - x1)
+	local py = (y2 - y1) * 72
 	if math.abs(px) % 2 == 1 then
 		if x2 % 2 == 1 then
 			py = py - 36
@@ -390,7 +390,7 @@ function interpolation_methods.cubic_spline(state, x_locs, y_locs, num_locs )
 
 		local function reached_point(point)
 			state.index = point+1
-			state.delta_x = x_locs[point+1] - x_locs[point] or 0
+			state.delta_x = (x_locs[point+1] - x_locs[point]) or 0
 		end
 
 		local function get_location(offset)
@@ -430,14 +430,14 @@ local function load_path(cfg, container_name)
 	end
 	animation.transpose = cfg.transpose
 
-	matching_points = math.min(animation.num_locs, hex_x_count)
+	local matching_points = math.min(animation.num_locs, hex_x_count)
 	for i = 1, matching_points-1 do
-		off_x, off_y = calc_pixel_offset(animation.hex_x, animation.hex_y, hex_x[i], hex_y[i])
+		local off_x, off_y = calc_pixel_offset(animation.hex_x, animation.hex_y, hex_x[i], hex_y[i])
 		animation.x_locs[i] = animation.x_locs[i] + off_x
 		animation.y_locs[i] = animation.y_locs[i] + off_y
 	end
 	if animation.num_locs > matching_points then
-		off_x, off_y = calc_pixel_offset(animation.hex_x, animation.hex_y, hex_x[matching_points-1], hex_y[matching_points-1])
+		local off_x, off_y = calc_pixel_offset(animation.hex_x, animation.hex_y, hex_x[matching_points-1], hex_y[matching_points-1])
 		for i = matching_points, animation.num_locs-1 do
 			animation.x_locs[i] = animation.x_locs[i] + off_x
 			animation.y_locs[i] = animation.y_locs[i] + off_y
@@ -513,6 +513,7 @@ function wesnoth.wml_actions.animate_path(cfg)
 			if animation[j].transpose then
 				x, y = y, x
 			end
+			local target_hex_x, target_hex_y
 			target_hex_x, target_hex_y, x, y = calc_image_hex_offset(animation[j].hex_x,animation[j].hex_y, x, y)
 			animation[j].target_hex_x, animation[j].target_hex_y = target_hex_x, target_hex_y
 			animation[j].image_name = get_image_name_with_offset(x, y, animation[j].images[i%animation[j].num_images])
